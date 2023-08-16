@@ -276,7 +276,7 @@ let LeWordDescription = `Lé Word is the little brother of the game Wordle that 
 
                         Skills involved: \u00A0\u00A0\u00A0 Use of API, HTML, CSS, JS, Game design algorithm, Manipulation of HTML IDs and local storage manipulation.
 `
-let websiteTrackerDescription = `WebsiteTracker is a google extension that can store Links for future referece. It uses Google's API to access elements of a current tab and store in the extension. It has an input tab to enter links manually. This has been really useful for me for storing and accessing links in a flash. Moreover, this is my first successful project involving API.
+let websiteTrackerDescription = `WebsiteTracker is a google extension that can store Links for future reference. It uses Google's API to access elements of a current tab and store in the extension. It has an input tab to enter links manually. This has been really useful for me for storing and accessing links in a flash. Moreover, this is my first successful project involving API.
 
                         Skills involved: \u00A0\u00A0\u00A0 Use of API, HTML, CSS, JS , localStorage Manipulation, data handling and algorithms.
 `
@@ -330,7 +330,7 @@ let TimeLineInfo2022=`During my senior year of highschool, I was introduced to S
 let TimeLineInfo2023=`During my Freshman year, I self-learnt more languages such as HTML,CSS and JS to focus my aim on
                         website development as I planned after my experience from the hackathon. Over the summer, I learnt the respective languages and proceeded to make small projects.
                         On knowing the basics, I proceeded to make full stack website that utilises APIs. I was able to sucessfully finish
-                        three of such projects which are listed above. This portfolio that you are currently was successfully deployed
+                        three of such projects which are listed above. This portfolio that you are currently viewing was successfully deployed
                         during this year. I also became a member of ACM at UTD`
 let timeArr = [TimeLineInfo2020,TimeLineInfo2021,TimeLineInfo2022,TimeLineInfo2023]
 function displayTimelineInfo(indexTime){
