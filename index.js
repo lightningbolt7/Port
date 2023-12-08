@@ -17,7 +17,7 @@ let hobbyEl = document.getElementById("hobby")
 let pianoEl = document.getElementById("piano")
 let musicEl = document.getElementById("music")
 let pianoHeadEl = document.getElementById("piano-title")
-let thunderEl = document.getElementById("thunder")
+let thunderEl = document.getElementById("thunder") 
 let timeId
 let temp=1;
 let num;
@@ -25,6 +25,14 @@ let timeOpacityId;
 console.log(nameEl)
 skillEl.classList.remove("active")
 skillHead.classList.add("heading-shadow")
+
+function changeImage() {
+    document.getElementById('about-pic-change').src = './MyPic3.png';
+  }
+
+  function resetImage() {
+    document.getElementById('about-pic-change').src = './MyPic2.png';
+  }
 
 skillHead.addEventListener("click",function(){
     skillEl.classList.remove("active")
