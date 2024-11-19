@@ -311,7 +311,7 @@ let pipeBrainsDescription = `<div>
 let pipeBrainsName = 
 `<div class="pipe-brain-header">
     <span>Pipe Brains</span>
-    <div id="pipe-container"><img class="eog-gif" src="./gif-folder/eog.gif"></div>
+    <div id="pipe-container"><img class="eog-gif" src="./gif-folder/eog.GIF"></div>
 </div>
 
 `
@@ -359,7 +359,7 @@ function displayInfoWork(index){
             pipeBrainsName = 
     `<div class="pipe-brain-header">
         <span>Pipe Brains</span>
-        <div id="pipe-container"><img class="eog-gif" src="./gif-folder/eog.gif"></div>
+        <div id="pipe-container"><img class="eog-gif" src="./gif-folder/eog.GIF"></div>
     </div>
     `
     }
