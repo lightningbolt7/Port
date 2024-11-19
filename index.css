@@ -154,7 +154,7 @@ nav ul li a::after{
 }
 .header-text{
   
-    margin-top: 20%;
+    margin-top: 60%;
     font-size: 25px;
     color: white;
     text-align: left;
@@ -262,17 +262,17 @@ nav ul li a:hover::after{
     justify-content: space-between;
 }
 .elem-mid{
+    margin-top: 7%;
     display: flex;
     flex-direction: row;
-    align-items: center;
     justify-content: space-between;
 }
 .mypic{
     visibility: visible;
     opacity: 0;
-    width: 70%;
+    width: 50%;
     margin-left: 50%;
-    margin-top: 20%;
+    margin-top: 10%;
 }
 .visible{
     opacity: 1;
@@ -461,7 +461,20 @@ nav ul li a:hover::after{
     transition: 0.5s;
     width: 65px;
 }
-.cpp-logo:hover,.css-logo:hover,.html-logo:hover,.js-logo:hover{
+.py-logo{
+    transition: 0.5s;
+    width: 35px;
+}
+.dr-logo{
+    margin-left: 7%;
+    transition: 0.5s;
+    width: 35px;
+}
+.java-logo{
+    transition: 0.5s;
+    width: 75px;
+}
+.cpp-logo:hover,.css-logo:hover,.html-logo:hover,.js-logo:hover,.py-logo:hover,.dr-logo:hover,.java-logo:hover{
     transform: translateY(-9px);
 }
 .cpp-logo:hover{
@@ -475,6 +488,15 @@ nav ul li a:hover::after{
 }
 .js-logo:hover{
     filter: drop-shadow(7px 7px 5px #fcf644);
+}
+.py-logo:hover{
+    filter: drop-shadow(7px 7px 5px #fcf644);
+}
+.java-logo:hover{
+    filter: drop-shadow(7px 7px 5px #045ce9);
+}
+.dr-logo:hover{
+    filter: drop-shadow(10px 17px 5px #eb2121);
 }
 #piano-title,#coin-collect,#story{
     color: #4fc3dc;
