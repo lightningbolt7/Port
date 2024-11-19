@@ -277,51 +277,100 @@ function stayOpacity(){
 
 //---------------------PORTFOLIO JS STARTS HERE---------------------
 let RecimeDescription = `Recime is an AI powered recipe generator. Powered by OpenAI API and yours truly, it displays ingredients and recipes of any dish. Moreover, they are stored on a previous recipe tab for future reference with detailed seperation. Maybe finally I can learn to cook without my mom near me. 
-                         
+                        <br><br>
                         Skills involved: \u00A0\u00A0\u00A0 Use of API, HTML ,CSS, JS, Handling Data Structure, Prompt Engineering, Token Usage and Algorithms.
 `
 let LeWordDescription = `Lé Word is the little brother of the game Wordle that involves the user to guess a four-letter word. It comes with a point-analysis system that consists the accuracy of the user and other information. It uses the dictionary API to validate words. Users can view the definition of answer in the end. In a nutshell, it is a fun as well as an educative project.
-
+                        <br><br>
                         Skills involved: \u00A0\u00A0\u00A0 Use of API, HTML, CSS, JS, Game design algorithm, Manipulation of HTML IDs and local storage manipulation.
 `
 let websiteTrackerDescription = `WebsiteTracker is a google extension that can store Links for future reference. It uses Google's API to access elements of a current tab and store in the extension. It has an input tab to enter links manually. This has been really useful for me for storing and accessing links in a flash. Moreover, this is my first successful project involving API.
-
+                        <br><br>
                         Skills involved: \u00A0\u00A0\u00A0 Use of API, HTML, CSS, JS , localStorage Manipulation, data handling and algorithms.
 `
 let safeDriveDescription = `SafeDrive is a mobile app I developed using flutter with a team of 4 through ACM projects UTD. It uses the phone\'s back camera to act as a crash detecting sensor. We used Google\'s ML kit and YOLOV5 to train our model. We used PostGreSQL to store datas about User\'s collision warnings, hard brakes and average speed to display as graphs. We also added an accident report feature which guides the user in case of an accident.
-                         
+                        <br><br>
                         Skills involved: \u00A0\u00A0\u00A0 YOLOV5, flutter with Dart, POSTGRESQL, firebase(Login)`
 
 let zeusDescription = `Zeus is a personal project I made using Discord.py API. It is a discord bot to help students in our server to access information and details about of their classes using my custom API using flask as well as Nebula API. I am an admin of my CS class server which holds over 800 students. We keep updating our server each semester by adding classes which require autoroling and external discord bots require subscription for large autoroling. That\'s the main reason why i made Zeus, to autorole. Students can also interact with the bot and change their colors, etc. Zeus watches over the server from the clouds \u26A1.
-
+                        <br><br>
                         Skills involved: \u00A0\u00A0\u00A0 Discord API, Python, flask, Nebula API, file handling`
 
 let medCareDescription = `Medcare is a web app developed during HackUTD-X (Golden Hour) with my team. We decided to tackle the challenge statement of PHRI. It was a medically oriented app that tracks the rotations for patients and their status. We also added a drug to drug interaction tracker. It was my first Hackathon project and it was really fun working with amazing minds while gaining new knowledge.
-                        
+                        <br><br>
                         Skills involved: \u00A0\u00A0\u00A0 HTML, CSS, JS,Drug interaction API
 `
-let pipeBrainsDescription = `Imagine your pipes with brains! Pipe Brains is a web app developed during HackUTD-XI (Ripple Effect) which won the 1st place in the challenge presented by EOG resources. 
-                            It predicts the possibilty of hydrates forming in pipes with the given dataset through a model we manually trained that uses random forest regressor from Sci-kit. It provided an R square of 94% and relatively low mean error rate. Through flask, I made a custom API that provides a seamless connection between JS and python while cleaning the raw data, integrating the frontend with backend. Custom datas can also be added by User to analyse. Using Chart.js, it graphs these datas for the User to monitor the pipes in real time. We also added an alerts page that shows alerts where the likelihood of hydrate formation is above 50%. In case the User is'nt on the page, we also have a feature through which users can get a personalised email regarding alerts.
-                            
-                            Skills involved: HTML, Tailwind CSS, JS, Python, Flask, Sci-kit, Pandas, Numpy`
+let pipeBrainsDescription = `<div> 
+    Imagine your pipes with brains! Pipe Brains is a web app developed during HackUTD-XI (Ripple Effect) which won the 1st place in the challenge presented by 
+    <a href="https://www.eogresources.com/" class="eog">EOG resources</a>. 
+    It predicts the possibilty of hydrates forming in pipes with the given dataset through a model we manually trained that uses random forest regressor from Sci-kit. It provided an R square of 94% and relatively low mean error rate. Through flask, I made a custom API that provides a seamless connection between JS and python while cleaning the raw data, integrating the frontend with backend. Custom datas can also be added by User to analyse. Using Chart.js, it graphs these datas for the User to monitor the pipes in real time. We also added an alerts page that shows alerts where the likelihood of hydrate formation is above 50%. In case the User isn't on the page, we also have a feature through which users can get a personalised email regarding alerts.
+    <br><br>
+    Skills involved: HTML, Tailwind CSS, JS, Python, Flask, Sci-kit, Pandas, Numpy 
+</div>`
 
-let workObj = [{name:"Recime",description: RecimeDescription },{name:"Lè Word",description: LeWordDescription },{name:"Website Tracker",description: websiteTrackerDescription },{name: 'MedCare', description: medCareDescription },{name: 'SafeDrive', description: safeDriveDescription}, {name: 'Zeus', description: zeusDescription},{name: 'Pipe Brains', description: pipeBrainsDescription}]
+let pipeBrainsName = 
+`<div class="pipe-brain-header">
+    <span>Pipe Brains</span>
+    <div id="pipe-container"><img class="eog-gif" src="./gif-folder/eog.gif"></div>
+</div>
+
+`
+let workObj = [{name:"Recime",description: RecimeDescription },{name:"Lè Word",description: LeWordDescription },{name:"Website Tracker",description: websiteTrackerDescription },{name: 'MedCare', description: medCareDescription },{name: 'SafeDrive', description: safeDriveDescription}, {name: 'Zeus', description: zeusDescription},{name: pipeBrainsName, description: pipeBrainsDescription}]
 let workCurrent = 7
 let workEl
 let scrollC=0;
 let descriptionHeaderEl = document.getElementById("descriptionHeader")
 let descriptionInfoEl = document.getElementById("descriptionInfo")
-descriptionHeaderEl.innerText = workObj[workCurrent-1].name
-descriptionInfoEl.innerText = workObj[workCurrent-1].description
+let pipe_inner_timer
+descriptionHeaderEl.innerHTML = workObj[workCurrent-1].name
+descriptionInfoEl.innerHTML = workObj[workCurrent-1].description
+
+
+const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        console.log("OK")
+        setTimeout(changeGif,2700)
+      } 
+    });
+  }, { threshold: 0.5 }); 
+  
+ 
+const target = document.getElementById('mainScroll');
+observer.observe(target);
+  
+
 function displayInfoWork(index){
     workEl = document.getElementById("work"+workCurrent)
     workEl.classList.remove("selectedWork")
     workEl = document.getElementById("work"+(index+1))
     workEl.classList.add("selectedWork")
     workCurrent = index+1
-    descriptionHeaderEl.innerText = workObj[index].name
-    descriptionInfoEl.innerText = workObj[index].description
+    descriptionHeaderEl.innerHTML = workObj[index].name
+    descriptionInfoEl.innerHTML = workObj[index].description
+
+    if (index === 6){
+        clearTimeout(pipe_inner_timer)
+        pipe_inner_timer = setTimeout(changeGif,2700)
+        
+        
+    }
+    else{
+            pipeBrainsName = 
+    `<div class="pipe-brain-header">
+        <span>Pipe Brains</span>
+        <div id="pipe-container"><img class="eog-gif" src="./gif-folder/eog.gif"></div>
+    </div>
+    `
+    }
     
+}
+
+function changeGif(){
+    console.log("Called")
+    let gifDivEl = document.getElementById("pipe-container")
+    gifDivEl.innerHTML = 
+    `<span id="pipe-inner-text">(1st place at HackUTD-XI!)</span>`
 }
 
 function hideScroll(){

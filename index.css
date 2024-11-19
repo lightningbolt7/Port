@@ -474,7 +474,12 @@ nav ul li a:hover::after{
     transition: 0.5s;
     width: 75px;
 }
-.cpp-logo:hover,.css-logo:hover,.html-logo:hover,.js-logo:hover,.py-logo:hover,.dr-logo:hover,.java-logo:hover{
+.psql-logo{
+    transition: 0.5s;
+    width: 45px;
+    
+}
+.cpp-logo:hover,.css-logo:hover,.html-logo:hover,.js-logo:hover,.py-logo:hover,.dr-logo:hover,.java-logo:hover,.psql-logo:hover{
     transform: translateY(-9px);
 }
 .cpp-logo:hover{
@@ -498,6 +503,9 @@ nav ul li a:hover::after{
 .dr-logo:hover{
     filter: drop-shadow(10px 17px 5px #eb2121);
 }
+.psql-logo:hover{
+    filter: drop-shadow(10px 17px 5px #21bceb);
+}
 #piano-title,#coin-collect,#story{
     color: #4fc3dc;
     font-size: 25px;
@@ -510,7 +518,40 @@ nav ul li a:hover::after{
     text-shadow: 0 0 10px #44f9fc;
     box-shadow: 0 3px 0px #dc4f4f;
 }
+.eog{
+    color: red;
+}
+.pipe-brain-header {
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+}
 
+.eog-gif {
+    max-width: 200px;
+}
+
+#pipe-inner-text{
+    font-size: 25px; /* Adjust font size as needed */
+    font-weight: bold;
+    background: linear-gradient(45deg, #ffd700, #ffcc00, #ffb84d, #804000);
+    background-size: 400% 400%; /* Ensures the gradient is larger than the element */
+    -webkit-background-clip: text; /* For Safari/Chrome */
+    color: transparent; /* Make the text color transparent so the background is visible */
+    text-align: center; /* Optional: centers the text */
+    animation: gradientAnimation 5s ease infinite; 
+}
+@keyframes gradientAnimation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
 #coin-collect:hover{
     box-shadow: 0 3px 0px #dc4f4f;
     transform: translateY(-5px);
