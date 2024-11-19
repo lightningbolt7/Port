@@ -556,6 +556,13 @@ nav ul li a:hover::after{
 #work6{
     cursor: pointer;
 }
+#work7{
+    width: 350px;
+    height: 200px;
+    margin-bottom: 7%;
+    border-radius: 10px;
+    cursor: pointer;
+}
 #work1,#work2,#work3,#work4,#work5{
     width: 350px;
     margin-bottom: 7%;
@@ -582,6 +589,7 @@ nav ul li a:hover::after{
 }
 .mainScrollDesign{
     display: flex;
+    height: 1000px;
    
 }
 .hideScroll{

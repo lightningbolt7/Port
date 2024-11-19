@@ -300,8 +300,13 @@ let medCareDescription = `Medcare is a web app developed during HackUTD-X (Golde
                         
                         Skills involved: \u00A0\u00A0\u00A0 HTML, CSS, JS,Drug interaction API
 `
-let workObj = [{name:"Recime",description: RecimeDescription },{name:"Lè Word",description: LeWordDescription },{name:"Website Tracker",description: websiteTrackerDescription },{name: 'MedCare', description: medCareDescription },{name: 'SafeDrive', description: safeDriveDescription}, {name: 'Zeus', description: zeusDescription}]
-let workCurrent = 6
+let pipeBrainsDescription = `Imagine your pipes with brains! Pipe Brains is a web app developed during HackUTD-XI (Ripple Effect) which won the 1st place in the challenge presented by EOG resources. 
+                            It predicts the possibilty of hydrates forming in pipes with the given dataset through a model we manually trained that uses random forest regressor from Sci-kit. It provided an R square of 94% and relatively low mean error rate. Through flask, I made a custom API that provides a seamless connection between JS and python while cleaning the raw data, integrating the frontend with backend. Custom datas can also be added by User to analyse. Using Chart.js, it graphs these datas for the User to monitor the pipes in real time. We also added an alerts page that shows alerts where the likelihood of hydrate formation is above 50%. In case the User is'nt on the page, we also have a feature through which users can get a personalised email regarding alerts.
+                            
+                            Skills involved: HTML, Tailwind CSS, JS, Python, Flask, Sci-kit, Pandas, Numpy`
+
+let workObj = [{name:"Recime",description: RecimeDescription },{name:"Lè Word",description: LeWordDescription },{name:"Website Tracker",description: websiteTrackerDescription },{name: 'MedCare', description: medCareDescription },{name: 'SafeDrive', description: safeDriveDescription}, {name: 'Zeus', description: zeusDescription},{name: 'Pipe Brains', description: pipeBrainsDescription}]
+let workCurrent = 7
 let workEl
 let scrollC=0;
 let descriptionHeaderEl = document.getElementById("descriptionHeader")
