@@ -553,7 +553,10 @@ nav ul li a:hover::after{
 .work{
     border-radius: 10px;
 }
-#work1,#work2,#work3{
+#work6{
+    cursor: pointer;
+}
+#work1,#work2,#work3,#work4,#work5{
     width: 350px;
     margin-bottom: 7%;
     border-radius: 10px;
@@ -617,7 +620,7 @@ nav ul li a:hover::after{
     max-width: 1000px;
     margin: 0 auto;
     margin-top: 9%;
-    display: flex;
+    display: none;
     flex-direction: column;
     gap: 0px;
 }

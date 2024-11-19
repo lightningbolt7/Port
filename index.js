@@ -223,8 +223,8 @@ backdropEl.addEventListener("click",function(){
         document.getElementById("sub1").style.color = "#f7f305"
         document.getElementById("sub").style.color = "#f7f305"
         document.getElementById("modech8").style.color = "white"
-        document.getElementById("modech9").style.color = "white"
-        document.getElementById("modech10").style.color = "white"
+       // document.getElementById("modech9").style.color = "white"
+        //document.getElementById("modech10").style.color = "white"
 
 
     }   
@@ -253,7 +253,7 @@ backdropEl.addEventListener("click",function(){
         document.getElementById("time3").style.color = "#dc4f4f"
         document.getElementById("modech8").style.color = "#ababab"
         document.getElementById("modech9").style.color = "#ababab"
-        document.getElementById("modech10").style.color = "#ababab"
+        //document.getElementById("modech10").style.color = "#ababab"
         document.getElementById("subIn").style.color = "white"
         document.getElementById("sub1").style.color = "white"
         document.getElementById("sub").style.color = "white"
@@ -288,14 +288,26 @@ let websiteTrackerDescription = `WebsiteTracker is a google extension that can s
 
                         Skills involved: \u00A0\u00A0\u00A0 Use of API, HTML, CSS, JS , localStorage Manipulation, data handling and algorithms.
 `
-let workObj = [{name:"Recime",description: RecimeDescription },{name:"Lè Word",description: LeWordDescription },{name:"Website Tracker",description: websiteTrackerDescription }]
-let workCurrent = 1
+let safeDriveDescription = `SafeDrive is a mobile app I developed using flutter with a team of 4 through ACM projects UTD. It uses the phone\'s back camera to act as a crash detecting sensor. We used Google\'s ML kit and YOLOV5 to train our model. We used PostGreSQL to store datas about User\'s collision warnings, hard brakes and average speed to display as graphs. We also added an accident report feature which guides the user in case of an accident.
+                         
+                        Skills involved: \u00A0\u00A0\u00A0 YOLOV5, flutter with Dart, POSTGRESQL, firebase(Login)`
+
+let zeusDescription = `Zeus is a personal project I made using Discord.py API. It is a discord bot to help students in our server to access information and details about of their classes using my custom API using flask as well as Nebula API. I am an admin of my CS class server which holds over 800 students. We keep updating our server each semester by adding classes which require autoroling and external discord bots require subscription for large autoroling. That\'s the main reason why i made Zeus, to autorole. Students can also interact with the bot and change their colors, etc. Zeus watches over the server from the clouds \u26A1.
+
+                        Skills involved: \u00A0\u00A0\u00A0 Discord API, Python, flask, Nebula API, file handling`
+
+let medCareDescription = `Medcare is a web app developed during HackUTD-X (Golden Hour) with my team. We decided to tackle the challenge statement of PHRI. It was a medically oriented app that tracks the rotations for patients and their status. We also added a drug to drug interaction tracker. It was my first Hackathon project and it was really fun working with amazing minds while gaining new knowledge.
+                        
+                        Skills involved: \u00A0\u00A0\u00A0 HTML, CSS, JS,Drug interaction API
+`
+let workObj = [{name:"Recime",description: RecimeDescription },{name:"Lè Word",description: LeWordDescription },{name:"Website Tracker",description: websiteTrackerDescription },{name: 'MedCare', description: medCareDescription },{name: 'SafeDrive', description: safeDriveDescription}, {name: 'Zeus', description: zeusDescription}]
+let workCurrent = 6
 let workEl
 let scrollC=0;
 let descriptionHeaderEl = document.getElementById("descriptionHeader")
 let descriptionInfoEl = document.getElementById("descriptionInfo")
-descriptionHeaderEl.innerText = workObj[0].name
-descriptionInfoEl.innerText = workObj[0].description
+descriptionHeaderEl.innerText = workObj[workCurrent-1].name
+descriptionInfoEl.innerText = workObj[workCurrent-1].description
 function displayInfoWork(index){
     workEl = document.getElementById("work"+workCurrent)
     workEl.classList.remove("selectedWork")
