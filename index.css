@@ -270,8 +270,8 @@ nav ul li a:hover::after{
 .mypic{
     visibility: visible;
     opacity: 0;
-    width: 50%;
-    margin-left: 50%;
+    width: 105%;
+    margin-left: 20%;
     margin-top: 10%;
 }
 .visible{
