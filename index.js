@@ -315,7 +315,11 @@ let pipeBrainsName =
 </div>
 
 `
-let workObj = [{name:"Recime",description: RecimeDescription },{name:"Lè Word",description: LeWordDescription },{name:"Website Tracker",description: websiteTrackerDescription },{name: 'MedCare', description: medCareDescription },{name: 'SafeDrive', description: safeDriveDescription}, {name: 'Zeus', description: zeusDescription},{name: pipeBrainsName, description: pipeBrainsDescription}]
+
+let websiteTrackerMore = `
+<a id="scroll-more-pro-text" href="./program-info/WebTrack/WebTrack.html">Visit Project</a>
+`
+let workObj = [{name:"Recime",description: RecimeDescription },{name:"Lè Word",description: LeWordDescription },{name:"Website Tracker",description: websiteTrackerDescription},{name: 'MedCare', description: medCareDescription },{name: 'SafeDrive', description: safeDriveDescription}, {name: 'Zeus', description: zeusDescription},{name: pipeBrainsName, description: pipeBrainsDescription, more: websiteTrackerMore}]
 let workCurrent = 7
 let workEl
 let scrollC=0;
@@ -324,7 +328,9 @@ let descriptionInfoEl = document.getElementById("descriptionInfo")
 let pipe_inner_timer
 descriptionHeaderEl.innerHTML = workObj[workCurrent-1].name
 descriptionInfoEl.innerHTML = workObj[workCurrent-1].description
+let scrollInfoEl = document.getElementById("scroll-Info")
 
+scrollInfoEl.innerHTML = workObj[workCurrent-1].more
 
 const observer = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {

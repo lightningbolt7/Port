@@ -610,6 +610,28 @@ nav ul li a:hover::after{
     border-radius: 10px;
     cursor: pointer;
 }
+#scroll-info{
+    font-size: 25px;
+    color: white;
+    margin-top: 20%;
+    margin-left: 28%;
+}
+#scroll-more-pro-text{
+    text-decoration: none;
+    color: white;
+    transition: 1s;
+    animation-name: pop;
+    animation-iteration-count: infinite;
+    animation-duration: 2s;
+    
+}
+#scroll-more-pro-text:hover{
+    text-shadow: 4px 6px 15px yellow;
+    box-shadow: 0 3px 0px #dc4f4f;
+    transform: translateY(-15px);
+    
+  
+}
 .ScrollBox{
     
     margin-top: 7%;
