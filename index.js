@@ -319,7 +319,25 @@ let pipeBrainsName =
 let websiteTrackerMore = `
 <a id="scroll-more-pro-text" href="./program-info/WebTrack/WebTrack.html">Visit Project</a>
 `
-let workObj = [{name:"Recime",description: RecimeDescription },{name:"Lè Word",description: LeWordDescription },{name:"Website Tracker",description: websiteTrackerDescription},{name: 'MedCare', description: medCareDescription },{name: 'SafeDrive', description: safeDriveDescription}, {name: 'Zeus', description: zeusDescription},{name: pipeBrainsName, description: pipeBrainsDescription, more: websiteTrackerMore}]
+let RecimeMore = `
+<a id="scroll-more-pro-text" href="./program-info/Recime/Recime.html">Visit Project</a>
+`
+let LeWordMore = `
+<a id="scroll-more-pro-text" href="./program-info/Leword/LeWord.html">Visit Project</a>
+`
+let MedCareMore = `
+<a id="scroll-more-pro-text" href="./program-info/MedCare/MedCare.html">Visit Project</a>
+`
+let SafeDriveMore = `
+<a id="scroll-more-pro-text" href="./program-info/SafeDrive/SafeDrive.html">Visit Project</a>
+`
+let ZeusMore = `
+<a id="scroll-more-pro-text" href="./program-info/Zeus/Zeus.html">Visit Project</a>
+`
+let PipeBrainsMore = `
+<a id="scroll-more-pro-text" href="./program-info/PipeBrains/PipeBrains.html">Visit Project</a>
+`
+let workObj = [{name:"Recime",description: RecimeDescription,more: RecimeMore },{name:"Lè Word",description: LeWordDescription,more: LeWordMore },{name:"Website Tracker",description: websiteTrackerDescription,more: websiteTrackerMore},{name: 'MedCare', description: medCareDescription ,more: MedCareMore},{name: 'SafeDrive', description: safeDriveDescription,more: SafeDriveMore}, {name: 'Zeus', description: zeusDescription,more: ZeusMore},{name: pipeBrainsName, description: pipeBrainsDescription, more: PipeBrainsMore}]
 let workCurrent = 7
 let workEl
 let scrollC=0;
@@ -354,6 +372,8 @@ function displayInfoWork(index){
     workCurrent = index+1
     descriptionHeaderEl.innerHTML = workObj[index].name
     descriptionInfoEl.innerHTML = workObj[index].description
+    console.log(workObj[index].more)
+    scrollInfoEl.innerHTML = workObj[index].more
 
     if (index === 6){
         clearTimeout(pipe_inner_timer)
