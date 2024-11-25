@@ -302,7 +302,7 @@ let medCareDescription = `Medcare is a web app developed during HackUTD-X (Golde
 `
 let pipeBrainsDescription = `<div> 
     Imagine your pipes with brains! Pipe Brains is a web app developed during HackUTD-XI (Ripple Effect) which won the 1st place in the challenge presented by 
-    <a href="https://www.eogresources.com/" class="eog">EOG resources</a>. 
+    <a target = '_blank' href="https://www.eogresources.com/" class="eog">EOG resources</a>. 
     It predicts the possibilty of hydrates forming in pipes with the given dataset through a model we manually trained that uses random forest regressor from Sci-kit. It provided an R square of 94% and relatively low mean error rate. Through flask, I made a custom API that provides a seamless connection between JS and python while cleaning the raw data, integrating the frontend with backend. Custom datas can also be added by User to analyse. Using Chart.js, it graphs these datas for the User to monitor the pipes in real time. We also added an alerts page that shows alerts where the likelihood of hydrate formation is above 50%. In case the User isn't on the page, we also have a feature through which users can get a personalised email regarding alerts.
     <br><br>
     Skills involved: HTML, Tailwind CSS, JS, Python, Flask, Sci-kit, Pandas, Numpy 

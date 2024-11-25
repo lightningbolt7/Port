@@ -24,6 +24,23 @@ document.addEventListener('mousemove', (e) => {
    
 
 })
+let c = 0
+
+function switchTheme(event) {
+  let bodyEl = document.body
+  let cardEl = document.getElementsByClassName("card")
+  let pEl = document.querySelectorAll("p")
+  console.log(c)
+  if (c===0) {
+      bodyEl.style.backgroundColor = "#ffffff"
+     
+      c = 1
+  }
+  else {
+    bodyEl.style.backgroundColor = "#0f0f0f"
+    c= 0
+  }    
+}
 
 
 
