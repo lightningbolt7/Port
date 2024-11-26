@@ -323,7 +323,7 @@ let RecimeMore = `
 <a id="scroll-more-pro-text" href="./program-info/Recime/Recime.html">Visit Project</a>
 `
 let LeWordMore = `
-<a id="scroll-more-pro-text" href="./program-info/Leword/LeWord.html">Visit Project</a>
+<a id="scroll-more-pro-text" href="./program-info/LeWord/LeWord.html">Visit Project</a>
 `
 let MedCareMore = `
 <a id="scroll-more-pro-text" href="./program-info/MedCare/MedCare.html">Visit Project</a>
