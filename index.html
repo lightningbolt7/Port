@@ -1,316 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="./index.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arvindh Kumar Kalainathan — Software Engineer</title>
+  <meta name="description" content="Arvindh Kumar Kalainathan (Bolt) — Computer Science at UT Dallas. Full-stack and ML-powered software. 1st place, EOG Resources challenge at HackUTD XI." />
+  <meta name="theme-color" content="#0a0a0b" />
+  <meta property="og:title" content="Arvindh Kumar Kalainathan — Software Engineer" />
+  <meta property="og:description" content="Full-stack and ML-powered software. CS @ UT Dallas." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://arvindhdev.org/" />
+  <meta property="og:image" content="https://arvindhdev.org/assets/img/portrait.png" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230a0a0b'/%3E%3Cpath d='M17.5 4 8 18h7l-1.5 10L23 14h-7l1.5-10z' fill='%23facc15'/%3E%3C/svg%3E" />
+
+  <script>
+    // Apply the saved/system theme before paint to avoid a flash.
+    (function () {
+      var t;
+      try { t = localStorage.getItem("theme"); } catch (e) {}
+      if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      document.documentElement.dataset.theme = t;
+      document.documentElement.classList.add("js");
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Press+Start+2P&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
 </head>
-<body id="index">
-    <audio id="music" src="./audio-files/piano.mp3" preload="auto">
-        
-    </audio>
 
-    <audio id="thunder" src="./audio-files/thunder.mp3" preload="auto">
-       
-    </audio>
-    <video autoplay muted loop id="myVideo">
-        <source src="./edit 1.mp4" preload="true" type="video/mp4">
-    </video>
-    
-   
-    <div id="header">
-        <div class="container">
-            <nav>
-                <img>
-                <ul>
-                    <li><a href="#header">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#portfolio">Portfolio</a></li>
-                    <li><a href="#subIn">Contact</a></li>
-                    
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Bolt sprite, reused everywhere -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="bolt" viewBox="0 0 24 24"><path d="M13.5 2 4.5 13.5h6.25L9.5 22l9-11.5h-6.25L13.5 2Z" /></symbol>
+  </svg>
+
+  <header class="nav" id="top">
+    <div class="container nav__inner">
+      <a href="#top" class="brand" aria-label="Arvindh — back to top">
+        <span class="brand__mark"><svg><use href="#bolt" /></svg></span>
+        <span class="brand__name">Arvindh</span>
+      </a>
+
+      <nav class="nav__links" id="nav-links" aria-label="Primary">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#games">Games</a>
+        <a href="#journey">Journey</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="nav__actions">
+        <button class="icon-btn" id="theme-toggle" type="button" aria-label="Toggle color theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" /></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" /></svg>
+        </button>
+        <a class="btn btn--small btn--primary nav__cta" href="#contact">Get in touch</a>
+        <button class="icon-btn nav__menu" id="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ================= HERO ================= -->
+    <section class="hero">
+      <div class="hero__grid" aria-hidden="true"></div>
+      <div class="container hero__inner">
+        <div class="hero__copy">
+          <p class="eyebrow reveal">
+            <span class="status-dot"></span>
+            CS @ UT Dallas · a.k.a. <span class="accent">Bolt</span>
+          </p>
+          <h1 class="hero__title reveal">
+            I build <span class="strike">fast</span>, intelligent software for the web.
+          </h1>
+          <p class="hero__lede reveal">
+            I'm Arvindh Kumar Kalainathan, a full-stack developer who enjoys turning messy problems
+            into clean products — from ML pipelines that predict pipeline failures to tools used by
+            hundreds of students every semester.
+          </p>
+          <div class="hero__ctas reveal">
+            <a class="btn btn--primary" href="#projects">View my work
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </a>
+            <a class="btn btn--ghost" href="mailto:arvindhkumar.kalainathan@gmail.com">Email me</a>
+          </div>
+          <ul class="socials reveal" aria-label="Social links">
+            <li><a href="https://github.com/lightningbolt7" target="_blank" rel="noopener" aria-label="GitHub">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path class="fill" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
+            </a></li>
+            <li><a href="https://www.linkedin.com/in/arvindh-kumar-kalainathan-b16681281/" target="_blank" rel="noopener" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path class="fill" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg>
+            </a></li>
+            <li><a href="mailto:arvindhkumar.kalainathan@gmail.com" aria-label="Email">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg>
+            </a></li>
+          </ul>
+        </div>
+
+        <div class="hero__visual reveal">
+          <div class="portrait">
+            <svg class="portrait__bolt" viewBox="0 0 24 24" aria-hidden="true"><use href="#bolt" /></svg>
+            <img src="assets/img/portrait.png" alt="Portrait of Arvindh Kumar Kalainathan" width="496" height="597" fetchpriority="high" />
+          </div>
+          <!-- Rotating specialities: lines live in SPECIALITIES in assets/js/main.js -->
+          <a class="award-chip" id="hero-chip" href="#projects">
+            <span class="award-chip__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4ZM7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3" /></svg></span>
+            <span class="award-chip__window">
+              <span class="award-chip__text">
+                <strong>1st Place</strong>
+                <small>EOG Resources · HackUTD XI</small>
+              </span>
+            </span>
+            <span class="award-chip__progress" aria-hidden="true"></span>
+          </a>
+        </div>
+      </div>
+
+      <div class="container">
+        <dl class="stats reveal">
+          <div><dt>Hackathon awards</dt><dd>3</dd><span>incl. 1st place at HackUTD XI</span></div>
+          <div><dt>Students served</dt><dd>800+</dd><span>by Zeus, my Discord automation bot</span></div>
+          <div><dt>Model accuracy</dt><dd>R² 0.94</dd><span>hydrate-formation prediction in PipeBrains</span></div>
+          <div><dt>Projects shipped</dt><dd>10</dd><span>web, mobile, ML, games &amp; tooling</span></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ================= ABOUT ================= -->
+    <section class="section" id="about">
+      <div class="container">
+        <header class="section__head reveal">
+          <span class="section__num">01</span>
+          <h2>About</h2>
+        </header>
+
+        <div class="about">
+          <figure class="about__photo reveal">
+            <img src="assets/img/speaking.jpg" alt="Arvindh presenting on stage" width="900" height="869" loading="lazy" />
+          </figure>
+
+          <div class="about__body">
+            <div class="prose reveal">
+              <p>
+                I'm a Computer Science student at <strong>The University of Texas at Dallas</strong>,
+                originally from India. I'm drawn to how technology works under the hood — and to
+                solving problems efficiently. (Being a little lazy turns out to be great motivation
+                for writing good automation.)
+              </p>
+              <p>
+                I started with Java in high school, picked up Python and SQL, and taught myself web
+                development after my first hackathon showed me what I didn't yet know. Since then
+                I've built full-stack apps, a computer-vision mobile app, a Discord bot for an
+                800-member community, and AI/ML projects that have earned three hackathon awards —
+                including first place at HackUTD.
+              </p>
+              <p>
+                Right now I'm most interested in <strong>applied machine learning</strong> and
+                building products where a model is only one part of a well-engineered system — and, since 2026,
+                in making games with Unity.
+              </p>
+            </div>
+
+            <div class="skills reveal">
+              <div class="skills__group">
+                <h3>Languages</h3>
+                <ul class="tags">
+                  <li>Python</li><li>JavaScript</li><li>Java</li><li>C++</li><li>C#</li><li>SQL</li><li>Dart</li><li>Racket</li><li>HTML/CSS</li>
                 </ul>
-                <img id="sun"src="./sun.png">
-                <div id="backdrop"class="backdrop"></div>
-                <div id="toggle" class="toggle"></div>
-                <img class="dark-active" id="dark" src="./dark.png">
-               
-            </nav>
-            
-            
-            <div class="elem-mid">
-                <div>
-                    <div class="header-text">
-                        <div class="inner-text">
-                            <div>
-                                <p>
-                                    Junior at 
-                                </p>
-                            </div>
-                            <div>
-                                <a target="_blank" href="https://www.utdallas.edu/"><img class="utd"src="./utd.png"></a>
-                            </div>
-                        </div>
-                    
-        
-                        <h1>Hi, I am <span id="name" class="pop-anim text">Arvindh</span> from 
-                        <div class="test-hid">
-                            
-                            <img id="planet" class="earth pop-anim"src="./gif-folder/earth.gif">
-                            
-                            <div class="loc">
-                                <span class="india"><span class="In">In</span><span class="d">d</span><span class="ia">ia</span></span>
-                            </div>
-                        </div>
-                        <span id="alias">Bolt</span> 
-                        
-                    </div> 
-                </div>
-                <div>
-                    <img id="myPic" class="mypic" src="./MyPic.png">
-                </div>
+              </div>
+              <div class="skills__group">
+                <h3>Frameworks &amp; Tools</h3>
+                <ul class="tags">
+                  <li>Flask</li><li>Flutter</li><li>Tailwind CSS</li><li>Chart.js</li><li>discord.py</li><li>Unity</li><li>Firebase</li><li>PostgreSQL</li>
+                </ul>
+              </div>
+              <div class="skills__group">
+                <h3>ML &amp; Data</h3>
+                <ul class="tags">
+                  <li>scikit-learn</li><li>Pandas</li><li>NumPy</li><li>YOLOv5</li><li>Google ML Kit</li><li>OpenAI API</li>
+                </ul>
+              </div>
             </div>
-            
-        </div>            
-            
-    </div>
-
-<!----------about---------->
-
-    <div id="about">
-        <div class="container">
-           <div class="row">
-                <div class="about-column-1">
-                    <img onmouseover="changeImage()" onmouseout="resetImage()" id="about-pic-change" class="about-pic"src="./MyPic2.png" alt="Me">
-                </div>
-                <div class="about-column-2">
-                    <h1 id="sub" class="subTitle">About Me</h1>
-                    <p id="about-text" class="about-paragraph">
-                        Hello<span> User!</span>, quite the intro ain't it?
-                        Apoligies for the thunder sound if it got you. But hey,
-                        feel free to interact with the rest of this Portfolio. I have 
-                        added music which you can disable by hovering again.Moving on to 
-                        the topic of this title. Technology is developing exponentially as you are 
-                        reading this. Almost everything has been integrated with TECH. I am interested
-                        on how they work and contribute my chunk to its development; Thinking logically
-                        to solve problems in an efficient way. Maybe it is true, being lazy makes you smart.
-
-
-                    </p>
-                    <div class="tab-titles">
-                        <p id="skillHead" class="tab-links">Skills</p>
-                        <p id="eduHead" class="tab-links">Education</p>
-                        <p id="hobbyHead" class="tab-links">Hobbies</p>
-                    </div>
-                    <div class="tab-contents">
-                        <ul id="skill"class="active">
-                            <li id="modech4">
-                                <span>FrontEnd</span><br>Designing Web Interfaces
-                            </li>
-                            <li id="modech5">
-                                <span>BackEnd</span><br>Web App Development
-                            </li>
-                            <li>
-                                <span>Program Knowledge</span><br><div class="program-logos">
-                                    
-                                    <a href="https://en.wikipedia.org/wiki/C%2B%2B" target="_blank">
-                                        <img class="cpp-logo" src="./program-logos/cpp.png">
-                                    </a>
-                                    <a href="https://en.wikipedia.org/wiki/HTML" target="_blank">
-                                        <img class="html-logo" src="./program-logos/html.png">
-                                    </a>
-                                    <a href="https://en.wikipedia.org/wiki/CSS" target="_blank">
-                                        <img class="css-logo" src="./program-logos/css.png">
-                                    </a>
-                                    <a href="https://en.wikipedia.org/wiki/JS" target="_blank">
-                                        <img class="js-logo" src="./program-logos/js.png">
-                                    </a>
-                                    <a href="https://en.wikipedia.org/wiki/Python_(programming_language)" target="_blank">
-                                        <img class="py-logo" src="./program-logos/py.png">
-                                    </a>
-                                    <a href="https://en.wikipedia.org/wiki/Racket_%28programming_language%29" target="_blank">
-                                        <img class="dr-logo" src="./program-logos/dr.png">
-                                    </a>
-                                    <a href="https://en.wikipedia.org/wiki/Java_(programming_language)" target="_blank">
-                                        <img class="java-logo" src="./program-logos/java.png">
-                                    </a>
-                                    <a href="https://en.wikipedia.org/wiki/PostgreSQL" target="_blank">
-                                        <img class="psql-logo" src="./program-logos/psql.png">
-                                    </a>
-                                    </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="tab-contents">
-                        <ul id="edu" class="active">
-                            <li id="modech1">
-                                <span>UnderGraduate-CS</span><br>UTD
-                            </li>
-                            <li id="modech2">
-                                <span>Grade 11-12</span><br>Springdays Hr School
-                            </li>
-                            <li id="modech3">
-                                <span>Grade 6-10</span><br>Ida Scudder School
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="tab-contents">
-                        <ul id="hobby" class="active">
-                            <li id="piano" class="piano">
-                                <div class="pop-anim"id="piano-title">Piano</div><br>Just a beginner
-                            </li>
-                            <li id="modech6">
-                                <div style="display:inline-block;"><a id="coin-collect" href="https://en.wikipedia.org/wiki/Numismatics" target="_blank">Numismatics</a></div><br>Old is gold<img id="coin" src="./gif-folder/coin.gif">
-                            </li>
-                            <li id="modech7">
-                                <a target='_blank'href="golden-amulet-text.pdf"><div id="story">Story Writing</div></a><br><div style="display:inline-block" id="story-text">Currently working on a novel</div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-           </div> 
+          </div>
         </div>
-    </div>
-   <!-------------------------portfolio------------------------------------> 
-   <div id="portfolio">
-        <div class="container">
-            <h1 id="sub1" class="subTitle">My Work</h1>
-            <div class="workInfo" id="worInf">
-                My projects are listed below. Scroll the subsection below to  navigate them. I am interested
-                in developing website using HTML,CSS and JS.I like to utilize different APIs
-                while developing them. I'm also interested in ML and try to integrate in my future projects <a style="color: red;" href="https://github.com/lightningbolt7?tab=repositories" target="_blank">Link to my Projects</a>
-            </div>
-            <div id="mainScroll" class="mainScrollDesign">
-                <div>
-                    <div><img id="scrollStyle" class="" src="./gif-folder/scroll.gif"></div>
-                    <div class="ScrollBox" onscroll="hideScroll()">
-                        <div class="worklist">
-                            <div class="work">
-                                <img id="work7" class="selectedWork" onclick="displayInfoWork(6)" src="./workIMG/PipeBrains.png">
-                            </div>
-                            <div class="work">
-                                <img id="work6" onclick="displayInfoWork(5)" src="./workIMG/Zeus.jpeg">
-                            </div>
-                            <div class="work">
-                                <img id="work5" onclick="displayInfoWork(4)" src="./workIMG/SafeDrive.png">
-                            </div>
-                            <div class="work">
-                                <img id="work4" onclick="displayInfoWork(3)" src="./workIMG/MedCare.png">
-                            </div>
-                            <div class="work">
-                                <img id="work1" onclick="displayInfoWork(0)" src="./workIMG/recimeIMG.png">
-                            </div>
-                            <div class="work">
-                                <img id="work2" onclick="displayInfoWork(1)" src="./workIMG/wordleIMG.png">
-                            </div>
-                            <div class="work">
-                                <img id="work3" onclick="displayInfoWork(2)" src="./workIMG/webIMG.png">
-                            </div>
-                          
-                        
-                        </div>
-                    </div>
-                    <div id="scroll-Info">
-                        
-                    </div>
-                </div>
-               
+      </div>
+    </section>
 
-                <div class="description">
-                    <div id="descriptionHeader">
-                        Header
-                    </div>
-                    <div id="descriptionInfo">
-                        Info
-                    </div>
-                </div>
-            </div>
-            
-            <div class="timeline">
-                <div onclick="displayTimelineInfo(0)" class="element1">
-                    <div class="timeInfo left hideTime" id="time0"> 
-                        Late 2019 and early 2020 was when I got introduced to 
-                        Programming in my life. This was where the seed was planted
-                        and have been growing since. I started this by learning Java 
-                        during highschool. I was introduced to loops, sorting algorithms and
-                        other basics for Java
-                        
-                    </div>
-                  
-                </div>
+    <!-- ================= PROJECTS ================= -->
+    <section class="section" id="projects">
+      <div class="container">
+        <header class="section__head reveal">
+          <span class="section__num">02</span>
+          <h2>Selected work</h2>
+          <a class="section__link" href="https://github.com/lightningbolt7?tab=repositories" target="_blank" rel="noopener">
+            All repositories
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" /></svg>
+          </a>
+        </header>
 
-                <div onclick="displayTimelineInfo(1)" class="element2">
-                    <div class="timeInfo right hideTime" id="time1" > 
-                        During my Junior year of highschool, I was introduced to Python and its basics.
-                        I was able to master it due to prior experience of Java. I scored perfect scores on
-                        Computer Science and Chemistry board exams that are a series of exam conducted all over
-                        the country. Moreover, I was awarded for scoring rank 1 on Physics among all the students in my school
-                    </div>
-                </div>
-
-                <div onclick="displayTimelineInfo(2)" class="element3">
-                    <div class="timeInfo left hideTime" id="time2"> 
-                        During my senior year of highschool, I was introduced to SQL and its basics.
-                        Through this I learnt how databases are managed and the backend of the program. I also learnt
-                        how to integrate SQL as a backend for Python(frontend) to store and manipulate data. During this year,
-                        I was accepted for fall 2022 application at University of Texas at Dallas. During my freshman year at UTD,
-                        I joined Students Game Development Association (SDGA-organisation) to code games through unity. Through this,
-                        I was exposed to C# and its uses in game development. During fall 2022, I attended HackUTD where I found out that
-                        I required more knowledge over website dev through HTML,CSS and JS. I set a goal to master these languages during the following summer
-                    </div>
-                </div>
-
-                <div onclick="displayTimelineInfo(3)" class="element4">
-                    <div class="timeInfo right hideTime" id="time3"> 
-                        During my Freshman year, I self-learnt more languages such as HTML,CSS and JS to focus my aim on
-                        website development as I planned after my experience from the hackathon. Over the summer, I learnt the respective languages and proceeded to make small projects.
-                        On knowing the basics, I proceeded to make full stack website that utilises APIs. I was able to sucessfully finish
-                        three of such projects which are listed above. This portfolio that you are currently was successfully deployed
-                        during this year. I also became a member of ACM at UTD
-                    </div>
-                </div>
-            </div>
-
-            <div id="subIn" class="subTitle" >
-               Contact
-            </div>
-            <div class="contactInfo">
-                <div id="conInfo">
-                    Thank you for going through my Personal website! Feel free to contact me<br>
-               if you have any queries.
-                </div>
-               
-               <div class="rowCon">
-                    <div class="contact-left">
-                        <div>
-                            <i class="fa-solid fa-envelope"></i> 
-                            <div id="modech8">
-                                arvindhkumar.kalainathan@gmail.com
-                            </div>
-                        </div>
-                        <div>
-                            
-                            <a  href="https://www.linkedin.com/in/arvindh-kumar-kalainathan-b16681281/" target="_blank"><i class="linkedIn fa-brands fa-linkedin fa-lg"></i></a>
-                            <div id="modech9" class="titleLinked">
-                                LinkedIn
-                            </div>
-                        </div>
-                        
-                    </div>
-                    <div class="contact-right">
-                        <form action="https://formsubmit.co/76797781b3518fd0eac12ba903f0e298" method="post">
-                            <input type="text" name="Name" placeholder="Your Name" required>
-                            <input type="email" name="email" placeholder=" Your Email" required>
-                            <div class="rowSubmit">
-                                <textarea name="Message" rows="7" placeholder="Your Message"></textarea>
-                                <button type="submit">Submit</button>
-                            </div>
-                        </form>
-                    </div>
-               </div>
-              
-            </div>
+        <div class="projects" id="project-list">
+          <!-- Rendered from assets/js/main.js -->
         </div>
 
-       
-   </div>
+        <div class="archive" id="project-archive">
+          <div class="archive__head reveal">
+            <h3>More projects <span class="archive__count" id="archive-count"></span></h3>
+            <p>Earlier builds, kept compact — open any one for the full story.</p>
+          </div>
+          <ol class="archive__list" id="archive-list"></ol>
+        </div>
+      </div>
+    </section>
 
- 
-    <script src="./index.js"></script>
-    <script src="https://kit.fontawesome.com/e95e4bbbc7.js" crossorigin="anonymous"></script>
+    <!-- ================= GAMES ================= -->
+    <section class="section" id="games">
+      <div class="container">
+        <header class="section__head reveal">
+          <span class="section__num">03</span>
+          <h2>Games</h2>
+          <span class="new-tag">New in 2026</span>
+        </header>
+        <p class="games__intro reveal">
+          In 2026 I started building games with Unity. On desktop, press start to play right here in your browser —
+          no download needed.
+        </p>
+
+        <div class="arcade" id="arcade">
+          <div class="arcade__main">
+          <div class="console reveal" id="console">
+            <div class="screen" id="screen">
+              <!-- idle state: rendered from GAMES in assets/js/main.js -->
+            </div>
+            <div class="console__bar">
+              <span class="console__led" aria-hidden="true"></span>
+              <span class="console__player" id="console-status">Player 1 · Ready</span>
+              <span class="console__hint" id="console-hint">Controls: W A S D</span>
+              <div class="console__actions">
+                <button class="console__btn" id="console-fullscreen" type="button" hidden aria-label="Fullscreen">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" /></svg>
+                </button>
+                <button class="console__btn" id="console-exit" type="button" hidden aria-label="Quit game">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="shelf reveal" id="game-shelf"><!-- cartridges rendered from GAMES --></div>
+          </div>
+
+          <aside class="cart-label reveal" id="game-info" aria-live="polite">
+            <!-- rendered from GAMES -->
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= JOURNEY ================= -->
+    <section class="section" id="journey">
+      <div class="container">
+        <header class="section__head reveal">
+          <span class="section__num">04</span>
+          <h2>Journey</h2>
+        </header>
+
+        <!-- Entries older than the last 4 years fold behind an arrow (see assets/js/main.js) -->
+        <ol class="timeline" id="timeline">
+          <li class="reveal">
+            <span class="timeline__year">2026</span>
+            <div>
+              <h3>Player one has entered the game</h3>
+              <p>Got into game development with Unity and C#, and released my first game, <strong>The King's Path</strong> — playable in the browser on itch.io.</p>
+            </div>
+          </li>
+          <li class="reveal">
+            <span class="timeline__year">2025</span>
+            <div>
+              <h3>Back on the podium — twice</h3>
+              <p>Took 3rd place in the AWS challenge at TAMUhack with <strong>Vision Learning</strong>, an AI interview coach, and 3rd place overall at the Axxess Hackathon with <strong>AIgnosis</strong>, a multi-model healthcare diagnostics app.</p>
+            </div>
+          </li>
+          <li class="reveal">
+            <span class="timeline__year">2024</span>
+            <div>
+              <h3>First hackathon win</h3>
+              <p>Built the Flask API and data pipeline for <strong>PipeBrains</strong>, which took 1st place in EOG Resources' challenge at HackUTD XI — the largest 24-hour hackathon in the US. Also built SafeDrive with ACM Projects and Zeus for my CS community.</p>
+            </div>
+          </li>
+          <li class="reveal">
+            <span class="timeline__year">2023</span>
+            <div>
+              <h3>Self-taught web development</h3>
+              <p>Learned HTML, CSS and JavaScript over the summer and shipped WebTrack, Recime and Lé Word. Built MedCare at HackUTD X, launched this site's first version, and joined ACM at UTD.</p>
+            </div>
+          </li>
+          <li class="reveal">
+            <span class="timeline__year">2022</span>
+            <div>
+              <h3>Databases, then UT Dallas</h3>
+              <p>Learned SQL and wired it up as a backend for Python apps. Started Computer Science at UT Dallas, built games in Unity/C# with the Student Game Developer Association, and attended my first HackUTD.</p>
+            </div>
+          </li>
+          <li class="reveal">
+            <span class="timeline__year">2021</span>
+            <div>
+              <h3>Python &amp; academics</h3>
+              <p>Picked up Python quickly on top of Java. Earned perfect scores on the national board exams in Computer Science and Chemistry, and ranked 1st in Physics in my school.</p>
+            </div>
+          </li>
+          <li class="reveal">
+            <span class="timeline__year">2019</span>
+            <div>
+              <h3>Hello, world</h3>
+              <p>Wrote my first programs in Java in high school — loops, sorting algorithms and the fundamentals that started everything.</p>
+            </div>
+          </li>
+        </ol>
+
+        <div class="beyond reveal">
+          <h3>Beyond code</h3>
+          <ul>
+            <li>
+              <span class="beyond__k">Piano
+                <button class="listen" id="piano-btn" type="button" aria-pressed="false" aria-label="Play my piano recording">
+                  <svg class="listen__play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z" /></svg>
+                  <svg class="listen__pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h3.5v16H7zM13.5 4H17v16h-3.5z" /></svg>
+                  <span class="listen__bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+                  <span class="listen__label" id="piano-label">Listen</span>
+                </button>
+              </span>
+              Learning, one piece at a time — that's me playing.
+              <audio id="piano-audio" src="assets/audio/piano.mp3" preload="none"></audio>
+            </li>
+            <li><span class="beyond__k">Numismatics</span> Collecting old coins — old is gold.</li>
+            <li><span class="beyond__k">Writing</span> Working on a novel, <a href="assets/golden-amulet-text.pdf" target="_blank" rel="noopener"><em>Golden Amulet</em></a>.</li>
+            <li class="lift" id="lift" tabindex="0" aria-label="Weightlifting: bench press PR of 225 pounds. Hover, focus or tap to see a rep.">
+              <div class="lift__text">
+                <span class="beyond__k">Weightlifting</span>
+                Bench PR: <strong class="lift__pr">225 lb</strong>, two plates a side.
+                <small class="lift__hint" id="lift-hint" aria-hidden="true">Hover to spot me</small>
+              </div>
+              <!-- Bench press: arm joints are posed by JS (two-bone IK) so the bar travels straight up -->
+              <svg class="lift__art" viewBox="0 0 120 60" aria-hidden="true">
+                <line class="lift__floor" x1="6" y1="54.5" x2="114" y2="54.5" />
+                <line class="lift__leg-bench" x1="30" y1="43" x2="30" y2="54" />
+                <line class="lift__leg-bench" x1="68" y1="43" x2="68" y2="54" />
+                <rect class="lift__pad" x="22" y="38.5" width="54" height="4.5" rx="2" />
+                <polyline class="lift__body lift__legs" points="70,34.5 84,37 89,53 94,53" />
+                <line class="lift__body lift__torso" x1="34" y1="33.5" x2="70" y2="34.5" />
+                <circle class="lift__head" cx="28.5" cy="32.5" r="4.6" />
+                <path class="lift__strain" d="M22.5 24.5 19.5 21.5M25.5 23 24.5 19" />
+                <line class="lift__body lift__arm" id="lift-upper" x1="38" y1="33.5" x2="46.1" y2="39.4" />
+                <line class="lift__body lift__arm" id="lift-fore" x1="46.1" y1="39.4" x2="42" y2="26.5" />
+                <g id="lift-bar" transform="translate(42 26.5)">
+                  <circle class="lift__plate" r="9" />
+                  <circle class="lift__plate-ring" r="5.5" />
+                  <circle class="lift__sleeve" r="1.8" />
+                </g>
+              </svg>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CONTACT ================= -->
+    <section class="section section--contact" id="contact">
+      <div class="container">
+        <div class="contact">
+          <div class="contact__intro reveal">
+            <span class="section__num">05</span>
+            <h2>Let's build something.</h2>
+            <p>I'm open to internships, full-time roles and interesting collaborations. The fastest way to reach me is email.</p>
+            <ul class="contact__list">
+              <li>
+                <span>Email</span>
+                <a href="mailto:arvindhkumar.kalainathan@gmail.com">arvindhkumar.kalainathan@gmail.com</a>
+                <button class="copy-btn" type="button" data-copy="arvindhkumar.kalainathan@gmail.com" aria-label="Copy email address">Copy</button>
+              </li>
+              <li>
+                <span>LinkedIn</span>
+                <a href="https://www.linkedin.com/in/arvindh-kumar-kalainathan-b16681281/" target="_blank" rel="noopener">arvindh-kumar-kalainathan</a>
+              </li>
+              <li>
+                <span>GitHub</span>
+                <a href="https://github.com/lightningbolt7" target="_blank" rel="noopener">lightningbolt7</a>
+              </li>
+            </ul>
+          </div>
+
+          <form class="form reveal" action="https://formsubmit.co/76797781b3518fd0eac12ba903f0e298" method="post">
+            <input type="hidden" name="_subject" value="New message from arvindhdev.org" />
+            <input type="hidden" name="_template" value="table" />
+            <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" />
+            <label>
+              <span>Name</span>
+              <input type="text" name="Name" autocomplete="name" required />
+            </label>
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" autocomplete="email" required />
+            </label>
+            <label>
+              <span>Message</span>
+              <textarea name="Message" rows="5" required></textarea>
+            </label>
+            <button class="btn btn--primary" type="submit">
+              Send message
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p>© <span id="year">2026</span> Arvindh Kumar Kalainathan</p>
+      <p class="footer__meta">
+        <svg aria-hidden="true"><use href="#bolt" /></svg>
+        Hand-built, no frameworks. Curious how it started? <a href="legacy/index.html">See v1</a>.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Cursor-following preview for the compact project index -->
+  <div class="peek" id="peek" aria-hidden="true"><img alt="" /></div>
+
+  <!-- Project detail dialog -->
+  <dialog class="modal" id="project-modal" aria-labelledby="modal-title">
+    <div class="modal__inner">
+      <button class="icon-btn modal__close" type="button" data-close aria-label="Close">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
+      </button>
+      <div id="modal-body"></div>
+    </div>
+  </dialog>
+
+  <script src="assets/js/main.js"></script>
 </body>
+</html>
