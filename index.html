@@ -364,6 +364,29 @@
                 </g>
               </svg>
             </li>
+            <li class="reading">
+              <a class="reading__link" href="books.html" aria-label="Reading: open my bookshelf of rated and reviewed books">
+                <div class="reading__text">
+                  <span class="beyond__k">Reading</span>
+                  Mostly hard sci-fi. <strong class="reading__count" id="reading-count">17 books</strong> rated &amp; reviewed<span id="reading-latest"></span>.
+                  <span class="reading__cta">Open my bookshelf <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
+                </div>
+                <!-- Book that opens on hover: cover swings open, then two pages flip -->
+                <div class="book-open" aria-hidden="true">
+                  <div class="bo-book">
+                    <div class="bo-back"></div>
+                    <div class="bo-pages"></div>
+                    <div class="bo-leaf bo-leaf--2"></div>
+                    <div class="bo-leaf bo-leaf--1"></div>
+                    <div class="bo-cover">
+                      <div class="bo-cover__front"><svg><use href="#bolt" /></svg><i></i><i></i></div>
+                      <div class="bo-cover__inside"></div>
+                    </div>
+                    <div class="bo-glow"></div>
+                  </div>
+                </div>
+              </a>
+            </li>
           </ul>
         </div>
       </div>
@@ -443,6 +466,7 @@
     </div>
   </dialog>
 
+  <script src="assets/js/books-data.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>

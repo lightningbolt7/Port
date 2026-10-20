@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bookshelf — Arvindh Kumar Kalainathan</title>
+  <meta name="description" content="Every book Arvindh has rated and reviewed: mostly hard sci-fi, with honest ratings and reviews." />
+  <meta name="theme-color" content="#0a0a0b" />
+  <meta property="og:title" content="Arvindh's Bookshelf" />
+  <meta property="og:description" content="Mostly hard sci-fi, each with an honest rating and review." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://arvindh.dev/books.html" />
+  <meta property="og:image" content="https://arvindh.dev/assets/img/portrait.png" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230a0a0b'/%3E%3Cpath d='M17.5 4 8 18h7l-1.5 10L23 14h-7l1.5-10z' fill='%23facc15'/%3E%3C/svg%3E" />
+
+  <script>
+    // Apply the saved/system theme before paint to avoid a flash.
+    (function () {
+      var t;
+      try { t = localStorage.getItem("theme"); } catch (e) {}
+      if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      document.documentElement.dataset.theme = t;
+      document.documentElement.classList.add("js");
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/books.css" />
+</head>
+
+<body class="page-books">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="bolt" viewBox="0 0 24 24"><path d="M13.5 2 4.5 13.5h6.25L9.5 22l9-11.5h-6.25L13.5 2Z" /></symbol>
+  </svg>
+
+  <header class="nav" id="top">
+    <div class="container nav__inner">
+      <a href="index.html" class="brand" aria-label="Arvindh — home">
+        <span class="brand__mark"><svg><use href="#bolt" /></svg></span>
+        <span class="brand__name">Arvindh</span>
+      </a>
+
+      <nav class="nav__links" id="nav-links" aria-label="Primary">
+        <a href="index.html#about">About</a>
+        <a href="index.html#projects">Projects</a>
+        <a href="index.html#games">Games</a>
+        <a href="index.html#journey">Journey</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+
+      <div class="nav__actions">
+        <button class="icon-btn" id="theme-toggle" type="button" aria-label="Toggle color theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" /></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" /></svg>
+        </button>
+        <a class="btn btn--small btn--primary nav__cta" href="index.html#contact">Get in touch</a>
+        <button class="icon-btn nav__menu" id="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="shelf-hero">
+      <div class="container">
+        <a class="back-link" href="index.html#journey">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6" /></svg>
+          Back to portfolio
+        </a>
+        <p class="eyebrow reveal"><span class="status-dot"></span>Beyond code · Reading</p>
+        <h1 class="shelf-hero__title reveal">The Bookshelf</h1>
+        <p class="shelf-hero__lede reveal">
+          Mostly hard sci-fi, the kind where the ideas are the main character. Every book here has my
+          honest rating, in bolts, and my review, unedited.
+        </p>
+
+        <dl class="stats shelf-stats reveal" id="shelf-stats">
+          <!-- filled in by assets/js/books.js -->
+        </dl>
+
+        <div class="shelf reveal" aria-label="All books on the shelf">
+          <div class="shelf__row" id="shelf-row">
+            <!-- spines rendered by assets/js/books.js -->
+          </div>
+          <div class="shelf__plank" aria-hidden="true"></div>
+          <p class="shelf__hint">Spine height = page count. Click a spine to jump to its review.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shelf-list" id="reviews">
+      <div class="container">
+        <div class="shelf-controls reveal">
+          <div class="chips" role="group" aria-label="Filter by rating" id="rating-filter"></div>
+          <label class="sort">
+            <span>Sort</span>
+            <select id="sort-by">
+              <option value="recent">Recently read</option>
+              <option value="rating">Highest rated</option>
+              <option value="pages">Longest first</option>
+              <option value="title">Title A–Z</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="books" id="book-list" aria-live="polite">
+          <!-- review cards rendered by assets/js/books.js -->
+        </div>
+
+        <p class="shelf-source">
+          Synced from <a href="https://www.goodreads.com/" target="_blank" rel="noopener">Goodreads</a>.
+          Covers from <a href="https://openlibrary.org/" target="_blank" rel="noopener">Open Library</a>.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p>© <span id="year">2026</span> Arvindh Kumar Kalainathan</p>
+      <p class="footer__meta">
+        <svg aria-hidden="true"><use href="#bolt" /></svg>
+        <a href="index.html">Back to the portfolio</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="assets/js/books-data.js"></script>
+  <script src="assets/js/books.js"></script>
+</body>
+</html>

@@ -1198,6 +1198,15 @@ const CHIP_ICONS = {
   });
 })();
 
+// ---------- reading hobby: live count + latest read from the bookshelf data ----------
+(() => {
+  const books = window.BOOKS;
+  if (!books?.length) return;
+  document.getElementById("reading-count").textContent = `${books.length} books`;
+  const latest = [...books].sort((a, b) => (b.dateRead || "").localeCompare(a.dateRead || ""))[0];
+  document.getElementById("reading-latest").innerHTML = `, latest: <em>${esc(latest.title)}</em>`;
+})();
+
 // ---------- init ----------
 renderProjects();
 initOrbs();

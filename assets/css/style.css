@@ -756,7 +756,9 @@ svg .fill { fill: currentColor; stroke: none; }
   display: grid; grid-template-columns: auto 1fr; gap: 12px 40px; align-items: start;
 }
 .beyond h3 { font: 500 12px/1.9 var(--font-mono); text-transform: uppercase; letter-spacing: .08em; color: var(--text-faint); }
-.beyond ul { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px 40px; }
+.beyond ul { display: grid; grid-template-columns: repeat(6, 1fr); gap: 28px 40px; }
+.beyond li { grid-column: span 2; }
+.beyond li.lift, .beyond li.reading { grid-column: span 3; } /* the two illustrated hobbies share a row */
 .beyond li { font-size: 15px; color: var(--text-muted); }
 .beyond__k { display: block; color: var(--text); font-weight: 600; margin-bottom: 2px; }
 .beyond__k .listen { margin-left: 8px; vertical-align: 1px; }
@@ -786,6 +788,62 @@ svg .fill { fill: currentColor; stroke: none; }
 .lift__strain { fill: none; stroke: var(--accent-text); stroke-width: 1.6; stroke-linecap: round; opacity: 0; transition: opacity .15s; }
 .lift.is-pushing .lift__strain { opacity: 1; }
 .lift.is-locked .lift__plate { filter: drop-shadow(0 0 4px var(--glow)); }
+
+/* Reading: a book that opens on hover and links to the bookshelf page */
+.beyond .reading__link { display: flex; align-items: center; justify-content: space-between; gap: 16px; color: inherit; text-decoration: none; border-radius: 12px; outline-offset: 6px; }
+.reading__count { color: var(--text); font-weight: 600; }
+.reading__cta {
+  display: inline-flex; align-items: center; gap: 6px; margin-top: 8px;
+  font: 500 11px/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent-text);
+}
+.reading__cta svg { font-size: 13px; transition: transform .25s var(--ease); }
+.reading:hover .reading__cta svg, .reading__link:focus-visible .reading__cta svg { transform: translateX(4px); }
+.reading em { font-style: italic; color: var(--text); }
+
+.book-open { flex: none; width: 132px; height: 88px; perspective: 520px; display: flex; align-items: center; justify-content: flex-end; }
+.bo-book {
+  position: relative; width: 52px; height: 70px; margin-right: 16px;
+  transform-style: preserve-3d; transform: rotateX(14deg) rotateY(-12deg);
+  transition: transform .6s var(--ease);
+}
+.bo-back, .bo-pages, .bo-leaf, .bo-cover, .bo-glow { position: absolute; }
+.bo-back { inset: -2px -2px -2px 0; border-radius: 2px 5px 5px 2px; background: #a16207; transform: translateZ(-2px); }
+.bo-pages, .bo-leaf {
+  inset: 2px 2px 2px 0; border-radius: 0 3px 3px 0;
+  background:
+    repeating-linear-gradient(transparent 0 6px, rgba(60, 48, 24, .17) 6px 7px) center / 66% 64% no-repeat,
+    #fbf7ec;
+}
+.bo-pages { box-shadow: inset -2px 0 0 #e6dfcd; }
+.bo-leaf { transform-origin: left center; transition: transform .55s var(--ease); }
+.bo-leaf--2 { transform: translateZ(1px); }
+.bo-leaf--1 { transform: translateZ(2px); }
+.bo-cover {
+  inset: -2px -2px -2px 0; transform-origin: left center; transform-style: preserve-3d;
+  transform: translateZ(3px); transition: transform .7s var(--ease) .18s;
+}
+.bo-cover__front, .bo-cover__inside { position: absolute; inset: 0; border-radius: 2px 5px 5px 2px; backface-visibility: hidden; }
+.bo-cover__front {
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, #fde047, #facc15 45%, #eab308);
+  box-shadow: inset 4px 0 0 rgba(0, 0, 0, .18), 0 6px 14px -6px rgba(0, 0, 0, .55);
+}
+.bo-cover__front svg { width: 20px; height: 20px; margin-top: -8px; fill: #0a0a0b; stroke: none; }
+.bo-cover__front i { position: absolute; left: 11px; right: 11px; height: 2px; border-radius: 1px; background: rgba(10, 10, 11, .4); }
+.bo-cover__front i:nth-of-type(1) { bottom: 15px; }
+.bo-cover__front i:nth-of-type(2) { bottom: 10px; right: 19px; }
+.bo-cover__inside { background: #f1e9d6; transform: rotateY(180deg); box-shadow: inset -3px 0 0 rgba(0, 0, 0, .08); }
+.bo-glow {
+  inset: -14px -10px -14px -44px; pointer-events: none; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(250, 204, 21, .5), transparent);
+  opacity: 0; transform: translateZ(6px); transition: opacity .4s;
+}
+/* open: cover first, then the pages flip; closing runs in reverse */
+.reading:hover .bo-book, .reading__link:focus-visible .bo-book { transform: rotateX(10deg) rotateY(0deg) translateX(4px); }
+.reading:hover .bo-cover, .reading__link:focus-visible .bo-cover { transform: translateZ(3px) rotateY(-168deg); transition-delay: 0s; }
+.reading:hover .bo-leaf--1, .reading__link:focus-visible .bo-leaf--1 { transform: translateZ(2px) rotateY(-158deg); transition-delay: .3s; }
+.reading:hover .bo-leaf--2, .reading__link:focus-visible .bo-leaf--2 { transform: translateZ(1px) rotateY(-150deg); transition-delay: .46s; }
+.reading:hover .bo-glow, .reading__link:focus-visible .bo-glow { opacity: 1; transition-delay: .35s; }
 
 /* Piano "Listen" pill: play/pause, equalizer while playing, progress fill */
 .listen {
@@ -1092,6 +1150,7 @@ html.bolt-cursor :is(input, textarea) { cursor: text; }
   .timeline-toggle__arrow { left: 5.5px; }
   .timeline-toggle__range { display: none; }
   .beyond ul { grid-template-columns: 1fr; gap: 16px; }
+  .beyond li, .beyond li.lift, .beyond li.reading { grid-column: auto; }
   .contact { padding: 24px; border-radius: 18px; }
   .contact__list li { grid-template-columns: 1fr auto; }
   .contact__list li span { grid-column: 1 / -1; }
