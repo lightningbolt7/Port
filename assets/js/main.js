@@ -1039,12 +1039,17 @@ function initGames() {
 
 // ---------- hero chip: rotating specialities ----------
 // Each line swaps in every few seconds (the bar along the bottom shows when).
-// Hover pauses it; clicking jumps to the proof. Add or reorder lines here.
+// Hover pauses it; clicking jumps to the proof (a section, a project modal,
+// or another page via `href`). Add or reorder lines here.
 const SPECIALITIES = [
   { icon: "trophy", title: "1st Place", sub: "EOG Resources · HackUTD XI", project: "pipebrains" },
   { icon: "gamepad", title: "Game Developer", sub: "The King's Path — playable here", scroll: "#games" },
   { icon: "barbell", title: "225 lb Bench PR", sub: "Two plates a side — watch a rep ↓", scroll: ".beyond", beckon: "#lift" },
   { icon: "network", title: "Applied ML", sub: "Five models, one diagnosis app", project: "aignosis" },
+  {
+    icon: "book", title: "Sci-fi Bookworm", href: "books.html",
+    sub: window.BOOKS?.length ? `${window.BOOKS.length} books rated & reviewed — see the shelf` : "Rated & reviewed — see the shelf",
+  },
   { icon: "music", title: "Piano Connoisseur", sub: "Hear me play ↓", scroll: ".beyond", beckon: "#piano-btn" },
   { icon: "bot", title: "Bot Builder", sub: "Zeus serves 800+ CS students", project: "zeus" },
   { icon: "medal", title: "3× Hackathon Podium", sub: "HackUTD · TAMUhack · Axxess", scroll: "#journey" },
@@ -1064,6 +1069,7 @@ const CHIP_ICONS = {
   barbell: '<path d="M2 12h20M6 7v10M9 5.5v13M18 7v10M15 5.5v13"/>',
   coin: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5.5"/><path d="M12 9.5v5"/>',
   pen: '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
+  book: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/><path d="M9 7h7"/>',
 };
 
 (() => {
@@ -1081,6 +1087,7 @@ const CHIP_ICONS = {
     icon.innerHTML = CHIP_ICONS[item.icon];
     text.innerHTML = lines(item);
     chip.setAttribute("aria-label", `${item.title} — ${item.sub}`);
+    chip.setAttribute("href", item.href || "#projects"); // a real link while a page line shows
   };
 
   // Natural width of the chip with a given line, measured on an invisible copy
@@ -1137,8 +1144,9 @@ const CHIP_ICONS = {
   new IntersectionObserver(([e]) => chip.classList.toggle("is-paused", !e.isIntersecting)).observe(chip);
 
   chip.addEventListener("click", (e) => {
-    e.preventDefault();
     const item = SPECIALITIES[i];
+    if (item.href) return; // let the link navigate (keeps Ctrl/middle-click behaviour)
+    e.preventDefault();
     if (item.project) return openProject(item.project);
     const target = document.querySelector(item.scroll);
     target?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: item.beckon ? "center" : "start" });
@@ -1205,6 +1213,28 @@ const CHIP_ICONS = {
   document.getElementById("reading-count").textContent = `${books.length} books`;
   const latest = [...books].sort((a, b) => (b.dateRead || "").localeCompare(a.dateRead || ""))[0];
   document.getElementById("reading-latest").innerHTML = `, latest: <em>${esc(latest.title)}</em>`;
+
+  // Fanned stack of the latest covers inside the "Open my bookshelf" pill, plus "+N more"
+  const recent = [...books].sort((a, b) => (b.dateRead || "").localeCompare(a.dateRead || "")).filter((b) => b.cover).slice(0, 4);
+  const tilt = [-10, -4, 3, 9];
+  const small = (url) => url.replace(/-L\.jpg$/, "-M.jpg"); // Open Library's medium size is plenty here
+  document.getElementById("reading-covers").innerHTML =
+    recent.map((b, i) => `<img src="${small(b.cover)}" alt="" loading="lazy" style="--i:${i};--r:${tilt[i]}deg" />`).join("") +
+    (books.length > recent.length ? `<span class="reading__more" style="--i:${recent.length};--r:0deg">+${books.length - recent.length}</span>` : "");
+
+  // First time it's on screen: deal the covers in and let the book peek open; glint while visible
+  const item = document.querySelector(".reading");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let seen = false;
+  new IntersectionObserver(([e]) => {
+    item.classList.toggle("is-live", e.isIntersecting);
+    if (!e.isIntersecting || seen) return;
+    seen = true;
+    item.classList.add("is-dealt");
+    if (reduce) return;
+    setTimeout(() => item.classList.add("is-peeking"), 500);
+    setTimeout(() => item.classList.remove("is-peeking"), 2300);
+  }, { threshold: 0.6 }).observe(item);
 })();
 
 // ---------- init ----------

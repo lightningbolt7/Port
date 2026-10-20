@@ -18,6 +18,53 @@
 .shelf-hero__lede { margin-top: 16px; max-width: 600px; font-size: 18px; color: var(--text-muted); }
 .shelf-stats { margin-top: 40px; }
 
+/* ---------- currently reading ---------- */
+.now-reading { margin-top: 32px; display: grid; gap: 16px; }
+.now-reading[hidden] { display: none; }
+.now-book {
+  position: relative; overflow: hidden;
+  display: grid; grid-template-columns: 112px 1fr; gap: 32px; align-items: center;
+  padding: 28px 32px 32px; border-radius: 18px;
+  background: var(--surface); border: 1px solid var(--border-strong);
+}
+.now-book::before {
+  /* reading-lamp glow behind the book */
+  content: ""; position: absolute; left: -60px; top: 50%; width: 300px; height: 300px; translate: 0 -50%;
+  background: radial-gradient(circle, var(--accent-soft), transparent 65%); pointer-events: none;
+}
+.now-book__cover { position: relative; isolation: isolate; perspective: 800px; padding: 0 8px 14px 0; }
+.now-book__cover .book3d { transform: rotateY(-20deg) rotateX(3deg); animation: now-float 5s ease-in-out infinite; }
+.now-book:hover .now-book__cover .book3d { animation-play-state: paused; transform: rotateY(-6deg); }
+.now-book__ribbon {
+  /* bookmark tail hanging out of the bottom of the book */
+  position: absolute; z-index: -1; left: 58%; bottom: 0; width: 10px; height: 40px;
+  background: linear-gradient(#eab308, var(--accent));
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%);
+  transform-origin: top center; animation: ribbon-sway 3.4s ease-in-out infinite;
+}
+.now-book__body { position: relative; }
+.now-book__label {
+  display: inline-flex; align-items: center; gap: 10px; margin-bottom: 12px;
+  font: 500 12px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent-text);
+}
+.live-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: #22c55e;
+  animation: live-pulse 1.8s ease-out infinite;
+}
+.now-book__title { font-size: clamp(26px, 3.4vw, 34px); font-weight: 700; letter-spacing: -0.02em; }
+.now-book .book__meta { margin-top: 6px; }
+.now-book__verdict { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin: 16px 0 12px; font-size: 14px; color: var(--text-muted); }
+/* unrated: the bolts charge up one after another, on a loop */
+.bolts--charging svg { animation: bolt-charge 2.6s ease-in-out infinite; animation-delay: calc(var(--i) * .22s); }
+@keyframes bolt-charge {
+  0%, 12% { fill: var(--border-strong); filter: none; }
+  32%, 66% { fill: var(--accent); filter: drop-shadow(0 0 4px var(--glow)); }
+  88%, 100% { fill: var(--border-strong); filter: none; }
+}
+@keyframes live-pulse { from { box-shadow: 0 0 0 0 rgba(34, 197, 94, .6); } to { box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); } }
+@keyframes ribbon-sway { 0%, 100% { rotate: -5deg; } 50% { rotate: 5deg; } }
+@keyframes now-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -4px; } }
+
 /* ---------- the shelf ---------- */
 .shelf { margin-top: 12px; }
 .shelf__row {
@@ -181,4 +228,6 @@
   .cover-fallback strong { font-size: 12.5px; }
   .cover-fallback small { font-size: 10px; }
   .shelf-controls { flex-direction: column; align-items: stretch; }
+  .now-book { grid-template-columns: 84px 1fr; gap: 18px; padding: 20px 18px 22px; }
+  .now-book__title { font-size: 24px; }
 }

@@ -33,6 +33,39 @@
     <div><dt>Average rating</dt><dd>${avg.toFixed(1)}</dd><span>out of 5 bolts</span></div>
     <div><dt>Five-bolt reads</dt><dd>${fives}</dd><span>the ones I'd push on anyone</span></div>`;
 
+  // ---------- currently reading: from the Goodreads "currently-reading" shelf ----------
+  const NOW = window.CURRENTLY_READING || [];
+  const nowEl = document.getElementById("now-reading");
+  if (NOW.length) {
+    nowEl.hidden = false;
+    nowEl.innerHTML = NOW.map((b) => {
+      const meta = [esc(b.author), b.year, b.pages ? `${b.pages} pages` : null].filter(Boolean).join(" · ");
+      const series = b.series ? `<p class="book__series">${esc(b.series)}${b.seriesNo ? ` · Book ${esc(b.seriesNo)}` : ""}</p>` : "";
+      return `
+        <article class="now-book">
+          <div class="now-book__cover">
+            <div class="book3d">
+              ${b.cover ? `<img src="${b.cover}" alt="Cover of ${esc(b.title)}" width="180" height="270" />` : fallbackCover(b)}
+            </div>
+            <span class="now-book__ribbon" aria-hidden="true"></span>
+          </div>
+          <div class="now-book__body">
+            <p class="now-book__label"><span class="live-dot" aria-hidden="true"></span>Currently reading</p>
+            ${series}
+            <h2 class="now-book__title">${esc(b.title)}</h2>
+            <p class="book__meta">${meta}</p>
+            <div class="now-book__verdict">
+              <span class="bolts bolts--charging" role="img" aria-label="Not rated yet">${[0, 1, 2, 3, 4]
+                .map((i) => `<svg style="--i:${i}" aria-hidden="true"><use href="#bolt" /></svg>`)
+                .join("")}</span>
+              <span>Verdict pending: review once I've finished</span>
+            </div>
+            <a class="book__gr" href="${b.goodreads}" target="_blank" rel="noopener">Goodreads ↗</a>
+          </div>
+        </article>`;
+    }).join("");
+  }
+
   // ---------- the shelf: one spine per book, height scaled by page count ----------
   // (cover URLs are made absolute: a url() inside a CSS variable resolves against the stylesheet's folder)
   const pageCounts = BOOKS.map((b) => b.pages || 300);
