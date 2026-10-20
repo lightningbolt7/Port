@@ -1222,6 +1222,6 @@ document.querySelectorAll("main > section:not(.hero) .reveal").forEach((el, i) =
   revealer.observe(el);
 });
 
-// Deep link: arvindhdev.org/#pipebrains opens that project
+// Deep link: arvindh.dev/#pipebrains opens that project
 const deep = location.hash.slice(1);
 if (PROJECTS.some((p) => p.id === deep)) openProject(deep);
