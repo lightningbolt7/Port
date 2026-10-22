@@ -1240,8 +1240,9 @@ const CHIP_ICONS = {
 })();
 
 // ---------- Power Tools: Arcform demo window ----------
-// "Try it" simulates Arcform's right-click menu on a few sample files (nothing
-// is converted for real); "Watch it" plays a short clip of the real thing.
+// "Try it" simulates Arcform's right-click menus on a few sample files (nothing
+// is converted for real), including the PDF merge queue and its reorder editor.
+// "Watch it" plays short clips cut from the real screen recording.
 (() => {
   const win = document.getElementById("arc-win");
   if (!win) return;
@@ -1250,19 +1251,25 @@ const CHIP_ICONS = {
   const pane = document.getElementById("arc-try");
   const hintText = document.getElementById("arc-hint-text");
   const resetBtn = document.getElementById("arc-reset");
+  const queueBtn = document.getElementById("arc-queue");
+  const queueN = document.getElementById("arc-queue-n");
   const live = document.getElementById("arc-live");
   const video = document.getElementById("arc-video");
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const canHover = matchMedia("(hover: hover)").matches;
   const ICON = '<img src="assets/tools/arcform-icon.png" alt="" width="16" height="16" />';
+  const WIN_BTNS = '<span class="arc-win__btns" aria-hidden="true"><i></i><i></i><i></i></span>';
 
   const SAMPLE = () => [
-    { name: "camera_video", ext: "mov", type: "MOV File", kb: 11487, kind: "video" },
-    { name: "IMG_4021", ext: "heic", type: "HEIC File", kb: 2936, kind: "photo" },
-    { name: "report", ext: "docx", type: "Word Document", kb: 55, kind: "word" },
-    { name: "report_for_word", ext: "pdf", type: "PDF File", kb: 254, kind: "pdf" },
+    { id: "mov", name: "camera_video", ext: "mov", type: "MOV File", kb: 11487, kind: "video" },
+    { id: "heic", name: "IMG_4021", ext: "heic", type: "HEIC File", kb: 2936, kind: "photo" },
+    { id: "docx", name: "report", ext: "docx", type: "Word Document", kb: 55, kind: "word" },
+    { id: "p1", name: "merge_1_cover", ext: "pdf", type: "PDF File", kb: 2, kind: "pdf" },
+    { id: "p2", name: "merge_2_chapter", ext: "pdf", type: "PDF File", kb: 4, kind: "pdf" },
+    { id: "p3", name: "merge_3_appendix", ext: "pdf", type: "PDF File", kb: 3, kind: "pdf" },
   ];
   let files = SAMPLE();
+  let queue = []; // file ids, in merge order
 
   const TYPES = { mp4: "MP4 File", mp3: "MP3 File", jpg: "JPG File", png: "PNG File", webp: "WEBP File", pdf: "PDF File", docx: "Word Document" };
   const conv = (ext, kb, note, suffix = "") => ({ ext, kb, note, suffix });
@@ -1276,9 +1283,25 @@ const CHIP_ICONS = {
           : "Quality search: the best JPEG that still fits", ` (${mb} MB)`),
       }));
   const copyAs = (exts) => exts.map((e) => ({ label: e.toUpperCase(), act: { clip: e } }));
+  const plural = (n) => `${n} PDF${n === 1 ? "" : "s"}`;
+  const byId = (id) => files.find((f) => f.id === id);
+
+  // The merge-queue items Arcform adds to its menus once something is queued
+  const queueItems = () =>
+    queue.length
+      ? [
+          { label: `Generate merge (${plural(queue.length)})`, act: { merge: true }, dim: queue.length < 2 },
+          { label: "View merge queue", act: { view: true } },
+          { label: "Clear merge queue", act: { clear: true } },
+        ]
+      : [];
 
   // Arcform's submenu for each kind of file (mirrors the real feature set)
   function arcMenu(f) {
+    if (!f) {
+      // right-click on empty space in the folder
+      return queue.length ? queueItems() : [{ label: "Merge queue is empty", dim: true }, { label: "Right-click PDFs → Add to merge queue", dim: true }];
+    }
     const by = {
       video: [
         { label: "Convert to MP4", act: conv("mp4", f.kb, "Copied the H.264 stream into MP4, no re-encode") },
@@ -1301,31 +1324,38 @@ const CHIP_ICONS = {
         { label: "Copy as", items: copyAs(["pdf"]) },
       ],
       pdf: [
-        { label: "Convert to Word", act: conv("docx", Math.round(f.kb * 0.42), "Converted with Word, kept open for the batch") },
+        { label: "Convert to Word (docx)", act: conv("docx", Math.max(8, Math.round(f.kb * 4.2)), "Converted with Word, kept open for the batch") },
         { sep: true },
-        { label: "Add to merge queue", act: { queue: true } },
+        queue.includes(f.id)
+          ? { label: `In merge queue (#${queue.indexOf(f.id) + 1})`, dim: true }
+          : { label: "Add to merge queue", act: { enqueue: true } },
+        ...queueItems(),
       ],
     };
     return by[f.kind] || [];
   }
 
   const fmtKB = (kb) => `${kb.toLocaleString()} KB`;
-  const fileIcon = (kind) =>
-    ({ video: "▶", photo: "◩", word: "W", pdf: "PDF", audio: "♪" }[kind] || "▤");
+  const fileIcon = (kind) => ({ video: "▶", photo: "◩", word: "W", pdf: "PDF", audio: "♪" }[kind] || "▤");
   const kindOf = (ext) => ({ mp4: "video", mov: "video", mp3: "audio", jpg: "photo", png: "photo", webp: "photo", heic: "photo", docx: "word", pdf: "pdf" }[ext]);
 
   function renderFiles(flashId) {
-    list.innerHTML = files.map((f, i) => `
+    list.innerHTML = files.map((f, i) => {
+      const q = queue.indexOf(f.id);
+      return `
       <li><button class="xp__row ${f.id === flashId ? "is-new" : ""}" type="button" data-i="${i}" aria-haspopup="menu"
-        aria-label="${esc(f.name)}.${f.ext}, ${esc(f.type)}, ${fmtKB(f.kb)}. Open the Arcform menu">
-        <span class="xp__name"><span class="xp__ficon xp__ficon--${f.kind}" aria-hidden="true">${fileIcon(f.kind)}</span>${esc(f.name)}.${f.ext}</span>
+        aria-label="${esc(f.name)}.${f.ext}, ${esc(f.type)}, ${fmtKB(f.kb)}${q >= 0 ? `, number ${q + 1} in the merge queue` : ""}. Open the Arcform menu">
+        <span class="xp__name"><span class="xp__ficon xp__ficon--${f.kind}" aria-hidden="true">${fileIcon(f.kind)}</span>${esc(f.name)}.${f.ext}${q >= 0 ? `<span class="xp__q" aria-hidden="true">#${q + 1}</span>` : ""}</span>
         <span class="xp__type">${esc(f.type)}</span><span class="xp__size">${fmtKB(f.kb)}</span>
-      </button></li>`).join("");
+      </button></li>`;
+    }).join("");
+    queueN.textContent = queue.length;
+    queueBtn.hidden = !queue.length;
   }
 
-  // ----- context menu -----
+  // ----- context menus -----
   let menus = []; // open menu elements, root first
-  let target = null; // the file the menu is for
+  let target = null; // the file the menu is for (null = folder background)
 
   function closeMenus(depth = 0) {
     menus.splice(depth).forEach((m) => m.remove());
@@ -1373,20 +1403,32 @@ const CHIP_ICONS = {
   function openRoot(row, x, y) {
     closeMenus();
     pane.querySelectorAll(".arc-run.is-done").forEach((w) => w.remove()); // clear a finished progress window
-    target = files[+row.dataset.i];
-    row.classList.add("is-picked");
-    const items = [
-      { label: "Open", dim: true },
-      { label: "Arcform", arc: true, items: arcMenu(target) },
-      { sep: true },
-      { label: "Cut", dim: true },
-      { label: "Copy", dim: true },
-      { sep: true },
-      { label: "Rename", dim: true },
-      { label: "Delete", dim: true },
-      { sep: true },
-      { label: "Properties", dim: true },
-    ];
+    target = row ? files[+row.dataset.i] : null;
+    row?.classList.add("is-picked");
+    const items = row
+      ? [
+          { label: "Open", dim: true },
+          { label: "Arcform", arc: true, items: arcMenu(target) },
+          { sep: true },
+          { label: "Cut", dim: true },
+          { label: "Copy", dim: true },
+          { sep: true },
+          { label: "Rename", dim: true },
+          { label: "Delete", dim: true },
+          { sep: true },
+          { label: "Properties", dim: true },
+        ]
+      : [
+          { label: "View", dim: true },
+          { label: "Sort by", dim: true },
+          { label: "Refresh", dim: true },
+          { sep: true },
+          { label: "Paste", dim: true },
+          { label: "Arcform", arc: true, items: arcMenu(null) },
+          { sep: true },
+          { label: "New", dim: true },
+          { label: "Properties", dim: true },
+        ];
     const m = buildMenu(items, 0);
     place(m, x, y);
     return m;
@@ -1406,24 +1448,21 @@ const CHIP_ICONS = {
   }
 
   const focusFirst = (m) => m?.querySelector(".ctx__item:not(.is-dim)")?.focus();
-
+  const layerPoint = (e) => { const L = layer.getBoundingClientRect(); return [e.clientX - L.left, e.clientY - L.top]; };
   function pointFor(row) {
     const L = layer.getBoundingClientRect(), r = row.getBoundingClientRect();
     return [r.left - L.left + Math.min(150, r.width * 0.45), r.top - L.top + r.height * 0.7];
   }
 
   list.addEventListener("contextmenu", (e) => {
-    const row = e.target.closest(".xp__row");
-    if (!row) return;
     e.preventDefault();
-    const L = layer.getBoundingClientRect();
-    openRoot(row, e.clientX - L.left, e.clientY - L.top);
+    const row = e.target.closest(".xp__row"); // null = empty space: the folder's own menu
+    openRoot(row, ...layerPoint(e));
   });
   list.addEventListener("click", (e) => {
     const row = e.target.closest(".xp__row");
     if (!row) return;
-    const [x, y] = e.detail ? (() => { const L = layer.getBoundingClientRect(); return [e.clientX - L.left, e.clientY - L.top]; })() : pointFor(row);
-    const m = openRoot(row, x, y);
+    const m = openRoot(row, ...(e.detail ? layerPoint(e) : pointFor(row)));
     if (!e.detail) focusFirst(m); // keyboard: move focus into the menu
   });
   list.addEventListener("keydown", (e) => {
@@ -1449,10 +1488,10 @@ const CHIP_ICONS = {
       if (!e.detail) focusFirst(m);
       return;
     }
-    if (b._item.dim) return;
+    if (b._item.dim || !b._item.act) return;
     const f = target, act = b._item.act;
     closeMenus();
-    run(f, act, b._item.label);
+    perform(f, act, b._item.label);
   });
   layer.addEventListener("keydown", (e) => {
     const b = e.target.closest(".ctx__item");
@@ -1479,10 +1518,10 @@ const CHIP_ICONS = {
     }
   });
   document.addEventListener("pointerdown", (e) => {
-    if (menus.length && !e.target.closest(".ctx") && !e.target.closest(".xp__row")) closeMenus();
+    if (menus.length && e.target instanceof Element && !e.target.closest(".ctx") && !e.target.closest(".xp__row")) closeMenus();
   });
 
-  // ----- run an action: a mini Arcform progress window, then the result -----
+  // ----- actions -----
   function uniqueName(base, ext) {
     let name = base, n = 0;
     while (files.some((x) => x.name === name && x.ext === ext)) name = `${base} (${++n})`;
@@ -1490,40 +1529,81 @@ const CHIP_ICONS = {
   }
 
   function toast(msg) {
+    pane.querySelectorAll(".arc-toast").forEach((t) => t.remove());
     const t = document.createElement("div");
     t.className = "arc-toast";
     t.innerHTML = `${ICON}<span>${esc(msg)}</span>`;
     pane.appendChild(t);
     live.textContent = msg;
-    setTimeout(() => t.classList.add("is-out"), 2600);
-    setTimeout(() => t.remove(), 3100);
+    setTimeout(() => t.classList.add("is-out"), 2800);
+    setTimeout(() => t.remove(), 3300);
   }
 
-  function run(f, act, label) {
-    const src = `${f.name}.${f.ext}`;
-    if (act.queue) {
-      toast(`${src} added to the merge queue. Add more from any folder, then merge.`);
-      return done();
+  function setHint(msg) {
+    hintText.textContent = msg;
+  }
+  const restHint = () => (canHover ? "Right-click a file to open the Arcform menu" : "Tap a file to open the Arcform menu");
+  const queueHint = () =>
+    queue.length < 2
+      ? `${plural(queue.length)} queued. Add another PDF to merge`
+      : canHover
+        ? `${plural(queue.length)} queued. Right-click empty space → Arcform → Generate merge`
+        : `${plural(queue.length)} queued. Tap "Merge queue" to reorder and merge`;
+
+  function perform(f, act, label) {
+    if (act.enqueue) {
+      queue.push(f.id);
+      renderFiles();
+      toast(`Added ${f.name}.pdf to the merge queue (${plural(queue.length)})`);
+      setHint(queueHint());
+      return markUsed();
     }
-    const outExt = act.clip || act.ext;
-    const outName = act.clip ? f.name : uniqueName(f.name + (act.suffix || ""), outExt);
+    if (act.clear) {
+      queue = [];
+      renderFiles();
+      toast("Merge queue cleared");
+      setHint(restHint());
+      return markUsed();
+    }
+    if (act.view) return openEditor();
+    if (act.merge) return merge();
+    run(f, act, label);
+  }
+
+  // Mini progress window styled like Arcform's real one (light theme)
+  function progress({ file, action, done, note, saved }, onDone) {
     const dur = reduce ? 0 : 900 + Math.random() * 600;
     const w = document.createElement("div");
     w.className = "arc-run";
     w.setAttribute("role", "dialog");
     w.setAttribute("aria-label", "Arcform progress");
     w.innerHTML = `
-      <div class="arc-run__bar">${ICON}<span>Arcform</span></div>
+      <div class="arc-win__title">${ICON}<span>Arcform</span>${WIN_BTNS}</div>
       <p class="arc-run__state">Working…</p>
-      <div class="arc-run__row"><span>${esc(src)}</span><span>${esc(label)}</span><span class="arc-run__status">…</span></div>
+      <div class="arc-run__table">
+        <div class="arc-run__head"><span>File</span><span>Action</span><span>Status</span></div>
+        <div class="arc-run__row"><span>${esc(file)}</span><span>${esc(action)}</span><span class="arc-run__status">Working…</span></div>
+      </div>
       <div class="arc-run__meter"><i style="--d:${dur}ms"></i></div>
-      <p class="arc-run__note">${esc(act.note || "Converted locally, nothing uploaded")}</p>`;
+      <p class="arc-run__note">${esc(note || "")}</p>
+      <div class="arc-run__btns"><span>Open</span><span>Show in folder</span><span class="is-close">Close</span></div>`;
     pane.appendChild(w);
     requestAnimationFrame(() => w.classList.add("is-running"));
     setTimeout(() => {
       w.classList.add("is-done");
       w.querySelector(".arc-run__state").textContent = "Done";
-      w.querySelector(".arc-run__status").textContent = act.clip ? "✓ on clipboard" : `✓ ${outName}.${outExt}`;
+      w.querySelector(".arc-run__status").textContent = `✓ ${done}`;
+      if (saved) w.querySelector(".arc-run__note").textContent = `Saved to Downloads\\${saved}${note ? ` · ${note}` : ""}`;
+      onDone?.();
+      setTimeout(() => { w.classList.add("is-out"); setTimeout(() => w.remove(), 300); }, reduce ? 1400 : 1900);
+    }, dur + 150);
+  }
+
+  function run(f, act, label) {
+    const src = `${f.name}.${f.ext}`;
+    const outExt = act.clip || act.ext;
+    const outName = act.clip ? f.name : uniqueName(f.name + (act.suffix || ""), outExt);
+    progress({ file: src, action: label, done: act.clip ? "On clipboard" : `${outName}.${outExt}`, note: act.note, saved: act.clip ? null : `${outName}.${outExt}` }, () => {
       if (act.clip) {
         toast(`${outName}.${outExt} copied to the clipboard, ready to paste.`);
       } else {
@@ -1532,38 +1612,187 @@ const CHIP_ICONS = {
         renderFiles(nf.id);
         live.textContent = `Done: created ${outName}.${outExt}`;
       }
-      setTimeout(() => { w.classList.add("is-out"); setTimeout(() => w.remove(), 300); }, reduce ? 1200 : 1500);
-      done();
-    }, dur + 150);
+    });
+    setHint("Nice. Try another file or action");
+    markUsed();
   }
 
-  function done() {
+  function merge() {
+    if (queue.length < 2) return toast("Add at least two PDFs to merge");
+    closeEditor();
+    const parts = queue.map(byId).filter(Boolean);
+    const name = uniqueName("Merged", "pdf");
+    progress({ file: plural(parts.length), action: `Merge into ${name}.pdf`, done: `${name}.pdf`, note: `Pages in queue order: ${parts.map((p) => p.name.replace(/^merge_\d+_/, "")).join(" → ")}`, saved: `${name}.pdf` }, () => {
+      const nf = { id: Math.random().toString(36).slice(2), name, ext: "pdf", type: "PDF File", kb: parts.reduce((n, p) => n + p.kb, 0), kind: "pdf" };
+      files.push(nf);
+      queue = [];
+      renderFiles(nf.id);
+      live.textContent = `Done: merged into ${name}.pdf`;
+    });
+    setHint("Merged. Reorder the queue next time with View merge queue");
+    markUsed();
+  }
+
+  // ----- merge queue editor: drag (or ↑/↓) to reorder, then merge -----
+  let editor = null;
+  function closeEditor() {
+    editor?.remove();
+    editor = null;
+  }
+  function openEditor() {
+    closeMenus();
+    closeEditor();
+    editor = document.createElement("div");
+    editor.className = "arc-editor";
+    editor.setAttribute("role", "dialog");
+    editor.setAttribute("aria-label", "Arcform merge queue");
+    pane.appendChild(editor);
+    renderEditor();
+    editor.querySelector(".arc-editor__go, .arc-editor__close")?.focus();
+  }
+  function renderEditor(focusId, focusDir) {
+    if (!editor) return;
+    const n = queue.length;
+    editor.innerHTML = `
+      <div class="arc-win__title">${ICON}<span>Arcform: merge queue</span><button type="button" class="arc-editor__close" aria-label="Close">✕</button></div>
+      <p class="arc-editor__sub">${n ? "Drag to reorder. Merged.pdf follows this order." : "The merge queue is empty. Right-click PDFs → Arcform → Add to merge queue."}</p>
+      <ol class="arc-editor__list">${queue.map((id, i) => {
+        const f = byId(id);
+        return `<li class="arc-editor__item" data-id="${id}">
+          <span class="arc-editor__grip" aria-hidden="true">⋮⋮</span>
+          <span class="arc-editor__n">${i + 1}</span>
+          <span class="arc-editor__name"><span class="xp__ficon xp__ficon--pdf" aria-hidden="true">PDF</span>${esc(f?.name || id)}.pdf</span>
+          <button type="button" class="arc-editor__mv" data-mv="-1" aria-label="Move ${esc(f?.name || id)} up" ${i === 0 ? "disabled" : ""}>↑</button>
+          <button type="button" class="arc-editor__mv" data-mv="1" aria-label="Move ${esc(f?.name || id)} down" ${i === n - 1 ? "disabled" : ""}>↓</button>
+        </li>`;
+      }).join("")}</ol>
+      <div class="arc-editor__foot">
+        <button type="button" class="arc-editor__clear" ${n ? "" : "disabled"}>Clear queue</button>
+        <button type="button" class="arc-editor__go" ${n < 2 ? "disabled" : ""}>Merge ${plural(n)}</button>
+      </div>`;
+    if (focusId) editor.querySelector(`[data-id="${focusId}"] [data-mv="${focusDir}"]:not([disabled])`)?.focus()
+      || editor.querySelector(`[data-id="${focusId}"] .arc-editor__mv:not([disabled])`)?.focus();
+  }
+
+  pane.addEventListener("click", (e) => {
+    if (!editor || !editor.contains(e.target)) return;
+    if (e.target.closest(".arc-editor__close")) return closeEditor();
+    if (e.target.closest(".arc-editor__go")) return merge();
+    if (e.target.closest(".arc-editor__clear")) { perform(null, { clear: true }); return renderEditor(); }
+    const mv = e.target.closest(".arc-editor__mv");
+    if (mv) {
+      const id = mv.closest(".arc-editor__item").dataset.id;
+      const i = queue.indexOf(id), j = i + +mv.dataset.mv;
+      if (j < 0 || j >= queue.length) return;
+      [queue[i], queue[j]] = [queue[j], queue[i]];
+      renderFiles();
+      renderEditor(id, mv.dataset.mv);
+    }
+  });
+  pane.addEventListener("keydown", (e) => { if (editor && e.key === "Escape") { closeEditor(); queueBtn.focus(); } });
+
+  // Pointer drag: the grabbed item follows the pointer and the list reorders under it
+  pane.addEventListener("pointerdown", (e) => {
+    const item = e.target.closest(".arc-editor__item");
+    if (!item || e.target.closest("button") || e.button > 0) return;
+    e.preventDefault();
+    const ol = item.parentElement;
+    const startY = e.clientY;
+    const rowH = item.getBoundingClientRect().height + 4;
+    const from = queue.indexOf(item.dataset.id);
+    let to = from;
+    item.classList.add("is-dragging");
+    item.setPointerCapture(e.pointerId);
+    const move = (ev) => {
+      const dy = ev.clientY - startY;
+      to = Math.max(0, Math.min(queue.length - 1, from + Math.round(dy / rowH)));
+      item.style.translate = `0 ${dy}px`;
+      [...ol.children].forEach((el, k) => {
+        if (el === item) return;
+        let shift = 0;
+        if (from < to && k > from && k <= to) shift = -rowH;
+        if (from > to && k < from && k >= to) shift = rowH;
+        el.style.translate = `0 ${shift}px`;
+      });
+    };
+    const up = () => {
+      item.removeEventListener("pointermove", move);
+      item.removeEventListener("pointerup", up);
+      item.removeEventListener("pointercancel", up);
+      if (to !== from) {
+        const [id] = queue.splice(from, 1);
+        queue.splice(to, 0, id);
+        renderFiles();
+        live.textContent = `Moved to position ${to + 1}`;
+      }
+      renderEditor();
+    };
+    item.addEventListener("pointermove", move);
+    item.addEventListener("pointerup", up);
+    item.addEventListener("pointercancel", up);
+  });
+
+  queueBtn.addEventListener("click", openEditor);
+
+  function markUsed() {
     win.classList.add("has-run");
-    hintText.textContent = "Nice. Try another file or action";
     resetBtn.hidden = false;
   }
 
   resetBtn.addEventListener("click", () => {
     files = SAMPLE();
+    queue = [];
+    closeMenus();
+    closeEditor();
     renderFiles();
     win.classList.remove("has-run");
-    hintText.textContent = canHover ? "Right-click a file to open the Arcform menu" : "Tap a file to open the Arcform menu";
+    setHint(restHint());
     resetBtn.hidden = true;
   });
 
-  // ----- tabs: Try it / Watch it -----
-  const tabs = [...win.querySelectorAll(".win__tab")];
+  // ----- Watch it: real clips, each plays through then hands off to the next -----
+  const CLIPS = [
+    { src: "assets/tools/arcform-demo.mp4", poster: "assets/tools/arcform-poster.jpg", caption: "Real recording: right-click → Arcform → Convert to MP4 → done.", label: "Right-click a MOV file, choose Arcform, Convert to MP4, and the converted file appears" },
+    { src: "assets/tools/arcform-merge.mp4", poster: "assets/tools/arcform-merge-poster.jpg", caption: "Real recording (2× speed): queue three PDFs → Generate merge → Merged.pdf.", label: "Add three PDFs to the merge queue, generate the merge, and open Merged.pdf" },
+  ];
+  const clipBtns = [...win.querySelectorAll(".win__clip")];
+  const clipCaption = document.getElementById("arc-clip-caption");
+  let clip = 0;
   let visible = false;
+  const watching = () => !document.getElementById("arc-watch").hidden;
+  function showClip(i, autoplay) {
+    clip = i;
+    const c = CLIPS[i];
+    clipBtns.forEach((b, k) => {
+      b.classList.toggle("is-on", k === i);
+      b.setAttribute("aria-pressed", String(k === i));
+    });
+    clipCaption.textContent = c.caption;
+    video.setAttribute("aria-label", `Screen recording: ${c.label}`);
+    if (!video.src.endsWith(c.src)) {
+      video.poster = c.poster;
+      video.src = c.src;
+    }
+    if (autoplay) {
+      video.preload = "auto";
+      video.currentTime = 0;
+      video.play().catch(() => {});
+    }
+  }
   const syncVideo = () => {
-    const watching = !document.getElementById("arc-watch").hidden;
-    if (watching && visible) {
+    if (watching() && visible) {
       video.preload = "auto";
       video.play().catch(() => {});
     } else video.pause();
   };
+  clipBtns.forEach((b) => b.addEventListener("click", () => showClip(+b.dataset.clip, true)));
+  video.addEventListener("ended", () => showClip((clip + 1) % CLIPS.length, watching() && visible));
+
+  const tabs = [...win.querySelectorAll(".win__tab")];
   tabs.forEach((t) =>
     t.addEventListener("click", () => {
       closeMenus();
+      closeEditor();
       tabs.forEach((x) => {
         const on = x === t;
         x.classList.toggle("is-on", on);
@@ -1575,7 +1804,7 @@ const CHIP_ICONS = {
   );
   new IntersectionObserver(([e]) => { visible = e.isIntersecting; syncVideo(); }, { threshold: 0.35 }).observe(win);
 
-  hintText.textContent = canHover ? "Right-click a file to open the Arcform menu" : "Tap a file to open the Arcform menu";
+  setHint(restHint());
   renderFiles();
 })();
 

@@ -304,18 +304,27 @@
                 <div class="xp__head" aria-hidden="true"><span>Name</span><span>Type</span><span>Size</span></div>
                 <ul class="xp__list" id="arc-files"><!-- rendered by assets/js/main.js --></ul>
                 <p class="xp__hint" id="arc-hint"><span class="xp__mouse" aria-hidden="true"></span><span id="arc-hint-text">Right-click a file to open the Arcform menu</span></p>
-                <button class="xp__reset" type="button" id="arc-reset" hidden>Reset demo</button>
+                <div class="xp__actions">
+                  <button class="xp__queue" type="button" id="arc-queue" hidden aria-haspopup="dialog">Merge queue <b id="arc-queue-n">0</b></button>
+                  <button class="xp__reset" type="button" id="arc-reset" hidden>Reset demo</button>
+                </div>
               </div>
               <div class="ctx-layer" id="arc-ctx"></div>
               <p class="sr-only" id="arc-live" aria-live="polite"></p>
             </div>
 
             <div class="win__pane" id="arc-watch" role="tabpanel" aria-labelledby="arc-tab-watch" hidden>
-              <video class="win__video" id="arc-video" muted loop playsinline preload="none" poster="assets/tools/arcform-poster.jpg"
-                aria-label="Screen recording: right-click a MOV file, choose Arcform, Convert to MP4, and the converted file appears">
-                <source src="assets/tools/arcform-demo.mp4" type="video/mp4" />
-              </video>
-              <p class="win__caption">Real recording: right-click → Arcform → Convert to MP4 → done. <a href="https://youtu.be/-bGE95JIHaM" target="_blank" rel="noopener">Full demo ↗</a></p>
+              <video class="win__video" id="arc-video" muted playsinline preload="none"
+                src="assets/tools/arcform-demo.mp4" poster="assets/tools/arcform-poster.jpg"
+                aria-label="Screen recording of Arcform"></video>
+              <div class="win__caption">
+                <div class="win__clips" role="group" aria-label="Choose a clip">
+                  <button class="win__clip is-on" type="button" data-clip="0" aria-pressed="true">Convert to MP4</button>
+                  <button class="win__clip" type="button" data-clip="1" aria-pressed="false">Merge PDFs</button>
+                </div>
+                <p id="arc-clip-caption">Real recording: right-click → Arcform → Convert to MP4 → done.</p>
+                <a href="https://youtu.be/-bGE95JIHaM" target="_blank" rel="noopener">Full demo ↗</a>
+              </div>
             </div>
           </div>
         </article>
