@@ -470,7 +470,7 @@ const spy = new IntersectionObserver(
   },
   { rootMargin: "-45% 0px -50% 0px" }
 );
-["about", "projects", "games", "journey", "contact"].forEach((id) => spy.observe(document.getElementById(id)));
+["about", "projects", "tools", "games", "journey", "contact"].forEach((id) => spy.observe(document.getElementById(id)));
 
 // ---------- copy email ----------
 document.querySelectorAll("[data-copy]").forEach((btn) => {
@@ -1044,6 +1044,7 @@ function initGames() {
 const SPECIALITIES = [
   { icon: "trophy", title: "1st Place", sub: "EOG Resources · HackUTD XI", project: "pipebrains" },
   { icon: "gamepad", title: "Game Developer", sub: "The King's Path — playable here", scroll: "#games" },
+  { icon: "wrench", title: "Open-source Builder", sub: "Arcform: file conversion in the right-click menu", scroll: "#tools" },
   { icon: "barbell", title: "225 lb Bench PR", sub: "Two plates a side — watch a rep ↓", scroll: ".beyond", beckon: "#lift" },
   { icon: "network", title: "Applied ML", sub: "Five models, one diagnosis app", project: "aignosis" },
   {
@@ -1069,6 +1070,7 @@ const CHIP_ICONS = {
   barbell: '<path d="M2 12h20M6 7v10M9 5.5v13M18 7v10M15 5.5v13"/>',
   coin: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5.5"/><path d="M12 9.5v5"/>',
   pen: '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
+  wrench: '<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.4 2.4-2.6-.4-.4-2.6Z"/>',
   book: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/><path d="M9 7h7"/>',
 };
 
@@ -1235,6 +1237,346 @@ const CHIP_ICONS = {
     setTimeout(() => item.classList.add("is-peeking"), 500);
     setTimeout(() => item.classList.remove("is-peeking"), 2300);
   }, { threshold: 0.6 }).observe(item);
+})();
+
+// ---------- Power Tools: Arcform demo window ----------
+// "Try it" simulates Arcform's right-click menu on a few sample files (nothing
+// is converted for real); "Watch it" plays a short clip of the real thing.
+(() => {
+  const win = document.getElementById("arc-win");
+  if (!win) return;
+  const list = document.getElementById("arc-files");
+  const layer = document.getElementById("arc-ctx");
+  const pane = document.getElementById("arc-try");
+  const hintText = document.getElementById("arc-hint-text");
+  const resetBtn = document.getElementById("arc-reset");
+  const live = document.getElementById("arc-live");
+  const video = document.getElementById("arc-video");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const canHover = matchMedia("(hover: hover)").matches;
+  const ICON = '<img src="assets/tools/arcform-icon.png" alt="" width="16" height="16" />';
+
+  const SAMPLE = () => [
+    { name: "camera_video", ext: "mov", type: "MOV File", kb: 11487, kind: "video" },
+    { name: "IMG_4021", ext: "heic", type: "HEIC File", kb: 2936, kind: "photo" },
+    { name: "report", ext: "docx", type: "Word Document", kb: 55, kind: "word" },
+    { name: "report_for_word", ext: "pdf", type: "PDF File", kb: 254, kind: "pdf" },
+  ];
+  let files = SAMPLE();
+
+  const TYPES = { mp4: "MP4 File", mp3: "MP3 File", jpg: "JPG File", png: "PNG File", webp: "WEBP File", pdf: "PDF File", docx: "Word Document" };
+  const conv = (ext, kb, note, suffix = "") => ({ ext, kb, note, suffix });
+  const shrink = (f) =>
+    [1, 10, 25]
+      .filter((mb) => mb * 1024 < f.kb)
+      .map((mb) => ({
+        label: `Under ${mb} MB`,
+        act: conv(f.kind === "video" ? "mp4" : "jpg", Math.round(mb * 1024 * 0.95), f.kind === "video"
+          ? "Size-targeted two-pass encode"
+          : "Quality search: the best JPEG that still fits", ` (${mb} MB)`),
+      }));
+  const copyAs = (exts) => exts.map((e) => ({ label: e.toUpperCase(), act: { clip: e } }));
+
+  // Arcform's submenu for each kind of file (mirrors the real feature set)
+  function arcMenu(f) {
+    const by = {
+      video: [
+        { label: "Convert to MP4", act: conv("mp4", f.kb, "Copied the H.264 stream into MP4, no re-encode") },
+        { label: "Convert to MP3 (audio)", act: conv("mp3", Math.round(f.kb * 0.105), "Pulled out the audio track") },
+        { sep: true },
+        { label: "Copy as", items: copyAs(["mp4"]) },
+        { label: "Shrink to fit", items: shrink(f) },
+      ],
+      photo: [
+        { label: "Convert to JPG", act: conv("jpg", Math.round(f.kb * 0.62), "Converted locally, nothing uploaded") },
+        { label: "Convert to PNG", act: conv("png", Math.round(f.kb * 2.1), "Converted locally, nothing uploaded") },
+        { label: "Convert to WEBP", act: conv("webp", Math.round(f.kb * 0.31), "Converted locally, nothing uploaded") },
+        { sep: true },
+        { label: "Copy as", items: copyAs(["jpg", "png"]) },
+        { label: "Shrink to fit", items: shrink(f) },
+      ],
+      word: [
+        { label: "Convert to PDF", act: conv("pdf", Math.round(f.kb * 1.4), "One copy of Word stays open for the whole batch") },
+        { sep: true },
+        { label: "Copy as", items: copyAs(["pdf"]) },
+      ],
+      pdf: [
+        { label: "Convert to Word", act: conv("docx", Math.round(f.kb * 0.42), "Converted with Word, kept open for the batch") },
+        { sep: true },
+        { label: "Add to merge queue", act: { queue: true } },
+      ],
+    };
+    return by[f.kind] || [];
+  }
+
+  const fmtKB = (kb) => `${kb.toLocaleString()} KB`;
+  const fileIcon = (kind) =>
+    ({ video: "▶", photo: "◩", word: "W", pdf: "PDF", audio: "♪" }[kind] || "▤");
+  const kindOf = (ext) => ({ mp4: "video", mov: "video", mp3: "audio", jpg: "photo", png: "photo", webp: "photo", heic: "photo", docx: "word", pdf: "pdf" }[ext]);
+
+  function renderFiles(flashId) {
+    list.innerHTML = files.map((f, i) => `
+      <li><button class="xp__row ${f.id === flashId ? "is-new" : ""}" type="button" data-i="${i}" aria-haspopup="menu"
+        aria-label="${esc(f.name)}.${f.ext}, ${esc(f.type)}, ${fmtKB(f.kb)}. Open the Arcform menu">
+        <span class="xp__name"><span class="xp__ficon xp__ficon--${f.kind}" aria-hidden="true">${fileIcon(f.kind)}</span>${esc(f.name)}.${f.ext}</span>
+        <span class="xp__type">${esc(f.type)}</span><span class="xp__size">${fmtKB(f.kb)}</span>
+      </button></li>`).join("");
+  }
+
+  // ----- context menu -----
+  let menus = []; // open menu elements, root first
+  let target = null; // the file the menu is for
+
+  function closeMenus(depth = 0) {
+    menus.splice(depth).forEach((m) => m.remove());
+    if (!depth) {
+      list.querySelectorAll(".is-picked").forEach((r) => r.classList.remove("is-picked"));
+      target = null;
+    }
+  }
+
+  function buildMenu(items, depth) {
+    const m = document.createElement("div");
+    m.className = "ctx";
+    m.setAttribute("role", "menu");
+    m.dataset.depth = depth;
+    items.forEach((it) => {
+      if (it.sep) return m.insertAdjacentHTML("beforeend", '<div class="ctx__sep" role="separator"></div>');
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "ctx__item" + (it.items ? " has-sub" : "") + (it.arc ? " is-arc" : "") + (it.dim ? " is-dim" : "");
+      b.setAttribute("role", "menuitem");
+      if (it.items) b.setAttribute("aria-haspopup", "menu");
+      b.innerHTML = `<span class="ctx__icon" aria-hidden="true">${it.arc ? ICON : ""}</span><span>${esc(it.label)}</span>${it.items ? '<span class="ctx__chev" aria-hidden="true">›</span>' : ""}`;
+      b._item = it;
+      m.appendChild(b);
+    });
+    layer.appendChild(m);
+    menus[depth] = m;
+    return m;
+  }
+
+  function place(m, x, y, anchor) {
+    const L = layer.getBoundingClientRect();
+    const w = m.offsetWidth, h = m.offsetHeight;
+    if (anchor) {
+      const a = anchor.getBoundingClientRect();
+      x = a.right - L.left - 4;
+      if (x + w > L.width - 4) x = a.left - L.left - w + 4; // flip left
+      if (x < 4) x = Math.max(4, Math.min(L.width - w - 4, a.left - L.left + 24)); // narrow: overlap, nudged
+      y = a.top - L.top - 5;
+    }
+    m.style.left = `${Math.max(4, Math.min(x, L.width - w - 4))}px`;
+    m.style.top = `${Math.max(4, Math.min(y, L.height - h - 4))}px`;
+  }
+
+  function openRoot(row, x, y) {
+    closeMenus();
+    pane.querySelectorAll(".arc-run.is-done").forEach((w) => w.remove()); // clear a finished progress window
+    target = files[+row.dataset.i];
+    row.classList.add("is-picked");
+    const items = [
+      { label: "Open", dim: true },
+      { label: "Arcform", arc: true, items: arcMenu(target) },
+      { sep: true },
+      { label: "Cut", dim: true },
+      { label: "Copy", dim: true },
+      { sep: true },
+      { label: "Rename", dim: true },
+      { label: "Delete", dim: true },
+      { sep: true },
+      { label: "Properties", dim: true },
+    ];
+    const m = buildMenu(items, 0);
+    place(m, x, y);
+    return m;
+  }
+
+  function openSub(btn) {
+    const depth = +btn.closest(".ctx").dataset.depth + 1;
+    if (menus[depth] && menus[depth]._from === btn) return menus[depth];
+    closeMenus(depth);
+    btn.closest(".ctx").querySelectorAll(".is-open").forEach((b) => b.classList.remove("is-open"));
+    btn.classList.add("is-open");
+    const items = btn._item.items.length ? btn._item.items : [{ label: "Already small enough", dim: true }];
+    const m = buildMenu(items, depth);
+    m._from = btn;
+    place(m, 0, 0, btn);
+    return m;
+  }
+
+  const focusFirst = (m) => m?.querySelector(".ctx__item:not(.is-dim)")?.focus();
+
+  function pointFor(row) {
+    const L = layer.getBoundingClientRect(), r = row.getBoundingClientRect();
+    return [r.left - L.left + Math.min(150, r.width * 0.45), r.top - L.top + r.height * 0.7];
+  }
+
+  list.addEventListener("contextmenu", (e) => {
+    const row = e.target.closest(".xp__row");
+    if (!row) return;
+    e.preventDefault();
+    const L = layer.getBoundingClientRect();
+    openRoot(row, e.clientX - L.left, e.clientY - L.top);
+  });
+  list.addEventListener("click", (e) => {
+    const row = e.target.closest(".xp__row");
+    if (!row) return;
+    const [x, y] = e.detail ? (() => { const L = layer.getBoundingClientRect(); return [e.clientX - L.left, e.clientY - L.top]; })() : pointFor(row);
+    const m = openRoot(row, x, y);
+    if (!e.detail) focusFirst(m); // keyboard: move focus into the menu
+  });
+  list.addEventListener("keydown", (e) => {
+    const row = e.target.closest(".xp__row");
+    if (row && (e.key === "ContextMenu" || (e.shiftKey && e.key === "F10"))) {
+      e.preventDefault();
+      focusFirst(openRoot(row, ...pointFor(row)));
+    }
+  });
+
+  layer.addEventListener("pointerover", (e) => {
+    const b = e.target.closest(".ctx__item");
+    if (!b || !canHover) return;
+    const depth = +b.closest(".ctx").dataset.depth;
+    if (b._item.items) openSub(b);
+    else if (menus[depth + 1]) { closeMenus(depth + 1); b.closest(".ctx").querySelectorAll(".is-open").forEach((x) => x.classList.remove("is-open")); }
+  });
+  layer.addEventListener("click", (e) => {
+    const b = e.target.closest(".ctx__item");
+    if (!b) return closeMenus();
+    if (b._item.items) {
+      const m = openSub(b);
+      if (!e.detail) focusFirst(m);
+      return;
+    }
+    if (b._item.dim) return;
+    const f = target, act = b._item.act;
+    closeMenus();
+    run(f, act, b._item.label);
+  });
+  layer.addEventListener("keydown", (e) => {
+    const b = e.target.closest(".ctx__item");
+    if (!b) return;
+    const m = b.closest(".ctx"), depth = +m.dataset.depth;
+    const items = [...m.querySelectorAll(".ctx__item:not(.is-dim)")];
+    const i = items.indexOf(b);
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault();
+      items[(i + (e.key === "ArrowDown" ? 1 : -1) + items.length) % items.length]?.focus();
+    } else if (e.key === "ArrowRight" && b._item.items) {
+      e.preventDefault();
+      focusFirst(openSub(b));
+    } else if (e.key === "ArrowLeft" && depth > 0) {
+      e.preventDefault();
+      const from = m._from;
+      closeMenus(depth);
+      from?.focus();
+    } else if (e.key === "Escape") {
+      e.preventDefault();
+      const row = list.querySelector(".is-picked");
+      closeMenus();
+      row?.focus();
+    }
+  });
+  document.addEventListener("pointerdown", (e) => {
+    if (menus.length && !e.target.closest(".ctx") && !e.target.closest(".xp__row")) closeMenus();
+  });
+
+  // ----- run an action: a mini Arcform progress window, then the result -----
+  function uniqueName(base, ext) {
+    let name = base, n = 0;
+    while (files.some((x) => x.name === name && x.ext === ext)) name = `${base} (${++n})`;
+    return name;
+  }
+
+  function toast(msg) {
+    const t = document.createElement("div");
+    t.className = "arc-toast";
+    t.innerHTML = `${ICON}<span>${esc(msg)}</span>`;
+    pane.appendChild(t);
+    live.textContent = msg;
+    setTimeout(() => t.classList.add("is-out"), 2600);
+    setTimeout(() => t.remove(), 3100);
+  }
+
+  function run(f, act, label) {
+    const src = `${f.name}.${f.ext}`;
+    if (act.queue) {
+      toast(`${src} added to the merge queue. Add more from any folder, then merge.`);
+      return done();
+    }
+    const outExt = act.clip || act.ext;
+    const outName = act.clip ? f.name : uniqueName(f.name + (act.suffix || ""), outExt);
+    const dur = reduce ? 0 : 900 + Math.random() * 600;
+    const w = document.createElement("div");
+    w.className = "arc-run";
+    w.setAttribute("role", "dialog");
+    w.setAttribute("aria-label", "Arcform progress");
+    w.innerHTML = `
+      <div class="arc-run__bar">${ICON}<span>Arcform</span></div>
+      <p class="arc-run__state">Working…</p>
+      <div class="arc-run__row"><span>${esc(src)}</span><span>${esc(label)}</span><span class="arc-run__status">…</span></div>
+      <div class="arc-run__meter"><i style="--d:${dur}ms"></i></div>
+      <p class="arc-run__note">${esc(act.note || "Converted locally, nothing uploaded")}</p>`;
+    pane.appendChild(w);
+    requestAnimationFrame(() => w.classList.add("is-running"));
+    setTimeout(() => {
+      w.classList.add("is-done");
+      w.querySelector(".arc-run__state").textContent = "Done";
+      w.querySelector(".arc-run__status").textContent = act.clip ? "✓ on clipboard" : `✓ ${outName}.${outExt}`;
+      if (act.clip) {
+        toast(`${outName}.${outExt} copied to the clipboard, ready to paste.`);
+      } else {
+        const nf = { id: Math.random().toString(36).slice(2), name: outName, ext: outExt, type: TYPES[outExt], kb: act.kb, kind: kindOf(outExt) };
+        files.splice(files.indexOf(f) + 1, 0, nf);
+        renderFiles(nf.id);
+        live.textContent = `Done: created ${outName}.${outExt}`;
+      }
+      setTimeout(() => { w.classList.add("is-out"); setTimeout(() => w.remove(), 300); }, reduce ? 1200 : 1500);
+      done();
+    }, dur + 150);
+  }
+
+  function done() {
+    win.classList.add("has-run");
+    hintText.textContent = "Nice. Try another file or action";
+    resetBtn.hidden = false;
+  }
+
+  resetBtn.addEventListener("click", () => {
+    files = SAMPLE();
+    renderFiles();
+    win.classList.remove("has-run");
+    hintText.textContent = canHover ? "Right-click a file to open the Arcform menu" : "Tap a file to open the Arcform menu";
+    resetBtn.hidden = true;
+  });
+
+  // ----- tabs: Try it / Watch it -----
+  const tabs = [...win.querySelectorAll(".win__tab")];
+  let visible = false;
+  const syncVideo = () => {
+    const watching = !document.getElementById("arc-watch").hidden;
+    if (watching && visible) {
+      video.preload = "auto";
+      video.play().catch(() => {});
+    } else video.pause();
+  };
+  tabs.forEach((t) =>
+    t.addEventListener("click", () => {
+      closeMenus();
+      tabs.forEach((x) => {
+        const on = x === t;
+        x.classList.toggle("is-on", on);
+        x.setAttribute("aria-selected", String(on));
+        document.getElementById(x.getAttribute("aria-controls")).hidden = !on;
+      });
+      syncVideo();
+    })
+  );
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; syncVideo(); }, { threshold: 0.35 }).observe(win);
+
+  hintText.textContent = canHover ? "Right-click a file to open the Arcform menu" : "Tap a file to open the Arcform menu";
+  renderFiles();
 })();
 
 // ---------- init ----------

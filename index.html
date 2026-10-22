@@ -48,6 +48,7 @@
       <nav class="nav__links" id="nav-links" aria-label="Primary">
         <a href="#about">About</a>
         <a href="#projects">Projects</a>
+        <a href="#tools">Tools</a>
         <a href="#games">Games</a>
         <a href="#journey">Journey</a>
         <a href="#contact">Contact</a>
@@ -127,7 +128,7 @@
           <div><dt>Hackathon awards</dt><dd>3</dd><span>incl. 1st place at HackUTD XI</span></div>
           <div><dt>Students served</dt><dd>800+</dd><span>by Zeus, my Discord automation bot</span></div>
           <div><dt>Model accuracy</dt><dd>R² 0.94</dd><span>hydrate-formation prediction in PipeBrains</span></div>
-          <div><dt>Projects shipped</dt><dd>10</dd><span>web, mobile, ML, games &amp; tooling</span></div>
+          <div><dt>Projects shipped</dt><dd>11</dd><span>web, mobile, ML, games &amp; tooling</span></div>
         </dl>
       </div>
     </section>
@@ -218,11 +219,114 @@
       </div>
     </section>
 
+    <!-- ================= POWER TOOLS ================= -->
+    <section class="section" id="tools">
+      <div class="container">
+        <header class="section__head reveal">
+          <span class="section__num">03</span>
+          <h2>Power Tools</h2>
+          <span class="oss-tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="fill" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>Open source</span>
+        </header>
+        <p class="tools__intro reveal">
+          Utilities I build for myself first. If they save me clicks, they'll probably save yours, and
+          the code is on GitHub.
+        </p>
+
+        <article class="tool" id="arcform">
+          <div class="tool__info reveal">
+            <div class="tool__head">
+              <img class="tool__icon" src="assets/tools/arcform-icon.png" alt="Arcform app icon" width="64" height="64" />
+              <div>
+                <h3 class="tool__name">Arcform</h3>
+                <p class="tool__tagline">File conversion, one right-click away.</p>
+              </div>
+            </div>
+            <p class="tool__desc">
+              Arcform brings file conversion into the Windows right-click menu. Instead of uploading files to
+              online converters, you right-click and choose what you need.
+            </p>
+            <ul class="tool__features">
+              <li>
+                <span class="tool__ficon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h13l-4-4M20 16H7l4 4" /></svg></span>
+                <div><strong>Convert</strong> Word ↔ PDF, iPhone HEIC photos, PNG / JPG / WEBP, and MOV / MKV / WEBM / AVI videos to MP4 or MP3.</div>
+              </li>
+              <li>
+                <span class="tool__ficon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 14h6v6M20 10h-6V4M14 10l7-7M3 21l7-7" /></svg></span>
+                <div><strong>Shrink to fit</strong> images and videos under 1, 10 or 25 MB, with a quality search for images and size-targeted two-pass encoding for video.</div>
+              </li>
+              <li>
+                <span class="tool__ficon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="3" width="8" height="4" rx="1" /><path d="M16 5h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2" /></svg></span>
+                <div><strong>Copy as</strong> converts a file straight to the clipboard, ready to paste into chats and emails.</div>
+              </li>
+              <li>
+                <span class="tool__ficon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4l7 8M19 4l-7 8M12 12v8M9 17l3 3 3-3" /></svg></span>
+                <div><strong>Merge PDFs</strong> from any folders with a merge queue and a drag-to-reorder editor.</div>
+              </li>
+            </ul>
+            <details class="tool__hood">
+              <summary>How it stays fast</summary>
+              <p>
+                Selecting many files opens a single progress window: extra processes pass their files to the
+                first one over a named pipe. Jobs run in parallel lanes matched to each tool's limits. Arcform
+                also avoids slow work where it can, by keeping one copy of Word open for a whole batch and
+                copying H.264 video into MP4 without re-encoding.
+              </p>
+            </details>
+            <ul class="tags tool__stack" aria-label="Built with">
+              <li>Python</li><li>Tkinter</li><li>Pillow</li><li>PyMuPDF</li><li>ffmpeg</li><li>Windows registry</li><li>COM (Word automation)</li>
+            </ul>
+            <div class="tool__ctas">
+              <a class="btn btn--primary btn--small" href="https://github.com/lightningbolt7/arcform" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path class="fill" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
+                View on GitHub
+              </a>
+              <a class="btn btn--ghost btn--small" href="https://youtu.be/-bGE95JIHaM" target="_blank" rel="noopener">
+                Full demo (4 min)
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" /></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- A Windows-style window: "Try it" is a simulated right-click menu, "Watch it" is the real recording -->
+          <div class="win reveal" id="arc-win">
+            <div class="win__bar">
+              <img src="assets/tools/arcform-icon.png" alt="" width="16" height="16" />
+              <div class="win__tabs" role="tablist" aria-label="Arcform demo">
+                <button class="win__tab is-on" type="button" role="tab" aria-selected="true" aria-controls="arc-try" id="arc-tab-try">Try it</button>
+                <button class="win__tab" type="button" role="tab" aria-selected="false" aria-controls="arc-watch" id="arc-tab-watch">Watch it</button>
+              </div>
+              <span class="win__btns" aria-hidden="true"><i></i><i></i><i></i></span>
+            </div>
+
+            <div class="win__pane" id="arc-try" role="tabpanel" aria-labelledby="arc-tab-try">
+              <div class="xp">
+                <div class="xp__path"><span>Downloads</span><span class="xp__sim">Simulated in your browser</span></div>
+                <div class="xp__head" aria-hidden="true"><span>Name</span><span>Type</span><span>Size</span></div>
+                <ul class="xp__list" id="arc-files"><!-- rendered by assets/js/main.js --></ul>
+                <p class="xp__hint" id="arc-hint"><span class="xp__mouse" aria-hidden="true"></span><span id="arc-hint-text">Right-click a file to open the Arcform menu</span></p>
+                <button class="xp__reset" type="button" id="arc-reset" hidden>Reset demo</button>
+              </div>
+              <div class="ctx-layer" id="arc-ctx"></div>
+              <p class="sr-only" id="arc-live" aria-live="polite"></p>
+            </div>
+
+            <div class="win__pane" id="arc-watch" role="tabpanel" aria-labelledby="arc-tab-watch" hidden>
+              <video class="win__video" id="arc-video" muted loop playsinline preload="none" poster="assets/tools/arcform-poster.jpg"
+                aria-label="Screen recording: right-click a MOV file, choose Arcform, Convert to MP4, and the converted file appears">
+                <source src="assets/tools/arcform-demo.mp4" type="video/mp4" />
+              </video>
+              <p class="win__caption">Real recording: right-click → Arcform → Convert to MP4 → done. <a href="https://youtu.be/-bGE95JIHaM" target="_blank" rel="noopener">Full demo ↗</a></p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
     <!-- ================= GAMES ================= -->
     <section class="section" id="games">
       <div class="container">
         <header class="section__head reveal">
-          <span class="section__num">03</span>
+          <span class="section__num">04</span>
           <h2>Games</h2>
           <span class="new-tag">New in 2026</span>
         </header>
@@ -265,7 +369,7 @@
     <section class="section" id="journey">
       <div class="container">
         <header class="section__head reveal">
-          <span class="section__num">04</span>
+          <span class="section__num">05</span>
           <h2>Journey</h2>
         </header>
 
@@ -275,7 +379,7 @@
             <span class="timeline__year">2026</span>
             <div>
               <h3>Player one has entered the game</h3>
-              <p>Got into game development with Unity and C#, and released my first game, <strong>The King's Path</strong> — playable in the browser on itch.io.</p>
+              <p>Got into game development with Unity and C#, and released my first game, <strong>The King's Path</strong> — playable in the browser on itch.io. Also published <strong>Arcform</strong>, a right-click file converter for Windows, on GitHub.</p>
             </div>
           </li>
           <li class="reveal">
@@ -401,7 +505,7 @@
       <div class="container">
         <div class="contact">
           <div class="contact__intro reveal">
-            <span class="section__num">05</span>
+            <span class="section__num">06</span>
             <h2>Let's build something.</h2>
             <p>I'm open to internships, full-time roles and interesting collaborations. The fastest way to reach me is email.</p>
             <ul class="contact__list">
