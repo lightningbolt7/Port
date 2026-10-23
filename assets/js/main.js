@@ -4,6 +4,7 @@
 // `archived: true` moves a project out of the card grid into the compact
 // "More projects" index — still visible and clickable, but one line tall.
 // `links` are extra buttons in the modal; `repo` overrides the GitHub button.
+// `tint` (optional hex) colors the particle bolt in the projects reel.
 // ---------------------------------------------------------------
 const PROJECTS = [
   {
@@ -200,6 +201,23 @@ const esc = (s) =>
 
 const boltIcon = '<svg aria-hidden="true"><use href="#bolt" /></svg>';
 const arrowIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" /></svg>';
+
+// Text that decodes out of glyphs into `text`, left to right (reel and storm titles)
+const SCRAMBLE_GLYPHS = "/\\|<>_-=+*#01";
+const scrambling = new WeakMap();
+function scramble(el, text, ms = 560) {
+  cancelAnimationFrame(scrambling.get(el));
+  const start = performance.now();
+  const step = (now) => {
+    const t = (now - start) / ms;
+    let out = "";
+    for (let i = 0; i < text.length; i++)
+      out += text[i] === " " || t >= 0.3 + (0.7 * i) / text.length ? text[i] : SCRAMBLE_GLYPHS[(Math.random() * SCRAMBLE_GLYPHS.length) | 0];
+    el.textContent = out;
+    if (t < 1) scrambling.set(el, requestAnimationFrame(step));
+  };
+  scrambling.set(el, requestAnimationFrame(step));
+}
 
 // ---------- render projects ----------
 const imgPos = (p) => (p.imagePosition ? `style="object-position:${p.imagePosition}"` : "");

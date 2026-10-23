@@ -27,7 +27,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Press+Start+2P&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/style.css?v=c0f97651" />
+  <link rel="stylesheet" href="assets/css/style.css?v=ffa93c23" />
 </head>
 
 <body>
@@ -204,7 +204,37 @@
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" /></svg>
           </a>
         </header>
+      </div>
 
+      <!-- Projects reel: the featured projects orbit a particle bolt as you scroll (assets/js/reel.js).
+           Stays hidden with reduced motion, where the card grid below is shown instead. -->
+      <div class="reel" id="reel" hidden>
+        <div class="reel__stage">
+          <canvas class="reel__gl" id="reel-gl" aria-hidden="true"></canvas>
+          <div class="reel__track" id="reel-track"><!-- cards rendered from PROJECTS --></div>
+          <div class="reel__hud">
+            <div class="reel__top">
+              <span class="reel__hint" aria-hidden="true">Scroll to explore</span>
+              <div class="reel__nav">
+                <button class="reel__step" type="button" data-step="-1" aria-label="Previous project">&lt;&lt;</button>
+                <span class="reel__count" id="reel-count"></span>
+                <button class="reel__step" type="button" data-step="1" aria-label="Next project">&gt;&gt;</button>
+              </div>
+            </div>
+            <div class="reel__bottom">
+              <div class="reel__caption" id="reel-caption" aria-hidden="true">
+                <span class="reel__award" id="reel-award"></span>
+                <p class="reel__title" id="reel-title"></p>
+                <p class="reel__tagline" id="reel-tagline"></p>
+              </div>
+              <ol class="reel__rail" id="reel-rail" aria-hidden="true"></ol>
+            </div>
+          </div>
+          <span class="reel__bar" id="reel-bar" aria-hidden="true"></span>
+        </div>
+      </div>
+
+      <div class="container">
         <div class="projects" id="project-list">
           <!-- Rendered from assets/js/main.js -->
         </div>
@@ -221,17 +251,34 @@
 
     <!-- ================= POWER TOOLS ================= -->
     <section class="section" id="tools">
-      <div class="container">
-        <header class="section__head reveal">
-          <span class="section__num">03</span>
-          <h2>Power Tools</h2>
-          <span class="oss-tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="fill" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>Open source</span>
-        </header>
-        <p class="tools__intro reveal">
-          Utilities I build for myself first. If they save me clicks, they'll probably save yours, and
-          the code is on GitHub.
-        </p>
+      <!-- Storm front: the hand-off from Projects (assets/js/storm.js). The camera flies through a veil of
+           particles to a thundercloud; the pointer (or a tap) calls lightning that lights up the cloud.
+           Without WebGL or with reduced motion it stays a still night sky with the title. -->
+      <div class="storm" id="storm">
+        <div class="storm__stage">
+          <canvas class="storm__gl" id="storm-gl" aria-hidden="true"></canvas>
+          <canvas class="storm__bolts" id="storm-bolts" aria-hidden="true"></canvas>
+          <div class="storm__hud">
+            <div class="storm__top" aria-hidden="true">
+              <span>Forecast: thunderstorms</span>
+              <span>Strikes <b id="storm-count">00</b></span>
+            </div>
+            <header class="storm__head">
+              <div class="storm__meta">
+                <span class="section__num">03</span>
+                <span class="oss-tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="fill" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>Open source</span>
+              </div>
+              <h2 class="storm__title"><span class="sr-only">Power Tools</span><span id="storm-title" aria-hidden="true">Power Tools</span></h2>
+              <p class="storm__lede">
+                Utilities I build for myself first. If they save me clicks, they'll probably save yours, and
+                the code is on GitHub.
+              </p>
+            </header>
+          </div>
+        </div>
+      </div>
 
+      <div class="container">
         <article class="tool" id="arcform">
           <div class="tool__info reveal">
             <div class="tool__head">
@@ -584,6 +631,8 @@
   </dialog>
 
   <script src="assets/js/books-data.js?v=9d9feeaf"></script>
-  <script src="assets/js/main.js?v=1aa8bda0"></script>
+  <script src="assets/js/main.js?v=ef7ce33c"></script>
+  <script src="assets/js/reel.js?v=7761c407"></script>
+  <script src="assets/js/storm.js?v=40be807e"></script>
 </body>
 </html>

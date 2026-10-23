@@ -420,6 +420,206 @@ svg .fill { fill: currentColor; stroke: none; }
 }
 :root[data-theme="light"] .card__orb { --orb-core: rgba(234, 179, 8, .3); --orb-mid: rgba(234, 179, 8, .13); --orb-edge: rgba(234, 179, 8, .05); }
 .card__orb.is-lit { opacity: 1; }
+.projects[hidden] { display: none; }
+
+/* ---------- projects reel (assets/js/reel.js) ----------
+   The section pins while the featured projects orbit a particle bolt.
+   Always night, in both themes, like the console and the Arcform window. */
+.reel {
+  --reel-bg: #05060a;
+  position: relative; isolation: isolate;
+  height: calc(100svh + var(--reel-steps, 4) * 80svh);
+  background: var(--reel-bg);
+}
+.reel[hidden] { display: none; }
+/* soft edges where the page meets the night */
+.reel::before, .reel::after {
+  content: ""; position: absolute; left: 0; right: 0; z-index: 3; height: 14vh; pointer-events: none;
+}
+.reel::before { top: 0; background: linear-gradient(var(--bg), transparent); }
+.reel::after { bottom: 0; background: linear-gradient(transparent, var(--bg)); }
+
+.reel__stage {
+  --tint: 250 204 21; /* the front project's color, set by JS */
+  position: sticky; top: 0; z-index: 1;
+  height: 100svh; overflow: hidden;
+  perspective: 1500px;
+  color: #f4f4f5;
+  background:
+    radial-gradient(50% 55% at 37% 46%, rgb(var(--tint) / .13), transparent 72%),
+    radial-gradient(35% 40% at 88% 6%, rgb(var(--tint) / .09), transparent 70%),
+    var(--reel-bg);
+}
+.reel__stage::before {
+  /* vignette */
+  content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: radial-gradient(120% 95% at 50% 45%, transparent 50%, rgba(0, 0, 0, .6));
+}
+.reel__stage::after, .storm__hud::before {
+  /* film grain (the storm's sits in its HUD, over the canvases) */
+  content: ""; position: absolute; inset: -50%; z-index: 4; pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: .1; mix-blend-mode: overlay;
+  animation: grain .9s steps(5) infinite;
+}
+@keyframes grain {
+  0% { transform: translate(0, 0); } 20% { transform: translate(-4%, 3%); } 40% { transform: translate(3%, -2%); }
+  60% { transform: translate(-2%, -4%); } 80% { transform: translate(4%, 2%); } 100% { transform: translate(0, 0); }
+}
+.reel__gl { position: absolute; inset: 0; width: 100%; height: 100%; }
+.reel__track { position: absolute; inset: 0; z-index: 1; transform-style: preserve-3d; }
+
+/* cards: glass panels riding the helix (JS sets transform + opacity) */
+.reel-card {
+  --c: rgb(255 255 255 / .5);
+  position: absolute; left: 50%; top: 50%;
+  width: var(--card-w, 520px); aspect-ratio: 16 / 10;
+  margin: calc(var(--card-w, 520px) * -.3125) 0 0 calc(var(--card-w, 520px) * -.5);
+  padding: 0; border: 0; border-radius: 16px; overflow: hidden;
+  background: #0c0e15; color: #fff; text-align: left;
+  box-shadow: 0 0 0 1px rgb(255 255 255 / .12), 0 50px 90px -40px rgba(0, 0, 0, .95);
+  will-change: transform, opacity;
+  transition: box-shadow .6s var(--ease);
+}
+.reel-card > span { position: absolute; }
+.reel-card::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(rgb(5 6 10 / .6), transparent 26%, transparent 55%, rgb(5 6 10 / .85));
+}
+.reel-card::before {
+  /* HUD corner brackets */
+  content: ""; position: absolute; inset: 9px; z-index: 1; pointer-events: none;
+  background:
+    linear-gradient(var(--c), var(--c)) top left / 12px 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) top left / 1px 12px no-repeat,
+    linear-gradient(var(--c), var(--c)) top right / 12px 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) top right / 1px 12px no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom left / 12px 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom left / 1px 12px no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom right / 12px 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom right / 1px 12px no-repeat;
+  transition: inset .6s var(--ease);
+}
+.reel-card__media { inset: 0; }
+.reel-card__media img {
+  width: 100%; height: 100%; object-fit: cover; object-position: top center;
+  filter: saturate(.5) brightness(.5); transform: scale(1.08);
+  transition: filter .8s var(--ease), transform 1.4s var(--ease);
+}
+/* waiting cards sit under a hatch of scanlines that wipes away at the front */
+.reel-card__hatch {
+  inset: 0;
+  background: repeating-linear-gradient(-45deg, rgb(var(--card-tint) / .35) 0 1px, transparent 1px 7px);
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 1s var(--ease);
+}
+.reel-card__sheen {
+  inset: 0; opacity: 0; mix-blend-mode: screen; transition: opacity .4s;
+  background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 0%), rgb(255 255 255 / .16), transparent 50%);
+}
+.reel-card__top, .reel-card__name, .reel-card__view { z-index: 1; }
+.reel-card__top {
+  left: 22px; right: 22px; top: 20px; display: flex; justify-content: space-between;
+  font: 500 11px/1 var(--font-mono); letter-spacing: .16em; text-transform: uppercase; color: rgb(255 255 255 / .7);
+}
+.reel-card__name {
+  left: 22px; bottom: 22px;
+  font: 500 13px/1 var(--font-mono); letter-spacing: .16em; text-transform: uppercase;
+}
+.reel-card__view {
+  right: 18px; bottom: 16px; display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 12px; border-radius: 999px;
+  background: rgb(var(--card-tint)); color: #0a0a0b; font: 600 12.5px/1 var(--font-sans);
+  opacity: 0; transform: translateY(8px); transition: opacity .4s var(--ease), transform .4s var(--ease);
+}
+.reel-card.is-active {
+  --c: rgb(var(--card-tint));
+  box-shadow: 0 0 0 1px rgb(var(--card-tint) / .55), 0 0 90px -24px rgb(var(--card-tint) / .6), 0 50px 90px -40px rgba(0, 0, 0, .95);
+}
+.reel-card.is-active::before { inset: 6px; }
+.reel-card.is-active .reel-card__media img { filter: none; transform: none; }
+.reel-card.is-active .reel-card__hatch { clip-path: inset(0 0 0 100%); }
+.reel-card.is-active .reel-card__view { opacity: 1; transform: none; transition-delay: .25s; }
+.reel-card.is-active:hover .reel-card__sheen { opacity: 1; }
+.reel-card:focus-visible { outline: 2px solid rgb(var(--card-tint)); outline-offset: 5px; border-radius: 16px; }
+
+/* HUD: small mono labels around the edges */
+.reel__hud {
+  position: absolute; inset: 0; z-index: 3; pointer-events: none;
+  display: grid; grid-template-rows: auto 1fr auto;
+  padding: calc(var(--nav-h) + 18px) clamp(16px, 4vw, 48px) clamp(24px, 6vh, 52px);
+  font: 500 11px/1 var(--font-mono); letter-spacing: .18em; text-transform: uppercase; color: rgb(255 255 255 / .6);
+}
+.reel__hud button { pointer-events: auto; }
+.reel__top { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.reel__hint { display: inline-flex; align-items: center; gap: 12px; }
+.reel__hint::before {
+  content: ""; width: 36px; height: 1px; background: linear-gradient(90deg, transparent, rgb(var(--tint)));
+  animation: hint 2.4s var(--ease) infinite;
+}
+@keyframes hint { 0% { transform: scaleX(0); transform-origin: left; } 50% { transform: scaleX(1); transform-origin: left; } 51% { transform-origin: right; } 100% { transform: scaleX(0); transform-origin: right; } }
+.reel__nav {
+  display: inline-flex; align-items: center; gap: 2px; padding: 5px;
+  border-radius: 999px; border: 1px solid rgb(255 255 255 / .16);
+  background: rgb(255 255 255 / .05);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 12px 40px -12px rgb(var(--tint) / .45), 0 1px 0 rgb(255 255 255 / .08) inset;
+}
+.reel__step {
+  height: 30px; padding: 0 11px; border-radius: 999px;
+  border: 1px solid rgb(255 255 255 / .12); background: transparent; color: #fff;
+  font: inherit; letter-spacing: 0;
+  transition: background-color .2s, color .2s, border-color .2s, opacity .2s;
+}
+.reel__step:hover { background: rgb(var(--tint)); border-color: transparent; color: #0a0a0b; }
+.reel__step:disabled { opacity: .3; pointer-events: none; }
+.reel__count { min-width: 84px; text-align: center; color: #fff; }
+
+.reel__bottom { grid-row: 3; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
+.reel__caption { max-width: min(560px, 48vw); text-transform: none; letter-spacing: 0; text-shadow: 0 2px 24px rgba(0, 0, 0, .6); }
+.reel__award {
+  display: inline-flex; align-items: center; gap: 8px;
+  font: 500 11px/1.3 var(--font-mono); letter-spacing: .16em; text-transform: uppercase; color: rgb(var(--tint));
+}
+.reel__award svg { width: 12px; height: 12px; fill: currentColor; stroke: none; flex: none; }
+.reel__title {
+  margin-top: 14px; white-space: nowrap; color: #fff;
+  font: 500 clamp(30px, 4.4vw, 64px)/.95 var(--font-mono); letter-spacing: -.04em; text-transform: uppercase;
+}
+.reel__tagline { margin-top: 14px; font: 400 16px/1.5 var(--font-sans); color: rgb(255 255 255 / .72); }
+.reel__caption.is-swap .reel__award, .reel__caption.is-swap .reel__tagline { animation: rise .6s var(--ease) both; }
+.reel__caption.is-swap .reel__tagline { animation-delay: .08s; }
+
+.reel__rail { display: grid; gap: 12px; justify-items: end; }
+.reel__rail button {
+  display: inline-flex; align-items: center; gap: 12px; padding: 2px 0;
+  border: 0; background: none; color: rgb(255 255 255 / .4); font: inherit; letter-spacing: inherit;
+  transition: color .3s;
+}
+.reel__rail button::after { content: ""; width: 16px; height: 1px; background: currentColor; transition: width .5s var(--ease), background-color .3s; }
+.reel__rail span { opacity: 0; transform: translateX(8px); transition: opacity .3s, transform .3s var(--ease); }
+.reel__rail button:hover, .reel__rail button.is-on { color: #fff; }
+.reel__rail button:hover span { opacity: 1; transform: none; }
+.reel__rail button.is-on::after { width: 44px; background: rgb(var(--tint)); }
+
+.reel__bar {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 3; height: 2px;
+  background: rgb(var(--tint)); box-shadow: 0 0 14px rgb(var(--tint));
+  transform: scaleX(0); transform-origin: left;
+}
+
+@media (max-width: 760px) {
+  .reel { height: calc(100svh + var(--reel-steps, 4) * 70svh); }
+  .reel__hint { display: none; }
+  .reel__top { justify-content: flex-end; }
+  .reel__caption { max-width: none; }
+  .reel__title { font-size: clamp(26px, 8.4vw, 40px); }
+  .reel__tagline { font-size: 14.5px; }
+  .reel__rail { display: none; }
+  .reel-card__top { left: 16px; right: 16px; top: 15px; font-size: 10px; }
+  .reel-card__name { left: 16px; bottom: 16px; font-size: 11px; }
+  .reel-card__view { right: 12px; bottom: 11px; padding: 6px 10px; font-size: 11.5px; }
+}
 
 /* ---------- compact project index ("More projects") ---------- */
 .archive { margin-top: 56px; }
@@ -704,7 +904,92 @@ svg .fill { fill: currentColor; stroke: none; }
   font: 500 12px/1 var(--font-mono); color: var(--text-muted); border: 1px solid var(--border-strong); background: var(--bg-elev);
 }
 .oss-tag svg { font-size: 14px; }
-.tools__intro { margin: -24px 0 36px; max-width: 640px; color: var(--text-muted); font-size: 17px; }
+
+/* ---------- storm front (assets/js/storm.js) ----------
+   Opens Power Tools: a night band under a particle thundercloud. When live,
+   it pins while the camera flies in, and the title lands with the first
+   strike (.is-arrived). JS sets --fly (0 → 1) and --veil (the reel's last color). */
+.storm {
+  --storm-bg: #04050b;
+  position: relative; isolation: isolate;
+  margin-bottom: 72px;
+  background: var(--storm-bg);
+}
+.storm::before, .storm::after {
+  content: ""; position: absolute; left: 0; right: 0; z-index: 5; height: 14vh; pointer-events: none;
+}
+.storm::before { top: 0; background: linear-gradient(var(--bg), transparent); }
+.storm::after { bottom: 0; background: linear-gradient(transparent, var(--bg)); }
+.storm.is-live { height: calc(100svh + 80svh); }
+
+.storm__stage {
+  --fly: 1; --veil: 250 204 21;
+  position: relative; z-index: 1; min-height: 78svh; overflow: hidden; color: #f4f4f5;
+  background:
+    radial-gradient(70% 45% at 50% 10%, rgb(91 84 190 / .26), transparent 70%),
+    var(--storm-bg);
+}
+.storm.is-live .storm__stage { position: sticky; top: 0; height: 100svh; min-height: 0; }
+/* still sky (reduced motion / no WebGL): a few soft banks of cloud */
+.storm:not(.is-live) .storm__stage {
+  background:
+    radial-gradient(30% 16% at 22% 16%, rgb(80 86 140 / .5), transparent 70%),
+    radial-gradient(34% 20% at 50% 10%, rgb(96 92 170 / .5), transparent 70%),
+    radial-gradient(30% 16% at 80% 18%, rgb(80 86 140 / .45), transparent 70%),
+    var(--storm-bg);
+}
+.storm__stage::before {
+  /* the reel's color, carried in on the veil, fading as we break through */
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(60% 60% at 50% 55%, rgb(var(--veil) / .22), transparent 70%);
+  opacity: calc(1 - var(--fly));
+}
+.storm__stage::after {
+  /* a light leak that blooms mid-flight, like a lens catching the glare */
+  content: ""; position: absolute; inset: -20%; z-index: 4; pointer-events: none;
+  background: radial-gradient(30% 26% at 22% 30%, rgb(125 211 252 / .32), transparent 70%);
+  opacity: calc(var(--fly) * (1 - var(--fly)) * 3);
+  mix-blend-mode: screen;
+}
+.storm__gl, .storm__bolts { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; }
+.storm__bolts { z-index: 2; pointer-events: none; }
+
+.storm__hud {
+  position: absolute; inset: 0; z-index: 3; pointer-events: none;
+  display: grid; grid-template-rows: auto 1fr auto;
+  padding: calc(var(--nav-h) + 18px) clamp(16px, 4vw, 48px) clamp(32px, 8vh, 72px);
+}
+.storm__hud a { pointer-events: auto; }
+.storm__top {
+  display: flex; justify-content: space-between; gap: 16px;
+  font: 500 11px/1 var(--font-mono); letter-spacing: .18em; text-transform: uppercase; color: rgb(255 255 255 / .55);
+}
+.storm__top b { font-weight: 500; color: #facc15; }
+.storm__head { grid-row: 3; max-width: 660px; text-shadow: 0 2px 24px rgba(0, 0, 0, .7); }
+.storm__meta { display: flex; align-items: center; gap: 12px; }
+.storm .section__num { background: rgb(250 204 21 / .14); color: #facc15; }
+.storm .oss-tag { color: rgb(255 255 255 / .78); border-color: rgb(255 255 255 / .18); background: rgb(255 255 255 / .05); text-shadow: none; }
+.storm__title {
+  margin-top: 18px; white-space: nowrap; color: #fff;
+  font: 500 clamp(44px, 8vw, 116px)/.9 var(--font-mono); letter-spacing: -.045em; text-transform: uppercase;
+}
+.storm__title span { transition: color .7s, text-shadow .7s; }
+.storm__title span.is-struck { color: #fffbe6; text-shadow: 0 0 16px #fde047, 0 0 60px rgb(250 204 21 / .8); transition: none; }
+.storm__lede { margin-top: 18px; max-width: 520px; font-size: 17px; color: rgb(255 255 255 / .74); }
+/* live: the heading waits for the first strike */
+.storm.is-live .storm__head > * {
+  opacity: 0; transform: translateY(14px);
+  transition: opacity .6s var(--ease), transform .8s var(--ease);
+}
+.storm.is-live.is-arrived .storm__head > * { opacity: 1; transform: none; }
+.storm.is-arrived .storm__head > :nth-child(2) { transition-delay: .06s; }
+.storm.is-arrived .storm__head > :nth-child(3) { transition-delay: .16s; }
+
+@media (max-width: 760px) {
+  .storm.is-live { height: calc(100svh + 70svh); }
+  .storm__title { font-size: clamp(38px, 12vw, 64px); }
+  .storm__lede { font-size: 15px; }
+}
 
 .tool { --arc: #38bdf8; display: grid; grid-template-columns: 1fr 1.15fr; gap: 44px; align-items: start; }
 :root[data-theme="light"] .tool { --arc: #0369a1; }
@@ -1433,7 +1718,6 @@ html.bolt-cursor :is(input, textarea) { cursor: text; }
   .modal__grid { grid-template-columns: 1fr; gap: 28px; }
   .footer__inner { flex-direction: column; }
   .games__intro { margin-top: -16px; font-size: 16px; }
-  .tools__intro { margin-top: -16px; font-size: 16px; }
   .tool__name { font-size: 28px; }
   #arc-try { height: 380px; }
   .xp__head, .xp__row { grid-template-columns: 1fr 74px; }
