@@ -18,13 +18,13 @@ const PROJECTS = [
     summary:
       "A monitoring platform that predicts the likelihood of hydrate formation in pipelines from sensor data, then alerts operators before a blockage becomes a burst.",
     highlights: [
-      "Trained a random-forest regressor with scikit-learn on EOG's dataset — R² of 0.94 with a low mean error.",
+      "Trained a random-forest regressor with scikit-learn on EOG's dataset, reaching an R² of 0.94 with a low mean error.",
       "Built a Flask API that cleans raw sensor data and connects the Python model to the JavaScript frontend.",
       "Real-time Chart.js dashboards, plus support for uploading custom datasets to analyze.",
       "Alerts page for readings above 50% risk, with personalized email notifications when users are away.",
     ],
     story:
-      "At HackUTD XI — which became the largest 24-hour hackathon in the US — we chose EOG Resources' challenge because pipe bursts are genuinely dangerous and the problem had real ML potential. It was my first hackathon win.",
+      "At HackUTD XI, which became the largest 24-hour hackathon in the US, we chose EOG Resources' challenge because pipe bursts are genuinely dangerous and the problem had real ML potential. It was my first hackathon win.",
     stack: ["Python", "Flask", "scikit-learn", "Pandas", "NumPy", "JavaScript", "Tailwind CSS", "Chart.js"],
     role: "Flask API & data pipeline",
     video: "A-HWoCepzhw",
@@ -38,7 +38,7 @@ const PROJECTS = [
     image: "https://i.ytimg.com/vi/N0e8Bw3HkNI/maxresdefault.jpg",
     imagePosition: "center",
     summary:
-      "A healthcare web app for hospice and home-care patients that uses five specialized ML models to flag potential health concerns early — with every AI insight paired with the option to consult a doctor.",
+      "A healthcare web app for hospice and home-care patients that uses five specialized ML models to flag potential health concerns early, with every AI insight paired with the option to consult a doctor.",
     highlights: [
       "Skin-lesion classification (malignant vs. benign) from an uploaded photo.",
       "Diabetes risk assessment based on blood-glucose fluctuations.",
@@ -47,7 +47,7 @@ const PROJECTS = [
       "Flask backend connecting the models to a vanilla JS frontend, with Firebase authentication.",
     ],
     story:
-      "People in hospice and home healthcare often don't have constant assistance, and some conditions need more attention than is available. We wanted to get timely, preliminary insight into patients' hands — while keeping human doctors in the loop.",
+      "People in hospice and home healthcare often don't have constant assistance, and some conditions need more attention than is available. We wanted to get timely, preliminary insight into patients' hands while keeping human doctors in the loop.",
     stack: ["Python", "TensorFlow", "scikit-learn", "Pandas", "NumPy", "Flask", "Firebase", "JavaScript", "HTML", "CSS"],
     video: "N0e8Bw3HkNI",
     repo: "https://github.com/lightningbolt7/AxxessHack",
@@ -67,7 +67,7 @@ const PROJECTS = [
       "Facial analysis with AWS Rekognition and OpenCV to gauge eye contact and confidence.",
       "Natural voice responses with Amazon Polly and conversational practice via the OpenAI API.",
       "Real-time problem-solving practice with step-by-step guidance and personalized feedback.",
-      "Python/Flask backend — including untangling port and resource conflicts between services.",
+      "Python/Flask backend, including untangling port and resource conflicts between services.",
     ],
     story:
       "As students heading into the professional world, we found most career-prep resources too generic. We wanted something that gives each person specific, human-feeling feedback on how they actually come across.",
@@ -91,7 +91,7 @@ const PROJECTS = [
       "Firebase authentication.",
     ],
     story:
-      "ACM Projects is a semester-long, selective program at UT Dallas. I didn't make it in on my first try — this project exists because I made it on the second. I worked as a full-stack developer on a team of five.",
+      "ACM Projects is a semester-long, selective program at UT Dallas. I didn't make it in on my first try. This project exists because I made it on the second. I worked as a full-stack developer on a team of five.",
     stack: ["Flutter", "Dart", "YOLOv5", "Google ML Kit", "PostgreSQL", "Firebase"],
     role: "Full-stack developer",
   },
@@ -105,12 +105,12 @@ const PROJECTS = [
     summary:
       "A Discord bot that automates role assignment for course channels and answers class questions using a custom Flask API and UTD's Nebula API.",
     highlights: [
-      "Auto-roles students into professor and course channels each semester — replacing paid third-party bots.",
+      "Auto-roles students into professor and course channels each semester, replacing paid third-party bots.",
       "Custom Flask API plus the Nebula API to surface class details and locations on demand.",
       "Interactive commands, including letting students personalize their role colors.",
     ],
     story:
-      "I'm an admin of a Discord server for 800+ UTD CS students. Every semester we add new courses and professors, and the bots that handle large-scale auto-roling are subscription-based — so I built my own. Zeus watches over the server from the clouds.",
+      "I'm an admin of a Discord server for 800+ UTD CS students. Every semester we add new courses and professors, and the bots that handle large-scale auto-roling are subscription-based, so I built my own. Zeus watches over the server from the clouds.",
     stack: ["Python", "discord.py", "Flask", "Nebula API"],
     role: "Solo developer",
     video: "kh8zzxQx8KE",
@@ -130,7 +130,7 @@ const PROJECTS = [
       "Shipped a working, demoed product within the 24-hour window.",
     ],
     story:
-      "My first hackathon project. A year earlier I'd attended HackUTD without knowing web development and couldn't ship anything — so I spent the summer learning it and came back prepared.",
+      "My first hackathon project. A year earlier I'd attended HackUTD without knowing web development and couldn't ship anything, so I spent the summer learning it and came back prepared.",
     stack: ["HTML", "CSS", "JavaScript", "Drug Interaction API"],
     video: "BCFlopmgvlY",
   },
@@ -168,7 +168,7 @@ const PROJECTS = [
       "Game state and history persisted with localStorage.",
     ],
     story:
-      "After Recime and WebTrack I wanted to build a game — something challenging but achievable at my level then. It's fun and a little educational.",
+      "After Recime and WebTrack I wanted to build a game: something challenging but achievable at my level then. It's fun and a little educational.",
     stack: ["JavaScript", "HTML", "CSS", "Dictionary API"],
     role: "Solo developer",
     video: "HfIkWP_6yXQ",
@@ -228,11 +228,11 @@ function cardHTML(p) {
       <span class="card__orb" aria-hidden="true"></span>
       <div class="card__media">
         <img src="${p.image}" alt="" loading="lazy" ${imgPos(p)} />
+        ${p.award ? `<span class="badge card__badge">${boltIcon}${esc(p.award)}</span>` : ""}
       </div>
       <div class="card__body">
-        ${p.award ? `<span class="badge">${boltIcon}${esc(p.award)}</span>` : ""}
-        <span class="card__meta">${esc(p.meta)}</span>
         <h3 class="card__title">${esc(p.title)} ${arrowIcon}</h3>
+        <span class="card__meta">${esc(p.meta)}</span>
         <p class="card__desc">${esc(p.featured ? p.summary : p.tagline)}</p>
         <ul class="card__stack">${p.stack
           .slice(0, p.featured ? 8 : 4)
@@ -397,9 +397,9 @@ function openProject(id) {
     : `<img src="${p.image}" alt="${esc(p.title)} screenshot" />`;
 
   modalBody.innerHTML = `
-    ${p.award ? `<span class="badge">${boltIcon}${esc(p.award)}</span>` : ""}
     <h2 id="modal-title">${esc(p.title)}</h2>
     <p class="modal__tagline">${esc(p.tagline)}</p>
+    ${p.award ? `<span class="badge">${boltIcon}${esc(p.award)}</span>` : ""}
     <div class="modal__media">${media}</div>
     <div class="modal__grid">
       <div>
@@ -461,6 +461,7 @@ document.getElementById("theme-toggle").addEventListener("click", () => {
   const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
   document.documentElement.dataset.theme = next;
   try { localStorage.setItem("theme", next); } catch (e) {}
+  document.querySelectorAll('meta[name="theme-color"]').forEach((m) => (m.content = next === "light" ? "#fafaf9" : "#0a0a0b"));
 });
 
 // ---------- nav: scrolled state, mobile menu, active link ----------
@@ -521,7 +522,7 @@ const GAMES = [
     year: "2026",
     tagline: "A lost king, a long road, and 10,000 gold to collect.",
     description:
-      "A path a king would take is not always sunshine and glory. My first game starts with a lost king — how did he end up here, and why? Dodge obstacles and collect 10k gold, but watch out: thrown items can snatch your coins away.",
+      "A path a king would take is not always sunshine and glory. My first game starts with a lost king. How did he end up here, and why? Dodge obstacles and collect 10k gold, but watch out: thrown items can snatch your coins away.",
     cover: "https://img.itch.zone/aW1nLzIzOTQyMDMwLnBuZw==/original/FkhNsj.png",
     coverFallback: "assets/games/kings-path.png",
     embed: "https://itch.io/embed-upload/15448028?color=0a0a0b",
@@ -578,8 +579,8 @@ function initGames() {
     const g = current;
     info.innerHTML = `
       <div class="cart-label__head">
-        <span class="cart-label__level">Level ${esc(g.level)} · ${esc(g.year)}</span>
         <h3 class="cart-label__title">${esc(g.title)}</h3>
+        <span class="cart-label__level">Level ${esc(g.level)} · ${esc(g.year)}</span>
       </div>
       <div class="cart-label__body">
         <p class="cart-label__tagline">${esc(g.tagline)}</p>
@@ -994,7 +995,7 @@ function initGames() {
     const locked = p === 1;
     item.classList.toggle("is-locked", locked);
     item.classList.remove("is-pushing");
-    hint.textContent = locked ? "Lockout ✓ 225 lb" : restHint;
+    hint.textContent = locked ? "Locked out at 225 lb" : restHint;
     while (waiters.length) waiters.shift()();
   }
 
@@ -1061,19 +1062,19 @@ function initGames() {
 // or another page via `href`). Add or reorder lines here.
 const SPECIALITIES = [
   { icon: "trophy", title: "1st Place", sub: "EOG Resources · HackUTD XI", project: "pipebrains" },
-  { icon: "gamepad", title: "Game Developer", sub: "The King's Path — playable here", scroll: "#games" },
+  { icon: "gamepad", title: "Game Developer", sub: "The King's Path, playable here", scroll: "#games" },
   { icon: "wrench", title: "Open-source Builder", sub: "Arcform: file conversion in the right-click menu", scroll: "#tools" },
-  { icon: "barbell", title: "225 lb Bench PR", sub: "Two plates a side — watch a rep ↓", scroll: ".beyond", beckon: "#lift" },
+  { icon: "barbell", title: "225 lb Bench PR", sub: "Two plates a side. Watch a rep", scroll: ".beyond", beckon: "#lift" },
   { icon: "network", title: "Applied ML", sub: "Five models, one diagnosis app", project: "aignosis" },
   {
     icon: "book", title: "Sci-fi Bookworm", href: "books.html",
-    sub: window.BOOKS?.length ? `${window.BOOKS.length} books rated & reviewed — see the shelf` : "Rated & reviewed — see the shelf",
+    sub: window.BOOKS?.length ? `${window.BOOKS.length} books rated & reviewed. See the shelf` : "Rated & reviewed. See the shelf",
   },
-  { icon: "music", title: "Piano Connoisseur", sub: "Hear me play ↓", scroll: ".beyond", beckon: "#piano-btn" },
+  { icon: "music", title: "Piano Connoisseur", sub: "Hear me play", scroll: ".beyond", beckon: "#piano-btn" },
   { icon: "bot", title: "Bot Builder", sub: "Zeus serves 800+ CS students", project: "zeus" },
   { icon: "medal", title: "3× Hackathon Podium", sub: "HackUTD · TAMUhack · Axxess", scroll: "#journey" },
   { icon: "code", title: "Self-taught Full-Stack", sub: "Zero to shipped in one summer", scroll: "#projects" },
-  { icon: "coin", title: "Coin Collector", sub: "Numismatics — old is gold", scroll: ".beyond" },
+  { icon: "coin", title: "Coin Collector", sub: "Numismatics: old is gold", scroll: ".beyond" },
   { icon: "pen", title: "Novelist in Progress", sub: "Writing Golden Amulet", scroll: ".beyond" },
 ];
 
@@ -1106,7 +1107,7 @@ const CHIP_ICONS = {
   const fill = (item) => {
     icon.innerHTML = CHIP_ICONS[item.icon];
     text.innerHTML = lines(item);
-    chip.setAttribute("aria-label", `${item.title} — ${item.sub}`);
+    chip.setAttribute("aria-label", `${item.title}: ${item.sub}`);
     chip.setAttribute("href", item.href || "#projects"); // a real link while a page line shows
   };
 
@@ -1354,7 +1355,13 @@ const CHIP_ICONS = {
   }
 
   const fmtKB = (kb) => `${kb.toLocaleString()} KB`;
-  const fileIcon = (kind) => ({ video: "▶", photo: "◩", word: "W", pdf: "PDF", audio: "♪" }[kind] || "▤");
+  const FILE_ICONS = {
+    video: '<svg viewBox="0 0 24 24"><path class="fill" d="M8 5.5v13l10-6.5z" /></svg>',
+    photo: '<svg viewBox="0 0 24 24"><path d="M3.5 18.5 9 12l4 4.5 2.5-2.5 5 4.5" /><circle cx="16" cy="8" r="1.8" /></svg>',
+    audio: '<svg viewBox="0 0 24 24"><path d="M9 18V5.5l10-2V16" /><circle cx="6.5" cy="18" r="2.5" /><circle cx="16.5" cy="16" r="2.5" /></svg>',
+    word: "W", pdf: "PDF", // letter badges, like the real file icons
+  };
+  const fileIcon = (kind) => FILE_ICONS[kind] || '<svg viewBox="0 0 24 24"><path d="M7 7h10M7 12h10M7 17h6" /></svg>';
   const kindOf = (ext) => ({ mp4: "video", mov: "video", mp3: "audio", jpg: "photo", png: "photo", webp: "photo", heic: "photo", docx: "word", pdf: "pdf" }[ext]);
 
   function renderFiles(flashId) {
@@ -1395,7 +1402,7 @@ const CHIP_ICONS = {
       b.className = "ctx__item" + (it.items ? " has-sub" : "") + (it.arc ? " is-arc" : "") + (it.dim ? " is-dim" : "");
       b.setAttribute("role", "menuitem");
       if (it.items) b.setAttribute("aria-haspopup", "menu");
-      b.innerHTML = `<span class="ctx__icon" aria-hidden="true">${it.arc ? ICON : ""}</span><span>${esc(it.label)}</span>${it.items ? '<span class="ctx__chev" aria-hidden="true">›</span>' : ""}`;
+      b.innerHTML = `<span class="ctx__icon" aria-hidden="true">${it.arc ? ICON : ""}</span><span>${esc(it.label)}</span>${it.items ? '<span class="ctx__chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" /></svg></span>' : ""}`;
       b._item = it;
       m.appendChild(b);
     });
@@ -1610,7 +1617,7 @@ const CHIP_ICONS = {
     setTimeout(() => {
       w.classList.add("is-done");
       w.querySelector(".arc-run__state").textContent = "Done";
-      w.querySelector(".arc-run__status").textContent = `✓ ${done}`;
+      w.querySelector(".arc-run__status").innerHTML = `<svg class="arc-run__ok" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" /></svg>${esc(done)}`;
       if (saved) w.querySelector(".arc-run__note").textContent = `Saved to Downloads\\${saved}${note ? ` · ${note}` : ""}`;
       onDone?.();
       setTimeout(() => { w.classList.add("is-out"); setTimeout(() => w.remove(), 300); }, reduce ? 1400 : 1900);
@@ -1672,16 +1679,16 @@ const CHIP_ICONS = {
     if (!editor) return;
     const n = queue.length;
     editor.innerHTML = `
-      <div class="arc-win__title">${ICON}<span>Arcform: merge queue</span><button type="button" class="arc-editor__close" aria-label="Close">✕</button></div>
+      <div class="arc-win__title">${ICON}<span>Arcform: merge queue</span><button type="button" class="arc-editor__close" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19" /></svg></button></div>
       <p class="arc-editor__sub">${n ? "Drag to reorder. Merged.pdf follows this order." : "The merge queue is empty. Right-click PDFs → Arcform → Add to merge queue."}</p>
       <ol class="arc-editor__list">${queue.map((id, i) => {
         const f = byId(id);
         return `<li class="arc-editor__item" data-id="${id}">
-          <span class="arc-editor__grip" aria-hidden="true">⋮⋮</span>
+          <span class="arc-editor__grip" aria-hidden="true"><svg viewBox="0 0 24 24"><g class="fill"><circle cx="9" cy="6" r="1.6" /><circle cx="15" cy="6" r="1.6" /><circle cx="9" cy="12" r="1.6" /><circle cx="15" cy="12" r="1.6" /><circle cx="9" cy="18" r="1.6" /><circle cx="15" cy="18" r="1.6" /></g></svg></span>
           <span class="arc-editor__n">${i + 1}</span>
           <span class="arc-editor__name"><span class="xp__ficon xp__ficon--pdf" aria-hidden="true">PDF</span>${esc(f?.name || id)}.pdf</span>
-          <button type="button" class="arc-editor__mv" data-mv="-1" aria-label="Move ${esc(f?.name || id)} up" ${i === 0 ? "disabled" : ""}>↑</button>
-          <button type="button" class="arc-editor__mv" data-mv="1" aria-label="Move ${esc(f?.name || id)} down" ${i === n - 1 ? "disabled" : ""}>↓</button>
+          <button type="button" class="arc-editor__mv" data-mv="-1" aria-label="Move ${esc(f?.name || id)} up" ${i === 0 ? "disabled" : ""}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 15 6-6 6 6" /></svg></button>
+          <button type="button" class="arc-editor__mv" data-mv="1" aria-label="Move ${esc(f?.name || id)} down" ${i === n - 1 ? "disabled" : ""}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg></button>
         </li>`;
       }).join("")}</ol>
       <div class="arc-editor__foot">
@@ -1844,11 +1851,13 @@ const revealer = new IntersectionObserver(
   },
   { rootMargin: "0px 0px -8% 0px" }
 );
-document.querySelectorAll("main > section:not(.hero) .reveal").forEach((el, i) => {
-  // light stagger for elements revealed together (e.g. hero, card grid)
-  el.style.transitionDelay = `${Math.min(i % 4, 3) * 60}ms`;
+document.querySelectorAll("main .reveal").forEach((el, i) => {
+  if (el.closest(".hero") || el.getBoundingClientRect().top < innerHeight) return el.classList.add("is-in");
+  // light stagger for elements revealed together (e.g. the timeline)
+  el.style.transitionDelay = `${Math.min(i % 4, 3) * 50}ms`;
   revealer.observe(el);
 });
+document.documentElement.classList.add("reveal-on");
 
 // Deep link: arvindh.dev/#pipebrains opens that project
 const deep = location.hash.slice(1);

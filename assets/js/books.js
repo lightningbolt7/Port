@@ -27,11 +27,9 @@
   const pages = BOOKS.reduce((n, b) => n + (b.pages || 0), 0);
   const avg = BOOKS.length ? BOOKS.reduce((n, b) => n + b.rating, 0) / BOOKS.length : 0;
   const fives = BOOKS.filter((b) => b.rating === 5).length;
-  document.getElementById("shelf-stats").innerHTML = `
-    <div><dt>Books reviewed</dt><dd>${BOOKS.length}</dd><span>every one with a written review</span></div>
-    <div><dt>Pages read</dt><dd>${pages.toLocaleString()}</dd><span>across the books on this shelf</span></div>
-    <div><dt>Average rating</dt><dd>${avg.toFixed(1)}</dd><span>out of 5 bolts</span></div>
-    <div><dt>Five-bolt reads</dt><dd>${fives}</dd><span>the ones I'd push on anyone</span></div>`;
+  document.getElementById("shelf-stats").innerHTML =
+    `<strong>${BOOKS.length}</strong> books and <strong>${pages.toLocaleString()}</strong> pages so far, averaging ` +
+    `<strong>${avg.toFixed(1)}</strong> bolts. The <strong>${fives}</strong> five-bolt ${fives === 1 ? "read is the one" : "reads are the ones"} I'd push on anyone.`;
 
   // ---------- currently reading: from the Goodreads "currently-reading" shelf ----------
   const NOW = window.CURRENTLY_READING || [];
@@ -39,7 +37,8 @@
   if (NOW.length) {
     nowEl.hidden = false;
     nowEl.innerHTML = NOW.map((b) => {
-      const meta = [esc(b.author), b.year, b.pages ? `${b.pages} pages` : null].filter(Boolean).join(" · ");
+      const meta = ['<span class="now-book__label"><span class="live-dot" aria-hidden="true"></span>Currently reading</span>', esc(b.author), b.year, b.pages ? `${b.pages} pages` : null]
+        .filter(Boolean).join(" · ");
       const series = b.series ? `<p class="book__series">${esc(b.series)}${b.seriesNo ? ` · Book ${esc(b.seriesNo)}` : ""}</p>` : "";
       return `
         <article class="now-book">
@@ -50,9 +49,8 @@
             <span class="now-book__ribbon" aria-hidden="true"></span>
           </div>
           <div class="now-book__body">
-            <p class="now-book__label"><span class="live-dot" aria-hidden="true"></span>Currently reading</p>
-            ${series}
             <h2 class="now-book__title">${esc(b.title)}</h2>
+            ${series}
             <p class="book__meta">${meta}</p>
             <div class="now-book__verdict">
               <span class="bolts bolts--charging" role="img" aria-label="Not rated yet">${[0, 1, 2, 3, 4]
@@ -60,7 +58,7 @@
                 .join("")}</span>
               <span>Verdict pending: review once I've finished</span>
             </div>
-            <a class="book__gr" href="${b.goodreads}" target="_blank" rel="noopener">Goodreads ↗</a>
+            <a class="book__gr" href="${b.goodreads}" target="_blank" rel="noopener">Goodreads <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" /></svg></a>
           </div>
         </article>`;
     }).join("");
@@ -74,7 +72,7 @@
   document.getElementById("shelf-row").innerHTML = BOOKS.map(
     (b) => `
     <button class="spine" type="button" data-book="${b.id}" style="--sh:${spineHeight(b.pages || 300)}px;--h:${hue(b.title)}${b.cover ? `;--img:url('${new URL(b.cover, location.href).href}')` : ""}"
-      aria-label="${esc(b.title)}, ${b.rating} bolts — jump to review">
+      aria-label="${esc(b.title)}, ${b.rating} bolts, jump to review">
       <span class="spine__title">${esc(b.title)}</span>
       <span class="spine__tip" aria-hidden="true">${esc(b.title)} · ${b.rating}/5</span>
     </button>`
@@ -112,14 +110,14 @@
           </div>
         </div>
         <div class="book__body">
-          ${series ? `<p class="book__series">${series}</p>` : ""}
           <h2 class="book__title">${esc(b.title)}</h2>
+          ${series ? `<p class="book__series">${series}</p>` : ""}
           <p class="book__meta">${meta}</p>
           <div class="book__rating">${bolts(b.rating)}${read ? `<span class="book__read">Read ${read}</span>` : ""}</div>
           <blockquote class="book__review"><p>${esc(b.review)}</p></blockquote>
           <div class="book__actions">
             <button class="book__more" type="button" hidden aria-expanded="false">Read full review</button>
-            <a class="book__gr" href="${b.goodreads}" target="_blank" rel="noopener">Goodreads ↗</a>
+            <a class="book__gr" href="${b.goodreads}" target="_blank" rel="noopener">Goodreads <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" /></svg></a>
           </div>
         </div>
       </article>`;
@@ -186,6 +184,7 @@
     const next = root.dataset.theme === "dark" ? "light" : "dark";
     root.dataset.theme = next;
     try { localStorage.setItem("theme", next); } catch (e) {}
+    document.querySelectorAll('meta[name="theme-color"]').forEach((m) => (m.content = next === "light" ? "#fafaf9" : "#0a0a0b"));
   });
   const nav = document.querySelector(".nav");
   const onScroll = () => nav.classList.toggle("is-scrolled", scrollY > 8);
@@ -203,10 +202,13 @@
     { rootMargin: "0px 0px -6% 0px" }
   );
   function observeReveals() {
+    // what is already on screen shows at once; only cards below the fold wait for the observer
     document.querySelectorAll(".reveal:not(.is-in)").forEach((el, i) => {
-      el.style.transitionDelay = `${Math.min(i % 4, 3) * 60}ms`;
+      if (el.closest(".shelf-hero") || el.getBoundingClientRect().top < innerHeight) return el.classList.add("is-in");
+      el.style.transitionDelay = `${Math.min(i % 4, 3) * 50}ms`;
       revealer.observe(el);
     });
+    root.classList.add("reveal-on");
   }
 
   document.getElementById("year").textContent = new Date().getFullYear();

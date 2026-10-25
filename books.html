@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Bookshelf — Arvindh Kumar Kalainathan</title>
   <meta name="description" content="Every book Arvindh has rated and reviewed: mostly hard sci-fi, with honest ratings and reviews." />
-  <meta name="theme-color" content="#0a0a0b" />
+  <meta name="theme-color" content="#0a0a0b" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#fafaf9" media="(prefers-color-scheme: light)" />
   <meta property="og:title" content="Arvindh's Bookshelf" />
   <meta property="og:description" content="Mostly hard sci-fi, each with an honest rating and review." />
   <meta property="og:type" content="website" />
@@ -21,14 +22,17 @@
       if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
       document.documentElement.dataset.theme = t;
       document.documentElement.classList.add("js");
+      // the browser bar follows the site theme, not just the system one
+      var c = t === "light" ? "#fafaf9" : "#0a0a0b";
+      document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) { m.content = c; });
     })();
   </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/style.css?v=ffa93c23" />
-  <link rel="stylesheet" href="assets/css/books.css?v=9b8cc3bf" />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css?v=734ded24" />
+  <link rel="stylesheet" href="assets/css/books.css?v=9367c449" />
 </head>
 
 <body class="page-books">
@@ -73,16 +77,13 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6" /></svg>
           Back to portfolio
         </a>
-        <p class="eyebrow reveal"><span class="status-dot"></span>Beyond code · Reading</p>
         <h1 class="shelf-hero__title reveal">The Bookshelf</h1>
         <p class="shelf-hero__lede reveal">
           Mostly hard sci-fi, the kind where the ideas are the main character. Every book here has my
           honest rating, in bolts, and my review, unedited.
         </p>
 
-        <dl class="stats shelf-stats reveal" id="shelf-stats">
-          <!-- filled in by assets/js/books.js -->
-        </dl>
+        <p class="shelf-hero__facts reveal" id="shelf-stats"><!-- filled in by assets/js/books.js --></p>
 
         <section class="now-reading reveal" id="now-reading" aria-label="Currently reading" hidden>
           <!-- filled from window.CURRENTLY_READING (the Goodreads "currently-reading" shelf) -->
@@ -136,6 +137,6 @@
   </footer>
 
   <script src="assets/js/books-data.js?v=9d9feeaf"></script>
-  <script src="assets/js/books.js?v=3640a83f"></script>
+  <script src="assets/js/books.js?v=53409766"></script>
 </body>
 </html>

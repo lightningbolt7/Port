@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Arvindh Kumar Kalainathan — Software Engineer</title>
-  <meta name="description" content="Arvindh Kumar Kalainathan (Bolt) — Computer Science at UT Dallas. Full-stack and ML-powered software. 1st place, EOG Resources challenge at HackUTD XI." />
-  <meta name="theme-color" content="#0a0a0b" />
+  <meta name="description" content="Arvindh Kumar Kalainathan (Bolt), Computer Science at UT Dallas. Full-stack and ML-powered software. 1st place, EOG Resources challenge at HackUTD XI." />
+  <meta name="theme-color" content="#0a0a0b" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#fafaf9" media="(prefers-color-scheme: light)" />
   <meta property="og:title" content="Arvindh Kumar Kalainathan — Software Engineer" />
   <meta property="og:description" content="Full-stack and ML-powered software. CS @ UT Dallas." />
   <meta property="og:type" content="website" />
@@ -21,13 +22,16 @@
       if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
       document.documentElement.dataset.theme = t;
       document.documentElement.classList.add("js");
+      // the browser bar follows the site theme, not just the system one
+      var c = t === "light" ? "#fafaf9" : "#0a0a0b";
+      document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) { m.content = c; });
     })();
   </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Press+Start+2P&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/style.css?v=ffa93c23" />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Press+Start+2P&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css?v=734ded24" />
 </head>
 
 <body>
@@ -70,20 +74,15 @@
   <main id="main">
     <!-- ================= HERO ================= -->
     <section class="hero">
-      <div class="hero__grid" aria-hidden="true"></div>
       <div class="container hero__inner">
         <div class="hero__copy">
-          <p class="eyebrow reveal">
-            <span class="status-dot"></span>
-            CS @ UT Dallas · a.k.a. <span class="accent">Bolt</span>
-          </p>
           <h1 class="hero__title reveal">
             I build <span class="strike">fast</span>, intelligent software for the web.
           </h1>
           <p class="hero__lede reveal">
-            I'm Arvindh Kumar Kalainathan, a full-stack developer who enjoys turning messy problems
-            into clean products — from ML pipelines that predict pipeline failures to tools used by
-            hundreds of students every semester.
+            I'm Arvindh Kumar Kalainathan (a.k.a. <span class="accent">Bolt</span>), a CS student at UT Dallas and a
+            full-stack developer who enjoys turning messy problems into clean products, from ML pipelines
+            that predict pipeline failures to tools used by hundreds of students every semester.
           </p>
           <div class="hero__ctas reveal">
             <a class="btn btn--primary" href="#projects">View my work
@@ -122,22 +121,12 @@
           </a>
         </div>
       </div>
-
-      <div class="container">
-        <dl class="stats reveal">
-          <div><dt>Hackathon awards</dt><dd>3</dd><span>incl. 1st place at HackUTD XI</span></div>
-          <div><dt>Students served</dt><dd>800+</dd><span>by Zeus, my Discord automation bot</span></div>
-          <div><dt>Model accuracy</dt><dd>R² 0.94</dd><span>hydrate-formation prediction in PipeBrains</span></div>
-          <div><dt>Projects shipped</dt><dd>11</dd><span>web, mobile, ML, games &amp; tooling</span></div>
-        </dl>
-      </div>
     </section>
 
     <!-- ================= ABOUT ================= -->
     <section class="section" id="about">
       <div class="container">
         <header class="section__head reveal">
-          <span class="section__num">01</span>
           <h2>About</h2>
         </header>
 
@@ -150,7 +139,7 @@
             <div class="prose reveal">
               <p>
                 I'm a Computer Science student at <strong>The University of Texas at Dallas</strong>,
-                originally from India. I'm drawn to how technology works under the hood — and to
+                originally from India. I'm drawn to how technology works under the hood, and to
                 solving problems efficiently. (Being a little lazy turns out to be great motivation
                 for writing good automation.)
               </p>
@@ -158,13 +147,13 @@
                 I started with Java in high school, picked up Python and SQL, and taught myself web
                 development after my first hackathon showed me what I didn't yet know. Since then
                 I've built full-stack apps, a computer-vision mobile app, a Discord bot for an
-                800-member community, and AI/ML projects that have earned three hackathon awards —
+                800-member community, and AI/ML projects that have earned three hackathon awards,
                 including first place at HackUTD.
               </p>
               <p>
                 Right now I'm most interested in <strong>applied machine learning</strong> and
-                building products where a model is only one part of a well-engineered system — and, since 2026,
-                in making games with Unity.
+                building products where a model is only one part of a well-engineered system. Since 2026, I've
+                also been making games with Unity.
               </p>
             </div>
 
@@ -197,7 +186,6 @@
     <section class="section" id="projects">
       <div class="container">
         <header class="section__head reveal">
-          <span class="section__num">02</span>
           <h2>Selected work</h2>
           <a class="section__link" href="https://github.com/lightningbolt7?tab=repositories" target="_blank" rel="noopener">
             All repositories
@@ -216,16 +204,16 @@
             <div class="reel__top">
               <span class="reel__hint" aria-hidden="true">Scroll to explore</span>
               <div class="reel__nav">
-                <button class="reel__step" type="button" data-step="-1" aria-label="Previous project">&lt;&lt;</button>
+                <button class="reel__step" type="button" data-step="-1" aria-label="Previous project"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m11 17-5-5 5-5M18 17l-5-5 5-5" /></svg></button>
                 <span class="reel__count" id="reel-count"></span>
-                <button class="reel__step" type="button" data-step="1" aria-label="Next project">&gt;&gt;</button>
+                <button class="reel__step" type="button" data-step="1" aria-label="Next project"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m13 17 5-5-5-5M6 17l5-5-5-5" /></svg></button>
               </div>
             </div>
             <div class="reel__bottom">
               <div class="reel__caption" id="reel-caption" aria-hidden="true">
-                <span class="reel__award" id="reel-award"></span>
                 <p class="reel__title" id="reel-title"></p>
                 <p class="reel__tagline" id="reel-tagline"></p>
+                <span class="reel__award" id="reel-award"></span>
               </div>
               <ol class="reel__rail" id="reel-rail" aria-hidden="true"></ol>
             </div>
@@ -242,7 +230,7 @@
         <div class="archive" id="project-archive">
           <div class="archive__head reveal">
             <h3>More projects <span class="archive__count" id="archive-count"></span></h3>
-            <p>Earlier builds, kept compact — open any one for the full story.</p>
+            <p>Earlier builds, kept compact. Open any one for the full story.</p>
           </div>
           <ol class="archive__list" id="archive-list"></ol>
         </div>
@@ -264,13 +252,9 @@
               <span>Strikes <b id="storm-count">00</b></span>
             </div>
             <header class="storm__head">
-              <div class="storm__meta">
-                <span class="section__num">03</span>
-                <span class="oss-tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="fill" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>Open source</span>
-              </div>
               <h2 class="storm__title"><span class="sr-only">Power Tools</span><span id="storm-title" aria-hidden="true">Power Tools</span></h2>
               <p class="storm__lede">
-                Utilities I build for myself first. If they save me clicks, they'll probably save yours, and
+                Open-source utilities I build for myself first. If they save me clicks, they'll probably save yours, and
                 the code is on GitHub.
               </p>
             </header>
@@ -370,7 +354,7 @@
                   <button class="win__clip" type="button" data-clip="1" aria-pressed="false">Merge PDFs</button>
                 </div>
                 <p id="arc-clip-caption">Real recording: right-click → Arcform → Convert to MP4 → done.</p>
-                <a href="https://youtu.be/-bGE95JIHaM" target="_blank" rel="noopener">Full demo ↗</a>
+                <a href="https://youtu.be/-bGE95JIHaM" target="_blank" rel="noopener">Full demo <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" /></svg></a>
               </div>
             </div>
           </div>
@@ -382,12 +366,11 @@
     <section class="section" id="games">
       <div class="container">
         <header class="section__head reveal">
-          <span class="section__num">04</span>
           <h2>Games</h2>
           <span class="new-tag">New in 2026</span>
         </header>
         <p class="games__intro reveal">
-          In 2026 I started building games with Unity. On desktop, press start to play right here in your browser —
+          In 2026 I started building games with Unity. On desktop, press start to play right here in your browser,
           no download needed.
         </p>
 
@@ -425,7 +408,6 @@
     <section class="section" id="journey">
       <div class="container">
         <header class="section__head reveal">
-          <span class="section__num">05</span>
           <h2>Journey</h2>
         </header>
 
@@ -435,13 +417,13 @@
             <span class="timeline__year">2026</span>
             <div>
               <h3>Player one has entered the game</h3>
-              <p>Got into game development with Unity and C#, and released my first game, <strong>The King's Path</strong> — playable in the browser on itch.io. Also published <strong>Arcform</strong>, a right-click file converter for Windows, on GitHub.</p>
+              <p>Got into game development with Unity and C#, and released my first game, <strong>The King's Path</strong>, playable in the browser on itch.io. Also published <strong>Arcform</strong>, a right-click file converter for Windows, on GitHub.</p>
             </div>
           </li>
           <li class="reveal">
             <span class="timeline__year">2025</span>
             <div>
-              <h3>Back on the podium — twice</h3>
+              <h3>Back on the podium, twice</h3>
               <p>Took 3rd place in the AWS challenge at TAMUhack with <strong>Vision Learning</strong>, an AI interview coach, and 3rd place overall at the Axxess Hackathon with <strong>AIgnosis</strong>, a multi-model healthcare diagnostics app.</p>
             </div>
           </li>
@@ -449,7 +431,7 @@
             <span class="timeline__year">2024</span>
             <div>
               <h3>First hackathon win</h3>
-              <p>Built the Flask API and data pipeline for <strong>PipeBrains</strong>, which took 1st place in EOG Resources' challenge at HackUTD XI — the largest 24-hour hackathon in the US. Also built SafeDrive with ACM Projects and Zeus for my CS community.</p>
+              <p>Built the Flask API and data pipeline for <strong>PipeBrains</strong>, which took 1st place in EOG Resources' challenge at HackUTD XI, the largest 24-hour hackathon in the US. Also built SafeDrive with ACM Projects and Zeus for my CS community.</p>
             </div>
           </li>
           <li class="reveal">
@@ -477,7 +459,7 @@
             <span class="timeline__year">2019</span>
             <div>
               <h3>Hello, world</h3>
-              <p>Wrote my first programs in Java in high school — loops, sorting algorithms and the fundamentals that started everything.</p>
+              <p>Wrote my first programs in Java in high school: loops, sorting algorithms and the fundamentals that started everything.</p>
             </div>
           </li>
         </ol>
@@ -494,10 +476,10 @@
                   <span class="listen__label" id="piano-label">Listen</span>
                 </button>
               </span>
-              Learning, one piece at a time — that's me playing.
+              Learning, one piece at a time. That's me playing.
               <audio id="piano-audio" src="assets/audio/piano.mp3" preload="none"></audio>
             </li>
-            <li><span class="beyond__k">Numismatics</span> Collecting old coins — old is gold.</li>
+            <li><span class="beyond__k">Numismatics</span> Collecting old coins. Old is gold.</li>
             <li><span class="beyond__k">Writing</span> Working on a novel, <a href="assets/golden-amulet-text.pdf" target="_blank" rel="noopener"><em>Golden Amulet</em></a>.</li>
             <li class="lift" id="lift" tabindex="0" aria-label="Weightlifting: bench press PR of 225 pounds. Hover, focus or tap to see a rep.">
               <div class="lift__text">
@@ -561,7 +543,6 @@
       <div class="container">
         <div class="contact">
           <div class="contact__intro reveal">
-            <span class="section__num">06</span>
             <h2>Let's build something.</h2>
             <p>I'm open to internships, full-time roles and interesting collaborations. The fastest way to reach me is email.</p>
             <ul class="contact__list">
@@ -631,8 +612,8 @@
   </dialog>
 
   <script src="assets/js/books-data.js?v=9d9feeaf"></script>
-  <script src="assets/js/main.js?v=ef7ce33c"></script>
-  <script src="assets/js/reel.js?v=7761c407"></script>
+  <script src="assets/js/main.js?v=fc02575a"></script>
+  <script src="assets/js/reel.js?v=a5714544"></script>
   <script src="assets/js/storm.js?v=40be807e"></script>
 </body>
 </html>
