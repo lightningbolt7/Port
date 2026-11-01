@@ -255,14 +255,14 @@ window.BOOKS = [
 ];
 window.CURRENTLY_READING = [
   {
-    "id": "195790861",
-    "title": "Service Model",
-    "series": null,
-    "seriesNo": null,
-    "author": "Adrian Tchaikovsky",
-    "pages": 384,
-    "year": "2024",
-    "cover": "https://covers.openlibrary.org/b/id/15098528-L.jpg",
-    "goodreads": "https://www.goodreads.com/book/show/195790861"
+    "id": "41085049",
+    "title": "Velocity Weapon",
+    "series": "The Protectorate",
+    "seriesNo": "1",
+    "author": "Megan E. O'Keefe",
+    "pages": 544,
+    "year": "2019",
+    "cover": "https://covers.openlibrary.org/b/id/12817097-L.jpg",
+    "goodreads": "https://www.goodreads.com/book/show/41085049"
   }
 ];
