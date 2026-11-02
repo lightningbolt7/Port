@@ -448,7 +448,10 @@ svg .fill { fill: currentColor; stroke: none; }
   60% { transform: translate(-2%, -4%); } 80% { transform: translate(4%, 2%); } 100% { transform: translate(0, 0); }
 }
 .reel__gl { position: absolute; inset: 0; width: 100%; height: 100%; }
-.reel__track { position: absolute; inset: 0; z-index: 1; transform-style: preserve-3d; }
+.reel__track {
+  position: absolute; inset: 0; z-index: 1; transform-style: preserve-3d;
+  pointer-events: none; /* its own plane sits in front of the cards in 3D and would swallow their clicks */
+}
 
 /* cards: glass panels riding the helix (JS sets transform + opacity) */
 .reel-card {
@@ -459,7 +462,7 @@ svg .fill { fill: currentColor; stroke: none; }
   padding: 0; border: 0; border-radius: 16px; overflow: hidden;
   background: #0c0e15; color: #fff; text-align: left;
   box-shadow: 0 0 0 1px rgb(255 255 255 / .12), 0 50px 90px -40px rgba(0, 0, 0, .95);
-  will-change: transform, opacity;
+  will-change: transform, opacity; pointer-events: auto;
   transition: box-shadow .6s var(--ease);
 }
 .reel-card > span { position: absolute; }
