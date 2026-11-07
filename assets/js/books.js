@@ -118,6 +118,7 @@
           <div class="book3d">
             ${b.cover ? `<img src="${b.cover}" alt="Cover of ${esc(b.title)}" loading="lazy" width="180" height="270" />` : fallbackCover(b)}
           </div>
+          <span class="book__score" aria-hidden="true"><svg><use href="#bolt" /></svg><b>${b.rating}</b>/5</span>
         </div>
         <div class="book__body">
           <h2 class="book__title">${esc(b.title)}</h2>

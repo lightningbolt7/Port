@@ -199,6 +199,23 @@
 .cover-fallback strong { font: 700 15px/1.15 var(--font-display); }
 .cover-fallback small { font-size: 11px; opacity: .8; }
 
+/* Rating pill under the cover: rises in while the card is hovered (exits a touch faster),
+   and simply stays on screens without hover */
+.book__score {
+  display: flex; width: fit-content; align-items: center; gap: 4px; margin: 14px auto 0; padding: 5px 11px 5px 9px;
+  border-radius: 999px; background: var(--accent); color: var(--accent-ink);
+  font: 500 12.5px/1 var(--font-sans); font-variant-numeric: tabular-nums;
+  opacity: 0; transform: translateY(6px);
+  transition: opacity .15s var(--ease-out), transform .15s var(--ease-out);
+}
+.book__score svg { width: 12px; height: 12px; fill: currentColor; stroke: none; }
+.book__score b { margin-right: 1px; font: 700 16px/1 var(--font-display); }
+.book:hover .book__score, .book:focus-within .book__score {
+  opacity: 1; transform: none;
+  transition: opacity .2s var(--ease-out) .05s, transform .25s var(--ease-out) .05s;
+}
+@media (hover: none) { .book__score { opacity: 1; transform: none; } }
+
 .book__series { margin-top: 4px; font-size: 14px; font-weight: 500; color: var(--accent-text); }
 .book__title { font-size: 22px; font-weight: 600; line-height: 1.2; }
 .book__meta { margin-top: 6px; font-size: 14px; color: var(--text-faint); }
