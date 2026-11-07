@@ -148,6 +148,8 @@
 .bolts { display: inline-flex; gap: 2px; vertical-align: middle; }
 .bolts svg { width: 16px; height: 16px; fill: var(--border-strong); stroke: none; }
 .bolts svg.is-on { fill: var(--accent); }
+.bolt-part { position: relative; display: inline-flex; }
+.bolt-part svg + svg { position: absolute; inset: 0; clip-path: inset(0 var(--cut) 0 0); }
 
 /* ---------- review cards ---------- */
 .books { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }

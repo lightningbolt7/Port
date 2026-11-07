@@ -9,10 +9,20 @@
     String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   const readOn = (d) => (d ? `${MONTHS[+d.slice(5, 7) - 1]} ${d.slice(0, 4)}` : null);
+  // A fractional rating (3.5) lights that much of the next bolt: the lit copy is
+  // clipped where the bolt's own width (x 4.5 to 18.5 of 24) reaches the fraction.
+  const bolt = (on) => `<svg class="${on ? "is-on" : ""}" aria-hidden="true"><use href="#bolt" /></svg>`;
   const bolts = (n) =>
     `<span class="bolts" role="img" aria-label="Rated ${n} out of 5">${[1, 2, 3, 4, 5]
-      .map((i) => `<svg class="${i <= n ? "is-on" : ""}" aria-hidden="true"><use href="#bolt" /></svg>`)
+      .map((i) => {
+        const f = Math.min(1, Math.max(0, n - i + 1));
+        if (f === 0 || f === 1) return bolt(f === 1);
+        const cut = (100 - ((4.5 + 14 * f) / 24) * 100).toFixed(1);
+        return `<span class="bolt-part" style="--cut:${cut}%" aria-hidden="true">${bolt(false)}${bolt(true)}</span>`;
+      })
       .join("")}</span>`;
+  // Filtering and sorting go by whole bolts: a 3.5 sits with the 3s
+  const tier = (b) => Math.floor(b.rating);
 
   // Deterministic accent for books without a cover image
   const hue = (s) => [...s].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 360, 7);
@@ -82,17 +92,17 @@
   const filter = document.getElementById("rating-filter");
   const sortBy = document.getElementById("sort-by");
   let minRating = 0;
-  const counts = (r) => BOOKS.filter((b) => b.rating === r).length;
+  const counts = (r) => BOOKS.filter((b) => tier(b) === r).length;
   filter.innerHTML =
     `<button type="button" class="chip is-on" data-rating="0" aria-pressed="true">All <span>${BOOKS.length}</span></button>` +
-    [5, 4, 3]
+    [5, 4, 3, 2, 1]
       .filter((r) => counts(r))
       .map((r) => `<button type="button" class="chip" data-rating="${r}" aria-pressed="false">${bolts(r)}<span>${counts(r)}</span></button>`)
       .join("");
 
   const sorters = {
     recent: (a, b) => (b.dateRead || "").localeCompare(a.dateRead || "") || a.title.localeCompare(b.title),
-    rating: (a, b) => b.rating - a.rating || (b.dateRead || "").localeCompare(a.dateRead || ""),
+    rating: (a, b) => tier(b) - tier(a) || (b.dateRead || "").localeCompare(a.dateRead || ""),
     pages: (a, b) => (b.pages || 0) - (a.pages || 0),
     title: (a, b) => a.title.replace(/^The /, "").localeCompare(b.title.replace(/^The /, "")),
   };
@@ -124,7 +134,7 @@
   }
 
   function render() {
-    const shown = BOOKS.filter((b) => !minRating || b.rating === minRating).sort(sorters[sortBy.value]);
+    const shown = BOOKS.filter((b) => !minRating || tier(b) === minRating).sort(sorters[sortBy.value]);
     list.innerHTML = shown.map(card).join("");
     // Swap broken cover images for the generated cover
     list.querySelectorAll(".book3d img").forEach((img) =>
@@ -168,7 +178,7 @@
   document.getElementById("shelf-row").addEventListener("click", (e) => {
     const spine = e.target.closest(".spine");
     if (!spine) return;
-    if (minRating && !BOOKS.some((b) => b.id === spine.dataset.book && b.rating === minRating)) {
+    if (minRating && !BOOKS.some((b) => b.id === spine.dataset.book && tier(b) === minRating)) {
       filter.querySelector('[data-rating="0"]').click();
     }
     const el = document.getElementById(`book-${spine.dataset.book}`);
